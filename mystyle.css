@@ -356,3 +356,28 @@ button:hover {
   display:inline; 
   width: 25%;
 }
+
+
+.iconhold {
+  margin-left: auto;
+  display: inline-block;
+  display: flex;
+}
+
+.icon { 
+  opacity: 0.7;
+  transition: 0.5s ease-in-out;
+  font-size: 14px;
+  margin-right: 20px;
+  margin-top: 10px;
+}
+
+.icon:hover {
+  opacity: 1;
+  transition: 0.5s ease-in-out;
+
+}
+
+a {
+  color: #fff;
+}
