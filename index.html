@@ -28,6 +28,12 @@
     </div>
   );
 }
+export default defineSchema({
+  tasks: defineTable({
+    text: v.string(),
+    isCompleted: v.boolean(),
+  }),
+});
       </script>
   </p>
   </div>
