@@ -17,7 +17,18 @@
   <div class="left">
 	<h1>About me</h1>
 	<p>
-    <script src="greeter.ts"></script>
+    <script type="text/javascript">
+      function App() {
+  const tasks = useQuery(api.tasks.get);
+  return (
+    <div className="App">
+      {tasks?.map(({ _id, text }) => (
+        <div key={_id}>{text}</div>
+      ))}
+    </div>
+  );
+}
+      </script>
   </p>
   </div>
   <div class="right">
