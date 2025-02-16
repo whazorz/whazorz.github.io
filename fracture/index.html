@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>YOUR TITLE</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <meta name="viewport" content="width=3840, height=2160, initial-scale=1">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+        <script>
+            window.addEventListener("scroll", function () {
+                let scrollPos = window.scrollY;
+                let slowElement = document.querySelector(".slow-scroll");
+                slowElement.style.transform = `translateY(${scrollPos * 0.5}px)`; // Change multiplier (e.g., 0.2 for slower, 2 for faster)
+            });
+        </script>
+
+
+
+
+    </head>
+    <body>
+    <div id="wrapper0">
+        <div id="welcome-text">WELCOME.</div>
+        <nav>
+        <div id="logo">YOURLOGO</div>
+        <a href="index.html" id="button">Home</a>
+        <a href="index.html" id="button">About</a>
+        <a href="index.html" id="button">Service</a>
+        <a href="index.html" id="button">Contact</a>
+        </nav>
+        <div class="slow-scroll"><div id="img"></div></div>
+    </div>
+    
+    <div id="wrapper2">      
+        
+        <div id="inside-box">
+            <div id="inside-box-title">About us.</div>
+            <br><br>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived 
+            not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of 
+            Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+        </div>
+
+    </div>
+
+    <div id="gap"></div>
+    <div id="wrapper1">      
+        
+        <div id="outter-box">
+            <div id="inside-box-title">Service.</div>
+            <br><br> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's 
+            standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+
+        </div>
+
+    </div>
+
+    <div id="wrapper2"></div>
+
+    </body>
+</html>
