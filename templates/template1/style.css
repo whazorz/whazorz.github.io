@@ -8,25 +8,26 @@ body {
     font-family: "Open Sans", serif;
     overflow-x: hidden;
     overflow: visible !important;
+    flex-wrap: wrap;
 }
 
 nav {
     position: relative;
     top: 0;
-    margin-top: 40px;
-    transform:translateX(0%);
+    margin-top: 30pt;
+    min-width: 320pt;
     float: left;
-    padding: 40px;
+    padding: 20pt;
     background-color: #12151a;
     display: flex;
     text-decoration: none;
     z-index: 2147483647; /* Highest z-index */
-    border-bottom-right-radius: 20px;
+    border-bottom-right-radius: 20pt;
 }
 
 #button {
     position: relative;
-    padding: 20px;
+    padding: 10pt;
     color: #fff;
     display: block;
     text-decoration-line: none;
@@ -59,7 +60,7 @@ nav {
 
 #wrapper0 {
     position: relative;
-    width: 60%;
+    width: 980pt;
     min-height: 60vh;
     margin: 0 auto;
     background-color: #0a0d0e;
@@ -72,22 +73,33 @@ nav {
 
 #wrapper1 {
     position: relative;
-    width: 60%;
-    min-height: 40vh;
+    width: 980pt;
+    min-height: 420pt;
     margin: 0 auto;
     background-color: #0a0d0e;
+    display: flex;
     clear: both;
     z-index: 3; /* Adjusted z-index */
-    border-bottom-left-radius: 20px;
+    border-bottom-left-radius: 20pt;
+    border-bottom-right-radius: 20pt;
+    border-top-right-radius: 20pt;
 }
 
 #wrapper2 {
     position: relative;
-    width: 60%;
-    min-height: 20vh;
+    width: 980pt;
+    min-height: 20pt;
     margin: 0 auto;
     clear: both;
     z-index: 4; /* Adjusted z-index */
+}
+
+#wrapper3 {
+    position: relative;
+    width: 980pt;
+    min-height: 420pt;
+    margin: 0 auto;
+    clear: both;
 }
 
 #logo {
@@ -98,40 +110,35 @@ nav {
     padding: 10px;
 }
 
-#inside-box {
+#aboutus-box {
     position: relative;
     background-color: #12151a;
-    width: 42.5%;
+    width: 420pt;
     display: block;
     margin-top: -150px;
     color: #848484;
     justify-content: space-evenly;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    min-height: 20%;
+    padding-left: 20pt;
+    padding-right: 20pt;
+    padding-bottom: 20pt;
+    min-height: 420pt;
     margin-bottom: 1vh;
     float: right;
     border-top-left-radius: 20px;
 }
 
-#gap {
-    width:60vh;
-    height:20vh;
-}
-
-#outter-box {
+#service-box {
     position: relative;
     background-color: #0a0d0e;
-    width: 25vw;
+    width: 420pt;
     display: block;
-    margin-top: -30vh;
     color: #848484;
+    margin-top: 50pt;
     justify-content: space-evenly;
-    padding-left: 40px;
-    padding-right: 40px;
-    padding-bottom: 40px;
-    min-height: 50%;
+    padding-left: 20pt;
+    padding-right: 20pt;
+    padding-bottom: 20pt;
+    min-height: 360pt;
     float: left;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
@@ -154,3 +161,7 @@ h1 {
     text-align: center;
 }
 
+
+.plan_title {
+
+}
