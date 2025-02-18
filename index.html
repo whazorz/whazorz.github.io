@@ -9,13 +9,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
     <script src="script.js" defer></script>
     <style>
-        /* Hide scrollbars globally */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        body {
-            -ms-overflow-style: none;
-        }
+        ::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; }
         
         .templates {
             display: flex;
@@ -58,7 +53,6 @@
             pointer-events: none;
         }
         
-        /* Popup Modal */
         .popup-modal {
             display: none;
             position: fixed;
@@ -113,13 +107,13 @@
         <h3>Designs of Front-End Development</h3>
         <div class="templates-wrapper">
             <div class="templates">
-                <div class="template" onclick="openPopup('template1')">
+                <div class="template" onclick="openPopup('template1', 'https://bitbucket.org/whazorzlive/whazorz-gfx-pack.rar/downloads/template1.rar')">
                     <div class="shadow-box"></div>
                     <div class="zoom-container">
                         <iframe src="templates/template1/index.html" frameborder="0" class="template-frame"></iframe>
                     </div>
                 </div>
-                <div class="template" onclick="openPopup('template2')">
+                <div class="template" onclick="openPopup('template2', 'https://bitbucket.org/whazorzlive/whazorz-gfx-pack.rar/downloads/template2.rar')">
                     <div class="shadow-box"></div>
                     <div class="zoom-container">
                         <iframe src="templates/template2/index.html" frameborder="0" class="template-frame"></iframe>
@@ -138,63 +132,20 @@
         <div class="popup-content">
             <button class="close-btn" onclick="closePopup()">X</button>
             <iframe id="popupFrame" src=""></iframe>
-            <p><a id="downloadLink" href="#" onclick="downloadCurrentTemplate(event)" target="_blank">Download Template</a></p>
+            <p><a id="downloadLink" href="#" target="_blank">Download Template</a></p>
         </div>
     </div>
 
 <script>
-    function openPopup(templateName) {
+    function openPopup(templateName, downloadUrl) {
         document.getElementById("popupFrame").src = `templates/${templateName}/index.html`;
-        document.getElementById("downloadLink").dataset.templateName = templateName;
+        document.getElementById("downloadLink").href = downloadUrl;
         document.getElementById("popup").style.display = "flex";
     }
     
     function closePopup() {
         document.getElementById("popup").style.display = "none";
         document.getElementById("popupFrame").src = "";
-    }
-
-    async function downloadCurrentTemplate(event) {
-        event.preventDefault();
-        const templateName = document.getElementById("downloadLink").dataset.templateName;
-        downloadTemplate(templateName);
-    }
-
-    async function downloadTemplate(templateName) {
-        const zip = new JSZip();
-        const folderPath = `templates/${templateName}/`;
-
-        try {
-            // Predefined list of common template files (modify as needed)
-            const fileList = [
-                "index.html",
-                "style.css",
-                "script.js",
-                "img/logo.png"
-                // Add more if your templates contain other assets (fonts, extra scripts, etc.)
-            ];
-
-            // Fetch each file and add to ZIP
-            const fetchPromises = fileList.map(async (file) => {
-                const fileUrl = folderPath + file;
-                const response = await fetch(fileUrl);
-                if (!response.ok) throw new Error(`Failed to fetch ${file}`);
-                
-                const blob = await response.blob();
-                zip.file(file, blob);
-            });
-
-            await Promise.all(fetchPromises);
-
-            // Generate ZIP and trigger download
-            zip.generateAsync({ type: "blob" }).then((blob) => {
-                saveAs(blob, `${templateName}.zip`);
-            });
-
-        } catch (error) {
-            console.error("Error generating ZIP:", error);
-            alert("Failed to download template. Ensure files exist and server allows access.");
-        }
     }
 
     document.addEventListener("DOMContentLoaded", function () {
