@@ -1,0 +1,175 @@
+/* General body styling with centered glow */
+html, body {
+    margin: 0;
+    padding: 0;
+    background: #0d0d0d;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto; /* Allow scrolling */
+    position: relative;
+}
+
+/* Hide scrollbar */
+body::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+/* Background Glow Effect */
+.background-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+}
+
+/* Main container */
+.container {
+    width: 100%;
+    max-width: 1440px;
+    margin: auto;
+    padding: 40px 0;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+/* Smooth fade-in effect */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header styles */
+h1 {
+    font-size: 32px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.6);
+}
+
+h2 {
+    font-size: 16px;
+    color: gray;
+    margin-bottom: 40px;
+}
+
+/* Templates Wrapper */
+.templates-wrapper {
+    overflow-x: hidden;
+    width: 100%;
+    padding: 20px 0;
+}
+
+/* Randomized Masonry Grid Layout */
+.templates {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 80%;
+    margin: auto;
+}
+
+/* Template container */
+.template {
+    width: 280px;
+    height: 350px;
+    background: #444;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 15px;
+    position: relative;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Random column sizes */
+.template:nth-child(odd) {
+    height: 400px;
+}
+
+.template:nth-child(even) {
+    height: 350px;
+}
+
+/* Shadowbox behind template */
+.shadow-box {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    filter: blur(10px);
+    z-index: -1;
+    transition: all 0.3s ease-in-out;
+}
+
+.template:hover .shadow-box {
+    filter: blur(20px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* Hover Effect */
+.template:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 0px 30px rgba(255, 255, 255, 0.25);
+}
+
+/* Template iframe preview */
+.template-frame {
+    width: 100%;
+    height: 70%;
+    border-radius: 10px;
+    pointer-events: none;
+    filter: brightness(0.8);
+}
+
+/* Template info section */
+.template-info {
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: white;
+}
+
+/* Buy button */
+.template button {
+    margin-top: 5px;
+    padding: 8px 12px;
+    background: #222;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.template button:hover {
+    background: #555;
+}
+
+footer {
+    bottom: 0;
+    background:#0d0d0d;
+    width: 980pt;
+    margin: 0 auto;
+    height: 250pt;
+    color: #fff;
+    padding: 20pt;
+    display: flex;
+    display: inline-block;
+    text-align: center;
+    justify-content: space-evenly;
+
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Templates - Whazorz</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="script.js" defer></script>
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { -ms-overflow-style: none; }
+        
+        .templates {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .template {
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            width: 960px;
+            height: 540px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .zoom-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform: scale(0.5);
+            transform-origin: top left;
+        }
+        
+        .template iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .popup-modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 75%;
+            height: 75%;
+            background: rgba(0, 0, 0, 0.8);
+            transform: translate(-50%, -50%);
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+        }
+        
+        .popup-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .popup-content iframe {
+            width: 100%;
+            height: calc(100% - 50px);
+            border: none;
+            overflow: hidden;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-glow"></div>
+    <div class="container">
+        <h1>WEBSITE TEMPLATES</h1>
+        <h2>WHAZORZ.GITHUB.IO</h2>
+        <h3>Designs of Front-End Development</h3>
+        <div class="templates-wrapper">
+            <div class="templates">
+                <div class="template" onclick="openPopup('template1', 'https://bitbucket.org/whazorzlive/whazorz-gfx-pack.rar/downloads/template1.rar')">
+                    <div class="shadow-box"></div>
+                    <div class="zoom-container">
+                        <iframe src="templates/template1/index.html" frameborder="0" class="template-frame"></iframe>
+                    </div>
+                </div>
+                <div class="template" onclick="openPopup('template2', 'https://bitbucket.org/whazorzlive/whazorz-gfx-pack.rar/downloads/template2.rar')">
+                    <div class="shadow-box"></div>
+                    <div class="zoom-container">
+                        <iframe src="templates/template2/index.html" frameborder="0" class="template-frame"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div id="footer-box">
+                Copyright @ Whazorz 2025
+            </div>
+        </footer>
+    </div>
+    
+    <div class="popup-modal" id="popup">
+        <div class="popup-content">
+            <button class="close-btn" onclick="closePopup()">X</button>
+            <iframe id="popupFrame" src=""></iframe>
+            <p><a id="downloadLink" href="#" target="_blank">Download Template</a></p>
+        </div>
+    </div>
+
+<script>
+    function openPopup(templateName, downloadUrl) {
+        document.getElementById("popupFrame").src = `templates/${templateName}/index.html`;
+        document.getElementById("downloadLink").href = downloadUrl;
+        document.getElementById("popup").style.display = "flex";
+    }
+    
+    function closePopup() {
+        document.getElementById("popup").style.display = "none";
+        document.getElementById("popupFrame").src = "";
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll(".template iframe").forEach(iframe => {
+            iframe.onload = function () {
+                iframe.contentWindow.document.body.style.overflow = "hidden";
+            };
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+body {
+    background-color: #12151a;
+    height: 100%;
+    overflow-y: scroll;
+    max-width: 100vw;
+    font-size: 18px;
+    clear: both;
+    font-family: "Open Sans", serif;
+    overflow-x: hidden;
+    overflow: visible !important;
+    flex-wrap: wrap;
+}
+
+nav {
+    position: relative;
+    top: 0;
+    margin-top: 30pt;
+    min-width: 320pt;
+    float: left;
+    padding: 20pt;
+    background-color: #12151a;
+    display: flex;
+    text-decoration: none;
+    z-index: 2147483647; /* Highest z-index */
+    border-bottom-right-radius: 20pt;
+}
+
+#button {
+    position: relative;
+    padding: 10pt;
+    color: #fff;
+    display: block;
+    text-decoration-line: none;
+    background-color: #0a0d0e;
+    margin-left: 10px;
+    z-index: 5; /* Adjusted z-index */
+}
+
+#img {
+    position: absolute;
+    background-image: url("img/fracture.png");
+    height: 1080px;
+    width: 1298px;
+    background-repeat: no-repeat;
+    transform:translateX(0%);
+    margin-top: -80px;
+    z-index: 5; /* Adjusted z-index */
+}
+
+#welcome-text {
+    position: absolute;
+    margin-top: 240px;
+    color: #878787;
+    opacity: 0.5;
+    font-size: 205px;
+    display: block;
+    margin-left: 100px;
+    z-index: -5; /* Adjusted z-index */
+}
+
+#wrapper0 {
+    position: relative;
+    width: 980pt;
+    min-height: 60vh;
+    margin: 0 auto;
+    background-color: #0a0d0e;
+    clear: both;
+    overflow: hidden;
+    z-index: 3; /* Adjusted z-index */
+    top: -50px;
+    border-bottom-left-radius: 20px;
+}
+
+#wrapper1 {
+    position: relative;
+    width: 980pt;
+    min-height: 420pt;
+    margin: 0 auto;
+    background-color: #0a0d0e;
+    display: flex;
+    clear: both;
+    z-index: 3; /* Adjusted z-index */
+    border-bottom-left-radius: 20pt;
+    border-bottom-right-radius: 20pt;
+    border-top-right-radius: 20pt;
+}
+
+#wrapper2 {
+    position: relative;
+    width: 980pt;
+    min-height: 20pt;
+    margin: 0 auto;
+    clear: both;
+    z-index: 4; /* Adjusted z-index */
+}
+
+#wrapper3 {
+    position: relative;
+    width: 980pt;
+    min-height: 420pt;
+    margin: 0 auto;
+    clear: both;
+}
+
+#logo {
+    font-size: 28px;
+    color: #fff;
+    margin-right: 40px;
+    font-weight: bolder;
+    padding: 10px;
+}
+
+#aboutus-box {
+    position: relative;
+    background-color: #12151a;
+    width: 420pt;
+    display: block;
+    margin-top: -150px;
+    color: #848484;
+    justify-content: space-evenly;
+    padding-left: 20pt;
+    padding-right: 20pt;
+    padding-bottom: 20pt;
+    min-height: 420pt;
+    margin-bottom: 1vh;
+    float: right;
+    border-top-left-radius: 20px;
+}
+
+#service-box {
+    position: relative;
+    background-color: #0a0d0e;
+    width: 420pt;
+    display: block;
+    color: #848484;
+    margin-top: 50pt;
+    justify-content: space-evenly;
+    padding-left: 20pt;
+    padding-right: 20pt;
+    padding-bottom: 20pt;
+    min-height: 360pt;
+    float: left;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+.description-box {
+    font-size: 28px;
+    color: #848484;
+}
+
+#inside-box-title {
+    font-size: 72px;
+    font-weight: bold;
+    color: #848484;
+    margin-top: 30px;
+    text-align: center;
+}
+
+
+.plan_title {
+
+}
