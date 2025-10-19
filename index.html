@@ -1,160 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Templates - Whazorz</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    <script src="script.js" defer></script>
-    <style>
-        ::-webkit-scrollbar { display: none; }
-        body { -ms-overflow-style: none; }
-        
-        .templates {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-            justify-content: center;
-            overflow: hidden;
-        }
-        
-        .template {
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
-            width: 960px;
-            height: 540px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-        }
-        
-        .zoom-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 1920px;
-            height: 1080px;
-            overflow: hidden;
-            transform: scale(0.5);
-            transform-origin: top left;
-        }
-        
-        .template iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        
-        .popup-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            width: 75%;
-            height: 75%;
-            background: rgba(0, 0, 0, 0.8);
-            transform: translate(-50%, -50%);
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
-        }
-        
-        .popup-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        .popup-content iframe {
-            width: 100%;
-            height: calc(100% - 50px);
-            border: none;
-            overflow: hidden;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: red;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whazorz - Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background-glow"></div>
-    <div class="container">
-        <h1>WEBSITE TEMPLATES</h1>
-        <h2>WHAZORZ.GITHUB.IO</h2>
-        <h3>Designs of Front-End Development</h3>
-        <div class="templates-wrapper">
-            <div class="templates">
-                <div class="template" onclick="openPopup('template1', 'https://bitbucket.org/whazorzlive/whazorz-gfx-pack.rar/downloads/template1.rar')">
-                    <div class="shadow-box"></div>
-                    <div class="zoom-container">
-                        <iframe src="templates/template1/index.html" frameborder="0" class="template-frame"></iframe>
-                    </div>
-                </div>
-                <div class="template" onclick="openPopup('template2', 'https://bitbucket.org/whazorzlive/whazorz-gfx-pack.rar/downloads/template2.rar')">
-                    <div class="shadow-box"></div>
-                    <div class="zoom-container">
-                        <iframe src="templates/template2/index.html" frameborder="0" class="template-frame"></iframe>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <footer>
-            <div id="footer-box">
-                Copyright @ Whazorz 2025
-            </div>
-        </footer>
-    </div>
-    
-    <div class="popup-modal" id="popup">
-        <div class="popup-content">
-            <button class="close-btn" onclick="closePopup()">X</button>
-            <iframe id="popupFrame" src=""></iframe>
-            <p><a id="downloadLink" href="#" target="_blank">Download Template</a></p>
-        </div>
-    </div>
 
-<script>
-    function openPopup(templateName, downloadUrl) {
-        document.getElementById("popupFrame").src = `templates/${templateName}/index.html`;
-        document.getElementById("downloadLink").href = downloadUrl;
-        document.getElementById("popup").style.display = "flex";
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="logo"></div>
+    <div class="subname">WHAZORZ DESIGNS</div>
+    <div class="nav-links">
+      <a href="index.html">Portfolio</a>
+      <a href="about.html">About Me</a>
+    </div>
+  </nav>
+
+  <!-- Pinterest-Style Gallery -->
+  <div class="gallery">
+    <div class="gallery-item"><img src="images/pic1.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic2.png" ></div>
+    <div class="gallery-item"><img src="images/pic3.png" ></div>
+    <div class="gallery-item"><img src="images/pic4.png" ></div>
+    <div class="gallery-item"><img src="images/pic5.png" ></div>
+    <div class="gallery-item"><img src="images/pic6.png" ></div>
+    <div class="gallery-item"><img src="images/pic7.png" ></div>
+    <div class="gallery-item"><img src="images/pic8.png" ></div>
+    <div class="gallery-item"><img src="images/pic9.png" ></div>
+    <div class="gallery-item"><img src="images/pic10.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic11.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic12.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic13.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic14.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic15.png" ></div>
+    <div class="gallery-item"><img src="images/pic16.png" ></div>
+    <div class="gallery-item"><img src="images/pic17.png" ></div>
+    <div class="gallery-item"><img src="images/pic18.png" ></div>
+    <div class="gallery-item"><img src="images/pic19.png" ></div>
+    <div class="gallery-item"><img src="images/pic20.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic21.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic22.png" ></div>
+    <div class="gallery-item"><img src="images/pic24.png" ></div>
+    <div class="gallery-item"><img src="images/pic25.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic26.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic27.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic28.jpg" ></div>
+    <div class="gallery-item"><img src="images/pic29.png" ></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    © Whazorz
+  </footer>
+
+
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const gallery = document.querySelector(".gallery");
+  const items = Array.from(gallery.querySelectorAll(".gallery-item"));
+
+  // Helper: Convert RGB to HSL to extract hue
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    let h, s, l = (max + min) / 2;
+
+    if (max === min) {
+      h = s = 0; // achromatic
+    } else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+        case g: h = (b - r) / d + 2; break;
+        case b: h = (r - g) / d + 4; break;
+      }
+      h *= 60;
     }
-    
-    function closePopup() {
-        document.getElementById("popup").style.display = "none";
-        document.getElementById("popupFrame").src = "";
+    return { h, s, l };
+  }
+
+  // Get dominant color hue from an image
+  function getDominantHue(img) {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    canvas.width = img.naturalWidth;
+    canvas.height = img.naturalHeight;
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+    let totalR = 0, totalG = 0, totalB = 0, count = 0;
+    for (let i = 0; i < data.length; i += 4 * 50) { // sample every 50th pixel for performance
+      totalR += data[i];
+      totalG += data[i + 1];
+      totalB += data[i + 2];
+      count++;
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll(".template iframe").forEach(iframe => {
-            iframe.onload = function () {
-                iframe.contentWindow.document.body.style.overflow = "hidden";
-            };
-        });
+    const avgR = totalR / count;
+    const avgG = totalG / count;
+    const avgB = totalB / count;
+
+    const { h } = rgbToHsl(avgR, avgG, avgB);
+    return h; // return hue in degrees (0-360)
+  }
+
+  // Wait for all images to load
+  Promise.all(items.map(item => {
+    return new Promise(resolve => {
+      const img = item.querySelector("img");
+      if (img.complete) resolve();
+      else img.onload = resolve;
     });
+  })).then(() => {
+    // Sort by hue (color tone)
+    items.sort((a, b) => {
+      const hueA = getDominantHue(a.querySelector("img"));
+      const hueB = getDominantHue(b.querySelector("img"));
+      return hueA - hueB;
+    });
+
+    // Append back to gallery in sorted order
+    items.forEach(item => gallery.appendChild(item));
+  });
+
+  // --- LIGHTBOX FUNCTIONALITY ---
+  const lightbox = document.createElement("div");
+  lightbox.classList.add("lightbox");
+  document.body.appendChild(lightbox);
+
+  const img = document.createElement("img");
+  lightbox.appendChild(img);
+
+  items.forEach(item => {
+    item.addEventListener("click", () => {
+      img.src = item.querySelector("img").src;
+      lightbox.classList.add("active");
+    });
+  });
+
+  lightbox.addEventListener("click", (e) => {
+    if (e.target !== img) lightbox.classList.remove("active");
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") lightbox.classList.remove("active");
+  });
+});
 </script>
+
 </body>
 </html>
