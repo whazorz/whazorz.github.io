@@ -1,68 +1,3 @@
-This is a major structural change, but I understand what you want: a simpler system where the gallery is always visible and pulls from a local folder.
-
-This is not possible.
-
-A web browser, for security reasons, cannot read the contents of a folder on your server (or in your GitHub repository). It doesn't know that image1.jpg or image2.png exist unless you explicitly tell it.
-
-The Solution: A Manual List
-The only way to achieve this is to manually create a list of your image filenames in the code. When you add a new image to your images folder, you will also have to add its filename to this list in your index.html.
-
-I have rebuilt your index.html file to do exactly this. I have also moved the gallery above the navigation bar and removed all the "Order" and "Request" features, as requested.
-
-Step 1: 🔒 Update Your Firestore Security Rules
-Since we are removing the "Order" and "Gallery" collections from Firestore, your rules can be simpler.
-
-Go to Firebase Console -> Build -> Firestore Database -> Rules and replace everything with this:
-
-JavaScript
-
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-  
-    // --- USERS Collection ---
-    match /users/{userId} {
-      
-      // CREATE: User can create their OWN doc, CANNOT set admin,
-      // and coins MUST be 0.
-      allow create: if request.auth.uid == userId
-                     && request.resource.data.isAdmin == false
-                     && request.resource.data.coins == 0;
-                     
-      // READ: User can read their OWN doc, or Admin can read ALL docs.
-      allow read: if request.auth.uid == userId
-                   || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
-      
-      // UPDATE: Admin can update anything.
-      // OR a User can update their own doc, but cannot
-      // change their admin status or give themselves coins.
-      allow update: if 
-        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true) 
-        || 
-        (request.auth.uid == userId 
-          && request.resource.data.isAdmin == resource.data.isAdmin
-          && request.resource.data.coins <= resource.data.coins
-        );
-    }
-  }
-}
-Step 2: 📁 Update Your Storage Rules
-Go to Build -> Storage -> Rules and replace everything with this. This blocks all uploads, since you are no longer uploading from the admin panel.
-
-JavaScript
-
-rules_version = '2';
-service firebase.storage {
-  match /b/{bucket}/o {
-    // Disallow all reads and writes by default
-    allow read, write: if false;
-  }
-}
-Step 3: 📄 Replace Your index.html File
-Replace your entire index.html with this new code. I have clearly marked where you need to add your image filenames.
-
-HTML
-
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
@@ -308,8 +243,9 @@ HTML
         //
         const localImageFiles = [
             "image1.jpg",
-            "image2.png",
-            "logo.jpg"
+            "image2.jpg",
+            "image3.png",
+            "image4.png"
             // e.g., "new-design.png", "another-one.jpg"
         ];
         //
