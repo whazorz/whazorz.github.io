@@ -1,6 +1,6 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const axios = require("axios"); // We will install this next
+const axios = require("axios");
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -12,7 +12,6 @@ const PAYPAL_API = "https://api-m.paypal.com";
  * Generates a PayPal access token for API calls.
  */
 async function getPayPalAccessToken() {
-  // We use process.env to read from the .env file
   const auth = Buffer.from(
     `${process.env.PAYPAL_CLIENT_ID}:${process.env.PAYPAL_SECRET}`
   ).toString("base64");
@@ -81,13 +80,14 @@ exports.verifyPayPalOrder = functions.https.onCall(async (data, context) => {
       throw new functions.https.HttpsError("failed-precondition", "Payment was not completed.");
     }
     
-    // --- Define what is being purchased ---
-    const coinsToGrant = 100; // This must match the price in onApprove
+    // --- UPDATED: Grant 15 coins for 5 EUR ---
+    const coinsToGrant = 15;
     const amountPaid = orderData.purchase_units[0].amount.value;
+    const currencyPaid = orderData.purchase_units[0].amount.currency_code;
     
-    // 4. Check if they paid the correct amount (e.g., $1.00)
-    if (parseFloat(amountPaid) < 1.00) { // Set this to your price
-       throw new functions.https.HttpsError("failed-precondition", "Incorrect payment amount.");
+    // 4. NEW SECURITY CHECK: Verify both amount and currency
+    if (parseFloat(amountPaid) < 5.00 || currencyPaid !== "EUR") {
+       throw new functions.https.HttpsError("failed-precondition", `Incorrect payment. Expected 5.00 EUR, got ${amountPaid} ${currencyPaid}`);
     }
 
     // --- Security Check 2: Grant Coins and Log Payment (as a transaction) ---
@@ -105,7 +105,7 @@ exports.verifyPayPalOrder = functions.https.onCall(async (data, context) => {
         userId: userId,
         userEmail: context.auth.token.email || 'unknown',
         amount: parseFloat(amountPaid),
-        currency: orderData.purchase_units[0].amount.currency_code,
+        currency: currencyPaid,
         coinsGranted: coinsToGrant,
         processedAt: admin.firestore.FieldValue.serverTimestamp(),
       });
