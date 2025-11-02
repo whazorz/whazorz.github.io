@@ -33,208 +33,304 @@
         .auth-nav-btn.active {
             @apply bg-indigo-700 text-white;
         }
+        /* Style for Wowhead icons */
+        .wow-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid #4a4a4a;
+            flex-shrink: 0;
+        }
+        .wow-icon-sm {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid #4a4a4a;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-full p-4 font-sans">
 
-    <div class="w-full max-w-lg">
+    <div class="w-full max-w-6xl flex bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden" style="min-height: 90vh;">
         
-        <div id="app-content">
-
-            <div id="loading-container" class="text-center p-10">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
-            </div>
+        <div id="menu-column" class="w-56 p-6 flex-shrink-0 flex flex-col space-y-6 bg-gray-100 dark:bg-gray-900">
+            <h1 class="text-2xl font-bold text-center text-indigo-600 dark:text-indigo-400">WDESIGN</h1>
             
-            <div id="logged-out-container" class="hidden">
-                <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
-                    <button id="auth-nav-gallery" class="auth-nav-btn flex-1 text-center">
-                        Gallery
-                    </button>
-                    <button id="auth-nav-login" class="auth-nav-btn flex-1 text-center">
-                        Sign In
-                    </button>
-                </nav>
+            <nav id="auth-nav-menu" class="hidden flex flex-col space-y-2">
+                <button id="auth-nav-gallery" class="auth-nav-btn w-full text-left p-3 flex items-center space-x-3">
+                    <img src="images/icons/icon-gallery.jpg" alt="Gallery" class="wow-icon">
+                    <span>Gallery</span>
+                </button>
+                <button id="auth-nav-login" class="auth-nav-btn w-full text-left p-3 flex items-center space-x-3">
+                    <img src="images/icons/icon-signin.jpg" alt="Sign In" class="wow-icon">
+                    <span>Sign In</span>
+                </button>
+            </nav>
 
-                <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
-                    <div class="text-center">
-                        <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
-                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                            Or
-                            <button id="toggle-form" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
-                                create a new account
-                            </button>
-                        </p>
-                    </div>
+            <nav id="app-nav-menu" class="hidden flex flex-col space-y-2">
+                <button id="nav-gallery" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                    <img src="images/icons/icon-gallery.jpg" alt="Gallery" class="wow-icon">
+                    <span>Gallery</span>
+                </button>
+                <button id="nav-profile" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                    <img src="images/icons/icon-profile.jpg" alt="Profile" class="wow-icon">
+                    <span>Profile</span>
+                </button>
+                <button id="nav-request" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                    <img src="images/icons/icon-request.jpg" alt="Request" class="wow-icon">
+                    <span>Request</span>
+                </button>
+                <button id="nav-orders" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                    <img src="images/icons/icon-orders.jpg" alt="Orders" class="wow-icon">
+                    <span>Orders</span>
+                </button>
+                <button id="nav-admin" class="nav-btn hidden w-full text-left p-3 font-medium text-yellow-600 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-gray-700 flex items-center space-x-3">
+                    <img src="images/icons/icon-admin.jpg" alt="Admin" class="wow-icon">
+                    <span>Admin</span>
+                </button>
+                <button id="logout-button" class="w-full text-left p-3 rounded-lg font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center space-x-3">
+                    <img src="images/icons/icon-signout.jpg" alt="Sign Out" class="wow-icon">
+                    <span>Sign Out</span>
+                </button>
+            </nav>
 
-                    <form id="auth-form" class="mt-8 space-y-6">
-                        <div class="rounded-md -space-y-px">
-                            <div>
-                                <label for="email" class="sr-only">Email address</label>
-                                <input id="email" name="email" type="email" autocomplete="email" required
-                                    class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:ring-2 focus:z-10 sm:text-sm transition">
-                            </div>
-                            <div id="password-field">
-                                <label for="password" class="sr-only">Password</label>
-                                <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
-                                    class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:ring-2 focus:z-10 sm:text-sm transition">
-                            </div>
+            <div class="flex-grow"></div> 
+            
+            <p class="text-center text-xs text-gray-500 dark:text-gray-400">
+                Secure login system
+            </p>
+        </div>
+
+        <div id="content-column" class="flex-1 p-6 sm:p-10 overflow-y-auto">
+            <div id="app-content">
+
+                <div id="loading-container" class="text-center p-10">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
+                </div>
+                
+                <div id="logged-out-container" class="hidden">
+                    
+                    <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
+                        <div class="text-center">
+                            <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
+                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                Or
+                                <button id="toggle-form" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
+                                    create a new account
+                                </button>
+                            </p>
                         </div>
 
-                        <div class="flex items-center justify-end">
-                            <div class="text-sm">
-                                <button type="button" id="forgot-password-btn" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
-                                    Forgot your password?
+                        <form id="auth-form" class="mt-8 space-y-6">
+                            <div class="rounded-md -space-y-px">
+                                <div>
+                                    <label for="email" class="sr-only">Email address</label>
+                                    <input id="email" name="email" type="email" autocomplete="email" required
+                                        class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:ring-2 focus:z-10 sm:text-sm transition">
+                                </div>
+                                <div id="password-field">
+                                    <label for="password" class="sr-only">Password</label>
+                                    <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
+                                        class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:ring-2 focus:z-10 sm:text-sm transition">
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-end">
+                                <div class="text-sm">
+                                    <button type="button" id="forgot-password-btn" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
+                                        Forgot your password?
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button type="submit" id="submit-button"
+                                    class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                    Sign In
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
+                    </div>
+
+                    <div id="gallery-view-auth" class="app-view hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
+                    </div>
+                </div>
+
+                <div id="app-container" class="hidden w-full">
+                    <main class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
+                        
+                        <div id="gallery-view-app" class="app-view hidden">
+                        </div>
+                        
+                        <div id="profile-view" class="app-view hidden space-y-4">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h2>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
+                                <p id="profile-email" class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 break-words"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">User ID</p>
+                                <p id="profile-uid" class="text-xs font-mono text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded p-2 break-all"></p>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Your Coins</p>
+                                <p class="flex items-center space-x-2">
+                                    <img src="images/icons/icon-coin.jpg" alt="Coins" class="wow-icon">
+                                    <span id="profile-coins" class="text-3xl font-bold text-green-600 dark:text-green-400">--</span>
+                                </p>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Buy Coins</h3>
+                                <div class="mt-2 p-4 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-lg">
+                                    <p class="font-bold">This is a placeholder.</p>
+                                    <p class="text-sm">Securely processing payments (with Stripe or PayPal) requires a backend. This must be done with **Firebase Functions** to protect against fraud.</p>
+                                </div>
+                                <button id="buy-coins-btn-100" class="mt-4 w-full py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200" disabled>
+                                    Buy 100 Coins (Coming Soon)
                                 </button>
                             </div>
                         </div>
 
-                        <div>
-                            <button type="submit" id="submit-button"
-                                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                                Sign In
-                            </button>
-                        </div>
-                    </form>
-                    
-                    <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-                </div>
-
-                <div id="gallery-view-auth" class="app-view hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
-                </div>
-            </div>
-
-            <div id="app-container" class="hidden w-full max-w-4xl">
-                <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
-                    <button id="nav-gallery" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
-                        Gallery
-                    </button>
-                    <button id="nav-profile" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
-                        Profile
-                    </button>
-                    <button id="nav-request" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
-                        Request
-                    </button>
-                    <button id="nav-orders" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200">
-                        Orders
-                    </button>
-                    <button id="nav-admin" class="nav-btn hidden flex-1 text-center p-2 rounded-lg font-medium text-yellow-600 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-gray-700 transition-colors duration-200">
-                        Admin
-                    </button>
-                    <button id="logout-button" class="flex-1 text-center p-2 rounded-lg font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700 transition-colors duration-200">
-                        Sign Out
-                    </button>
-                </nav>
-
-                <main class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
-                    
-                    <div id="gallery-view-app" class="app-view hidden">
-                    </div>
-                    
-                    <div id="profile-view" class="app-view hidden space-y-4">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h2>
-                        <div>
-                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
-                            <p id="profile-email" class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 break-words"></p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">User ID</p>
-                            <p id="profile-uid" class="text-xs font-mono text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded p-2 break-all"></p>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Your Coins</p>
-                            <p class="flex items-center">
-                                <span id="profile-coins" class="text-3xl font-bold text-green-600 dark:text-green-400">--</span>
-                            </p>
-                        </div>
-                        
-                        <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Buy Coins</h3>
-                             <div class="mt-2 p-4 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-lg">
-                                 <p class="font-bold">This is a placeholder.</p>
-                                 <p class="text-sm">Securely processing payments (with Stripe or PayPal) requires a backend. This must be done with **Firebase Functions** to protect against fraud.</p>
-                             </div>
-                             <button id="buy-coins-btn-100" class="mt-4 w-full py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 transition-colors duration-200" disabled>
-                                 Buy 100 Coins (Coming Soon)
-                             </button>
-                        </div>
-                    </div>
-
-                    <div id="request-view" class="app-view hidden space-y-4">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Request a Commission</h2>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">This request will cost <span class="font-bold text-lg text-green-600 dark:text-green-400">10 coins</span>. Your current balance is <span id="request-coin-balance" class="font-bold text-lg text-green-600 dark:text-green-400">--</span>.</p>
-                        
-                        <form id="request-form" class="space-y-4">
-                            <div>
-                                <label for="request-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Type</label>
-                                <select id="request-type" name="type" required
-                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
-                                    <option value="">Select a type...</option>
-                                    <option value="Logo Design">Logo Design</option>
-                                    <option value="Social Design">Social Design (Banner, Icon, etc.)</option>
-                                    <option value="Twitch Emote">Twitch Emote</option>
-                                    <option value="Other">Other (Please specify below)</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="request-details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Details</label>
-                                <textarea id="request-details" name="details" rows="3" required
-                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition"
-                                    placeholder="Provide all relevant details: text, colors, style, links to examples, etc."></textarea>
-                            </div>
+                        <div id="request-view" class="app-view hidden space-y-6">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Request a WoW Banner</h2>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">This request will cost <span class="font-bold text-lg text-green-600 dark:text-green-400">10 coins</span>. Your current balance is <span id="request-coin-balance" class="font-bold text-lg text-green-600 dark:text-green-400">--</span>.</p>
                             
-                            <button type="submit" id="submit-request-button"
-                                class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors duration-200">
-                                Submit Request (10 Coins)
-                            </button>
-                        </form>
-                        <div id="request-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-                    </div>
+                            <form id="request-form" class="space-y-4">
+                                
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="request-character-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Character Name</label>
+                                        <input type="text" id="request-character-name" required
+                                            class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
+                                    </div>
+                                    <div>
+                                        <label for="request-server-region" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Server & Region</label>
+                                        <input type="text" id="request-server-region" required
+                                            placeholder="e.g., Stormrage - NA"
+                                            class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
+                                    </div>
+                                </div>
 
-                    <div id="orders-view" class="app-view hidden space-y-4">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Orders</h2>
-                        <div id="orders-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                            <p id="no-orders-message" class="text-gray-500 dark:text-gray-400">You haven't requested any orders yet.</p>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label for="request-race" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Race</label>
+                                        <select id="request-race" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
+                                            <option value="">Select a race...</option>
+                                            <optgroup label="Alliance">
+                                                <option value="Human">Human</option>
+                                                <option value="Dwarf">Dwarf</option>
+                                                <option value="Night Elf">Night Elf</option>
+                                                <option value="Gnome">Gnome</option>
+                                                <option value="Draenei">Draenei</option>
+                                                <option value="Worgen">Worgen</option>
+                                            </optgroup>
+                                            <optgroup label="Horde">
+                                                <option value="Orc">Orc</option>
+                                                <option value="Undead">Undead</option>
+                                                <option value="Tauren">Tauren</option>
+                                                <option value="Troll">Troll</option>
+                                                <option value="Blood Elf">Blood Elf</option>
+                                                <option value="Goblin">Goblin</option>
+                                            </optgroup>
+                                            <optgroup label="Neutral">
+                                                <option value="Pandaren">Pandaren</option>
+                                                <option value="Dracthyr">Dracthyr</option>
+                                            </optgroup>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label for="request-class" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Class</label>
+                                        <select id="request-class" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
+                                            <option value="">Select a class...</option>
+                                            <option value="Warrior">Warrior</option>
+                                            <option value="Paladin">Paladin</option>
+                                            <option value="Hunter">Hunter</option>
+                                            <option value="Rogue">Rogue</option>
+                                            <option value="Priest">Priest</option>
+                                            <option value="Death Knight">Death Knight</option>
+                                            <option value="Shaman">Shaman</option>
+                                            <option value="Mage">Mage</option>
+                                            <option value="Warlock">Warlock</option>
+                                            <option value="Monk">Monk</option>
+                                            <option value="Druid">Druid</option>
+                                            <option value="Demon Hunter">Demon Hunter</option>
+                                            <option value="Evoker">Evoker</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <label for="request-gear-set" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gear Set / Transmog</label>
+                                    <input type="text" id="request-gear-set" required
+                                        placeholder="e.g., Judgement Armor (Recolor), Shadowlands Gladiator"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
+                                </div>
+
+                                <div>
+                                    <label for="request-background" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Background Description</label>
+                                    <textarea id="request-background" name="background" rows="3" required
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition"
+                                        placeholder="e.g., Standing at the gates of Stormwind, a dark forest, top of Icecrown Citadel..."></textarea>
+                                </div>
+                                
+                                <div>
+                                    <label for="request-extra-details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Extra Details (Optional)</label>
+                                    <textarea id="request-extra-details" name="extra-details" rows="2"
+                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition"
+                                        placeholder="Specific pose? Weapon effects glowing? Any pets?"></textarea>
+                                </div>
+                                
+                                <button type="submit" id="submit-request-button"
+                                    class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors duration-200">
+                                    Submit Request (10 Coins)
+                                </button>
+                            </form>
+                            <div id="request-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
                         </div>
-                    </div>
-
-                    <div id="admin-view" class="app-view hidden space-y-6">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h2>
-                        
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Manage Coins</h3>
-                            <input id="admin-user-id" type="text" placeholder="User ID" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm transition">
-                            <input id="admin-coin-amount" type="number" placeholder="Amount to Add (e.g., 50 or -10)" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm transition">
-                            <button id="admin-add-coins-btn" class="w-full py-2 px-4 rounded-md text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 transition-colors duration-200">
-                                Add Coins
-                            </button>
-                        </div>
-
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Pending Orders</h3>
-                            <div id="admin-orders-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                                <p id="admin-no-orders" class="text-gray-500 dark:text-gray-400">No pending orders found.</p>
+                        <div id="orders-view" class="app-view hidden space-y-4">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Orders</h2>
+                            <div id="orders-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                                <p id="no-orders-message" class="text-gray-500 dark:text-gray-400">You haven't requested any orders yet.</p>
                             </div>
                         </div>
 
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Users</h3>
-                            <div id="admin-users-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                                <p id="admin-no-users" class="text-gray-500 dark:text-gray-400">Loading users...</p>
+                        <div id="admin-view" class="app-view hidden space-y-6">
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h2>
+                            
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Manage Coins</h3>
+                                <input id="admin-user-id" type="text" placeholder="User ID" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm transition">
+                                <input id="admin-coin-amount" type="number" placeholder="Amount to Add (e.g., 50 or -10)" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm transition">
+                                <button id="admin-add-coins-btn" class="w-full py-2 px-4 rounded-md text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 transition-colors duration-200">
+                                    Add Coins
+                                </button>
                             </div>
+
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Pending Orders</h3>
+                                <div id="admin-orders-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                                    <p id="admin-no-orders" class="text-gray-500 dark:text-gray-400">No pending orders found.</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Users</h3>
+                                <div id="admin-users-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                                    <p id="admin-no-users" class="text-gray-500 dark:text-gray-400">Loading users...</p>
+                                </div>
+                            </div>
+
                         </div>
 
-                    </div>
+                    </main>
+                </div>
 
-                </main>
             </div>
-
         </div>
-
-        <p class="mt-8 text-center text-xs text-gray-500 dark:text-gray-400">
-            Secure login system
-        </p>
-
     </div>
 
 
@@ -289,6 +385,10 @@
         const loggedOutContainer = document.getElementById('logged-out-container');
         const appContainer = document.getElementById('app-container');
         
+        // NEW: Get Menu Navs
+        const authNavMenu = document.getElementById('auth-nav-menu');
+        const appNavMenu = document.getElementById('app-nav-menu');
+
         const authContainer = document.getElementById('auth-container');
         const authForm = document.getElementById('auth-form');
         const toggleFormBtn = document.getElementById('toggle-form');
@@ -324,10 +424,16 @@
         const profileUid = document.getElementById('profile-uid');
         const profileCoins = document.getElementById('profile-coins');
 
-        // Request View Elements
+        // === UPDATED Request View Elements ===
         const requestForm = document.getElementById('request-form');
-        const requestType = document.getElementById('request-type');
-        const requestDetails = document.getElementById('request-details');
+        const requestCharacterName = document.getElementById('request-character-name');
+        const requestServerRegion = document.getElementById('request-server-region');
+        const requestRace = document.getElementById('request-race');
+        const requestClass = document.getElementById('request-class');
+        const requestGearSet = document.getElementById('request-gear-set');
+        const requestBackground = document.getElementById('request-background');
+        const requestExtraDetails = document.getElementById('request-extra-details');
+        
         const requestCoinBalance = document.getElementById('request-coin-balance');
         const submitRequestButton = document.getElementById('submit-request-button');
         const requestMessageBox = document.getElementById('request-message-box');
@@ -342,7 +448,6 @@
         const adminAddCoinsBtn = document.getElementById('admin-add-coins-btn');
         const adminUsersList = document.getElementById('admin-users-list');
         const adminNoUsers = document.getElementById('admin-no-users');
-        // Admin Gallery Upload Elements REMOVED
         const adminOrdersList = document.getElementById('admin-orders-list');
         const adminNoOrders = document.getElementById('admin-no-orders');
 
@@ -357,16 +462,12 @@
         let listenersUnsubscribe = [];
 
         // --- NEW STATIC GALLERY DATA ---
-        // JavaScript CANNOT read your server's file directory.
-        // You must manually add your .jpg images from the "/images" folder to this list.
         const staticGalleryImages = [
             { 
                 id: '1', 
-                imageUrl: '/images/my-logo.jpg', 
-                description: '' 
+                imageUrl: 'images/my-logo.jpg', 
+                description: 'My awesome logo design'
             },
-            // Add more images here as needed:
-
         ];
         
         // --- 7. Utility Functions ---
@@ -426,15 +527,20 @@
             }
         }
 
+        // --- UPDATED showMainView function ---
         function showMainView(viewName) {
             loadingContainer.classList.add('hidden');
             loggedOutContainer.classList.add('hidden');
             appContainer.classList.add('hidden');
+            
+            authNavMenu.classList.add('hidden');
+            appNavMenu.classList.add('hidden');
 
             if (viewName === 'loading') {
                 loadingContainer.classList.remove('hidden');
             } else if (viewName === 'auth') {
                 loggedOutContainer.classList.remove('hidden');
+                authNavMenu.classList.remove('hidden'); // Show auth nav
                 showLoggedOutView('login');
                 isLoginMode = true;
                 isForgotPasswordMode = false;
@@ -442,6 +548,7 @@
                 toggleAuthMode();
             } else if (viewName === 'app') {
                 appContainer.classList.remove('hidden');
+                appNavMenu.classList.remove('hidden'); // Show app nav
             }
         }
         
@@ -476,8 +583,6 @@
             listenersUnsubscribe.forEach(unsub => unsub());
             listenersUnsubscribe = [];
         }
-        
-        // setupGalleryListener() function REMOVED
 
         function setupRealtimeListeners(userId) {
             detachListeners();
@@ -493,7 +598,6 @@
                     profileUid.textContent = userId;
                     profileCoins.textContent = currentUserData.coins;
                     
-                    // RE-ADDED: Request form logic
                     requestCoinBalance.textContent = currentUserData.coins;
                     const cost = 10;
                     submitRequestButton.disabled = currentUserData.coins < cost;
@@ -515,7 +619,7 @@
             });
             listenersUnsubscribe.push(unsubUser);
             
-            // 2. RE-ADDED: Listen for user's orders
+            // 2. Listen for user's orders
             const ordersColRef = collection(db, "orders");
             const qOrders = query(ordersColRef, where("userId", "==", userId), orderBy("createdAt", "desc"));
             const unsubOrders = onSnapshot(qOrders, (querySnapshot) => {
@@ -527,7 +631,6 @@
                 } else {
                     querySnapshot.forEach((doc) => {
                         const order = doc.data();
-                        // Pass 'false' for isAdmin
                         const orderEl = createOrderElement(order, doc.id, false);
                         ordersListContainer.appendChild(orderEl);
                     });
@@ -538,7 +641,6 @@
             listenersUnsubscribe.push(unsubOrders);
         }
 
-        // RE-ADDED: Admin Listeners
         function setupAdminListeners() {
             // 1. Listen for ALL pending orders
             const ordersColRef = collection(db, "orders");
@@ -552,7 +654,6 @@
                 } else {
                     querySnapshot.forEach((doc) => {
                         const order = doc.data();
-                        // Pass 'true' for isAdmin
                         const orderEl = createOrderElement(order, doc.id, true);
                         adminOrdersList.appendChild(orderEl);
                     });
@@ -586,11 +687,9 @@
             listenersUnsubscribe.push(unsubAdminUsers);
         }
         
-        // --- NEW: Responsive Gallery Grid Function ---
-        
         function renderGalleryGrid() {
             const galleryHtml = `
-                <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Commission Gallery</h2>
+                <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">Commission Gallery</h2>
                 <div id="gallery-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
                     ${staticGalleryImages.length === 0 ? 
                         '<p id="gallery-loading-text" class="text-center text-gray-500 sm:col-span-2 md:col-span-3">Gallery is empty.</p>' :
@@ -603,7 +702,6 @@
                     }
                 </div>
             `;
-            // Inject the same grid into both logged-in and logged-out views
             galleryViewAuth.innerHTML = galleryHtml;
             galleryViewApp.innerHTML = galleryHtml;
 
@@ -613,7 +711,6 @@
             }
         }
 
-        // Helper to create user HTML elements for admin
         function createUserElement(user, userId) {
             const userEl = document.createElement('div');
             userEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
@@ -641,32 +738,33 @@
             return userEl;
         }
 
-        // RE-ADDED: Helper to create order HTML elements
+        // === UPDATED createOrderElement function ===
         function createOrderElement(order, orderId, isAdmin) {
             const orderEl = document.createElement('div');
             orderEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
             
+            // "type" is now hardcoded, "details" is the primary content
             const type = document.createElement('p');
-            type.textContent = order.type;
+            type.textContent = order.type; // This will now say "WoW Banner"
             type.className = 'font-bold text-lg text-indigo-600 dark:text-indigo-400';
 
             const details = document.createElement('p');
-            details.textContent = order.details;
-            details.className = 'font-medium text-gray-900 dark:text-white whitespace-pre-wrap';
+            details.textContent = order.details; // This will have the formatted string
+            details.className = 'font-medium text-gray-900 dark:text-white whitespace-pre-wrap mt-2';
             
             const meta = document.createElement('p');
             const date = order.createdAt ? order.createdAt.toDate().toLocaleString() : 'Pending...';
             meta.textContent = `Cost: ${order.cost} coins - On: ${date}`;
-            meta.className = 'text-sm text-gray-600 dark:text-gray-400';
+            meta.className = 'text-sm text-gray-600 dark:text-gray-400 mt-2';
             
-            orderEl.appendChild(type);
+            orderEl.appendChild(type); // Add the type back
             orderEl.appendChild(details);
             orderEl.appendChild(meta);
 
             if (isAdmin) {
                 const user = document.createElement('p');
                 user.textContent = `From: ${order.userEmail} (ID: ${order.userId})`;
-                user.className = 'text-xs font-mono bg-gray-200 dark:bg-gray-800 p-1 rounded';
+                user.className = 'text-xs font-mono bg-gray-200 dark:bg-gray-800 p-1 rounded mt-2';
                 orderEl.appendChild(user);
 
                 const deleteBtn = document.createElement('button');
@@ -679,7 +777,6 @@
             return orderEl;
         }
 
-        // RE-ADDED: Admin function to delete an order
         async function deleteOrder(orderId) {
             if (!confirm('Are you sure you want to delete this order?')) return;
             try {
@@ -692,7 +789,6 @@
             }
         }
 
-        // Admin function to add coins to a user
         async function addCoinsToUser(userId, amount) {
             const userDocRef = doc(db, "users", userId);
             adminAddCoinsBtn.disabled = true;
@@ -838,17 +934,25 @@
         });
     
         
-        // RE-ADDED: Request Form Listener
+        // === UPDATED Request Form Listener ===
         requestForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             hideMessage(requestMessageBox);
             
-            const type = requestType.value;
-            const details = requestDetails.value;
+            // Get values from new inputs
+            const charName = requestCharacterName.value;
+            const serverRegion = requestServerRegion.value;
+            const race = requestRace.value;
+            const charClass = requestClass.value;
+            const gearSet = requestGearSet.value;
+            const background = requestBackground.value;
+            const extraDetails = requestExtraDetails.value;
+            
             const cost = 10;
             
-            if (!type || !details.trim()) {
-                showMessage(requestMessageBox, "Please select a type and fill in the details.", true);
+            // New validation
+            if (!charName || !serverRegion || !race || !charClass || !gearSet || !background) {
+                showMessage(requestMessageBox, "Please fill in all required fields.", true);
                 return;
             }
             
@@ -859,6 +963,14 @@
             
             submitRequestButton.disabled = true;
             submitRequestButton.textContent = 'Processing...';
+
+            // Format details for admin
+            const details = `Character: ${charName} (${serverRegion})
+Race: ${race}
+Class: ${charClass}
+Gear/Transmog: ${gearSet}
+Background: ${background}
+Extra Details: ${extraDetails || 'None'}`;
 
             try {
                 const userDocRef = doc(db, "users", currentUserId);
@@ -873,9 +985,10 @@
                     
                     transaction.update(userDocRef, { coins: newCoins });
                     
+                    // Add new order object
                     transaction.set(newOrderRef, {
-                         type: type,
-                         details: details,
+                         type: "WoW Banner", // Hardcoded type
+                         details: details,    // Formatted details string
                          cost: cost,
                          createdAt: serverTimestamp(),
                          status: 'pending',
