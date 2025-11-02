@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Secure Login System</title>
-    <!-- 1. Load Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -18,7 +17,6 @@
         }
     </script>
     <style>
-        /* A simple fade-in animation for the message box */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(-10px); }
             to { opacity: 1; transform: translateY(0); }
@@ -26,8 +24,6 @@
         .fade-in {
             animation: fadeIn 0.3s ease-out;
         }
-        
-        /* Simple active state for nav buttons */
         .nav-btn.active {
             @apply bg-indigo-700 text-white;
         }
@@ -37,15 +33,12 @@
 
     <div class="w-full max-w-md">
         
-        <!-- Main Content Area -->
         <div id="app-content">
 
-            <!-- Loading State -->
             <div id="loading-container" class="text-center p-10">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
             </div>
             
-            <!-- Logged Out State: Login/Register Form -->
             <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
                 <div class="text-center">
                     <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
@@ -65,7 +58,7 @@
                                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                                 placeholder="Email address">
                         </div>
-                        <div>
+                        <div id="password-field">
                             <label for="password" class="sr-only">Password</label>
                             <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
                                 class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
@@ -73,11 +66,18 @@
                         </div>
                     </div>
 
+                    <div class="flex items-center justify-end">
+                        <div class="text-sm">
+                            <button type="button" id="forgot-password-btn" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                                Forgot your password?
+                            </button>
+                        </div>
+                    </div>
+
                     <div>
                         <button type="submit" id="submit-button"
                             class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <!-- Heroicon name: solid/lock-closed -->
                                 <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                                     <path fill-rule="evenodd"
@@ -90,14 +90,11 @@
                     </div>
                 </form>
                 
-                <!-- Error/Success Message Box -->
                 <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
 
             </div>
 
-            <!-- Logged In State: Main Application -->
             <div id="app-container" class="hidden w-full max-w-2xl">
-                <!-- Navigation -->
                 <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
                     <button id="nav-profile" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
                         Profile
@@ -108,15 +105,16 @@
                     <button id="nav-orders" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
                         Orders
                     </button>
+                    <button id="nav-admin" class="nav-btn hidden flex-1 text-center p-2 rounded-lg font-medium text-yellow-600 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-gray-700">
+                        Admin
+                    </button>
                     <button id="logout-button" class="flex-1 text-center p-2 rounded-lg font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700">
                         Sign Out
                     </button>
                 </nav>
 
-                <!-- App Views -->
                 <main class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
                     
-                    <!-- Profile View -->
                     <div id="profile-view" class="app-view space-y-4">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h2>
                         <div>
@@ -131,23 +129,34 @@
                             <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Your Coins</p>
                             <p class="flex items-center">
                                 <span id="profile-coins" class="text-3xl font-bold text-green-600 dark:text-green-400">--</span>
-                                <svg class="w-6 h-6 ml-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l3 3a1 1 0 001.414-1.414L11 9.586V6z" clip-rule="evenodd"></path><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM6.99 6a1 1 0 00-1.05 1.67l.02.03 2.5 4a1 1 0 001.7-.3L13.01 6a1 1 0 00-1.05-1.67l-.02.03-2.5 4-2.45-3.92z" fill-rule="evenodd" clip-rule="evenodd" transform="translate(0, 0) scale(1.2) translate(-2.8, -3.2)"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" transform="translate(0, 0) scale(0.9) translate(1, 1)"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" clip-rule="evenodd" transform="translate(0, 0) scale(0.6) translate(3, 3)"></path></svg>
-                            </p>
+                                </p>
                         </div>
                     </div>
 
-                    <!-- Request Order View -->
                     <div id="request-view" class="app-view hidden space-y-4">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Request an Order</h2>
                         <p class="text-sm text-gray-600 dark:text-gray-400">This request will cost <span class="font-bold text-lg text-green-600 dark:text-green-400">10 coins</span>. Your current balance is <span id="request-coin-balance" class="font-bold text-lg text-green-600 dark:text-green-400">--</span>.</p>
                         
                         <form id="request-form" class="space-y-4">
                             <div>
-                                <label for="request-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Description</label>
-                                <textarea id="request-description" name="description" rows="3" required
-                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="e.g., 'A new feature for my profile'"></textarea>
+                                <label for="request-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Type</label>
+                                <select id="request-type" name="type" required
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                    <option value="">Select a type...</option>
+                                    <option value="Logo Design">Logo Design</option>
+                                    <option value="Social Design">Social Design (Banner, Icon, etc.)</option>
+                                    <option value="Twitch Emote">Twitch Emote</option>
+                                    <option value="Other">Other (Please specify below)</option>
+                                </select>
                             </div>
+
+                            <div>
+                                <label for="request-details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Details</label>
+                                <textarea id="request-details" name="details" rows="3" required
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    placeholder="Provide all relevant details: text, colors, style, links to examples, etc."></textarea>
+                            </div>
+                            
                             <button type="submit" id="submit-request-button"
                                 class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
                                 Submit Request (10 Coins)
@@ -156,12 +165,31 @@
                         <div id="request-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
                     </div>
 
-                    <!-- Orders List View -->
                     <div id="orders-view" class="app-view hidden space-y-4">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Orders</h2>
                         <div id="orders-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                            <!-- Orders will be dynamically injected here -->
                             <p id="no-orders-message" class="text-gray-500 dark:text-gray-400">You haven't requested any orders yet.</p>
+                        </div>
+                    </div>
+
+                    <div id="admin-view" class="app-view hidden space-y-6">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h2>
+                        
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Manage Coins</h3>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">This requires a Firebase Function to be built.</p>
+                            <input id="admin-user-id" type="text" placeholder="User ID" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm">
+                            <input id="admin-coin-amount" type="number" placeholder="Amount to Add" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm">
+                            <button id="admin-add-coins-btn" class="w-full py-2 px-4 rounded-md text-white bg-green-600 hover:bg-green-700 disabled:opacity-50" disabled>
+                                Add Coins (Function Required)
+                            </button>
+                        </div>
+
+                        <div class="space-y-2">
+                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Pending Orders</h3>
+                            <div id="admin-orders-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                                <p id="admin-no-orders" class="text-gray-500 dark:text-gray-400">No pending orders found.</p>
+                                </div>
                         </div>
                     </div>
 
@@ -177,8 +205,6 @@
     </div>
 
 
-    <!-- 2. Load Firebase SDKs -->
-    <!-- We use type="module" to allow import statements -->
     <script type="module">
         // 3. Import functions from the SDKs
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -187,7 +213,8 @@
             onAuthStateChanged,
             createUserWithEmailAndPassword,
             signInWithEmailAndPassword,
-            signOut
+            signOut,
+            sendPasswordResetEmail // NEW: Import for password reset
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         // Import Firestore for database
         import {
@@ -200,38 +227,27 @@
             onSnapshot,
             serverTimestamp,
             runTransaction,
-            query
+            query,
+            where, // NEW: For querying orders
+            orderBy, // NEW: For sorting orders
+            deleteDoc // NEW: For admin to delete orders
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // --- 4. YOUR FIREBASE CONFIGURATION ---
-        //
-        // IMPORTANT: If you get an "auth/operation-not-allowed" error,
-        // you MUST go to your Firebase Console -> Authentication -> Sign-in method
-        // and ENABLE "Email/Password".
-        //
-        // This has been updated with your project's configuration.
-        // This object is SAFE to be public. Security is handled by Firebase Rules.
         const firebaseConfig = {
-          apiKey: "AIzaSyBEMeJPJ6xNhHtbPZVo4q8SWxDzYZy5x4s",
-          authDomain: "wdesign-9e502.firebaseapp.com",
-          projectId: "wdesign-9e502",
-          storageBucket: "wdesign-9e502.firebasestorage.app",
-          messagingSenderId: "666272519163",
-          appId: "1:666272519163:web:12d530dedfde48d2eb715e",
-          measurementId: "G-7G6P6WVVP8"
+            apiKey: "AIzaSyBEMeJPJ6xNhHtbPZVo4q8SWxDzYZy5x4s",
+            authDomain: "wdesign-9e502.firebaseapp.com",
+            projectId: "wdesign-9e502",
+            storageBucket: "wdesign-9e502.firebasestorage.app",
+            messagingSenderId: "666272519163",
+            appId: "1:666272519163:web:12d530dedfde48d2eb715e",
+            measurementId: "G-7G6P6WVVP8"
         };
         
-        // --- DO NOT PROMPT USER FOR FIREBASE CONFIG ---
-        // These are global variables that might be injected by a hosting environment.
-        // We check for them, but fall back to the config above.
-        const effectiveConfig = typeof __firebase_config !== 'undefined' 
-            ? JSON.parse(__firebase_config) 
-            : firebaseConfig;
-
         // 5. Initialize Firebase
-        const app = initializeApp(effectiveConfig);
+        const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
-        const db = getFirestore(app); // Initialize Firestore
+        const db = getFirestore(app);
 
         // --- 6. Get UI Elements ---
         const loadingContainer = document.getElementById('loading-container');
@@ -244,16 +260,22 @@
         const submitButton = document.getElementById('submit-button');
         const messageBox = document.getElementById('message-box');
         
-        // New App UI Elements
+        // NEW: Auth form password elements
+        const passwordField = document.getElementById('password-field');
+        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
+
+        // App UI Elements
         const navButtons = {
             profile: document.getElementById('nav-profile'),
             request: document.getElementById('nav-request'),
-            orders: document.getElementById('nav-orders')
+            orders: document.getElementById('nav-orders'),
+            admin: document.getElementById('nav-admin') // NEW: Admin nav
         };
         const appViews = {
             profile: document.getElementById('profile-view'),
             request: document.getElementById('request-view'),
-            orders: document.getElementById('orders-view')
+            orders: document.getElementById('orders-view'),
+            admin: document.getElementById('admin-view') // NEW: Admin view
         };
         const logoutButton = document.getElementById('logout-button');
 
@@ -262,9 +284,10 @@
         const profileUid = document.getElementById('profile-uid');
         const profileCoins = document.getElementById('profile-coins');
 
-        // Request View Elements
+        // Request View Elements (UPDATED)
         const requestForm = document.getElementById('request-form');
-        const requestDescription = document.getElementById('request-description');
+        const requestType = document.getElementById('request-type');
+        const requestDetails = document.getElementById('request-details');
         const requestCoinBalance = document.getElementById('request-coin-balance');
         const submitRequestButton = document.getElementById('submit-request-button');
         const requestMessageBox = document.getElementById('request-message-box');
@@ -273,23 +296,23 @@
         const ordersListContainer = document.getElementById('orders-list-container');
         const noOrdersMessage = document.getElementById('no-orders-message');
 
+        // NEW: Admin View Elements
+        const adminOrdersList = document.getElementById('admin-orders-list');
+        const adminNoOrders = document.getElementById('admin-no-orders');
+        const adminAddCoinsBtn = document.getElementById('admin-add-coins-btn');
 
-        let isLoginMode = true; // State for auth form
-        let currentUserId = null; // Store the logged-in user's ID
-        let currentUserCoins = 0; // Store coin balance
-        let listenersUnsubscribe = []; // To detach listeners on logout
+
+        let isLoginMode = true;
+        let isForgotPasswordMode = false; // NEW state for password reset
+        let currentUserId = null;
+        let currentUserData = null; // NEW: Store all user data
+        let listenersUnsubscribe = [];
 
         // --- 7. Utility Functions ---
         
-        /**
-         * Shows a message in a specific message box.
-         * @param {HTMLElement} box - The message box element.
-         * @param {string} message - The text to display.
-         * @param {boolean} isError - If true, style as an error.
-         */
         function showMessage(box, message, isError = true) {
             box.textContent = message;
-            box.className = 'fade-in p-4 rounded-md text-sm'; // Reset classes
+            box.className = 'fade-in p-4 rounded-md text-sm';
             if (isError) {
                 box.classList.add('bg-red-100', 'dark:bg-red-900', 'text-red-700', 'dark:text-red-200');
             } else {
@@ -302,28 +325,45 @@
             box.classList.add('hidden');
         }
 
-        /**
-         * Updates the UI to show the correct form (Login or Register).
-         */
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
-            hideMessage(messageBox); // Clear messages when toggling
+            hideMessage(messageBox);
+            isForgotPasswordMode = false; // Always reset forgot password mode
+            passwordField.classList.remove('hidden');
 
             if (isLoginMode) {
                 formTitle.textContent = 'Sign in to your account';
                 toggleFormBtn.textContent = 'create a new account';
                 submitButton.textContent = 'Sign In';
+                forgotPasswordBtn.classList.remove('hidden');
             } else {
                 formTitle.textContent = 'Create a new account';
                 toggleFormBtn.textContent = 'sign in instead';
                 submitButton.textContent = 'Create Account';
+                forgotPasswordBtn.classList.add('hidden');
             }
         }
 
-        /**
-         * Updates the main UI view (loading, auth, or app).
-         * @param {string} viewName - 'loading', 'auth', or 'app'.
-         */
+        // NEW: Toggle Forgot Password Mode
+        function toggleForgotPasswordMode() {
+            isForgotPasswordMode = !isForgotPasswordMode;
+            hideMessage(messageBox);
+
+            if (isForgotPasswordMode) {
+                formTitle.textContent = 'Reset your password';
+                submitButton.textContent = 'Send Reset Email';
+                passwordField.classList.add('hidden');
+                toggleFormBtn.textContent = 'back to sign in';
+                isLoginMode = true; // Stay in "login" mode logic
+            } else {
+                // Go back to regular sign in
+                formTitle.textContent = 'Sign in to your account';
+                submitButton.textContent = 'Sign In';
+                passwordField.classList.remove('hidden');
+                toggleFormBtn.textContent = 'create a new account';
+            }
+        }
+
         function showMainView(viewName) {
             loadingContainer.classList.add('hidden');
             authContainer.classList.add('hidden');
@@ -333,34 +373,28 @@
                 loadingContainer.classList.remove('hidden');
             } else if (viewName === 'auth') {
                 authContainer.classList.remove('hidden');
+                // Reset form to default login mode
+                isLoginMode = true;
+                isForgotPasswordMode = false;
+                toggleAuthMode(); // This will reset the form to 'Sign In'
+                toggleAuthMode();
             } else if (viewName === 'app') {
                 appContainer.classList.remove('hidden');
             }
         }
         
-        /**
-         * Shows a specific view within the logged-in app.
-         * @param {string} viewId - 'profile', 'request', or 'orders'.
-         */
         function showAppView(viewId) {
-            // Hide all app views
             Object.values(appViews).forEach(view => view.classList.add('hidden'));
-            // Deactivate all nav buttons
             Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
 
-            // Show the selected view
             if (appViews[viewId]) {
                 appViews[viewId].classList.remove('hidden');
             }
-            // Activate the selected button
             if (navButtons[viewId]) {
                 navButtons[viewId].classList.add('active');
             }
         }
         
-        /**
-         * Detaches all active Firestore listeners.
-         */
         function detachListeners() {
             console.log('Detaching listeners...');
             listenersUnsubscribe.forEach(unsub => unsub());
@@ -372,143 +406,211 @@
          * @param {string} userId - The ID of the logged-in user.
          */
         function setupRealtimeListeners(userId) {
-            // Detach any old listeners first
             detachListeners();
             
-            // 1. Listen for user document (profile info, coins)
+            // 1. Listen for user document (profile info, coins, admin status)
             const userDocRef = doc(db, "users", userId);
             const unsubUser = onSnapshot(userDocRef, (docSnap) => {
                 if (docSnap.exists()) {
-                    const userData = docSnap.data();
-                    console.log('User data updated:', userData);
+                    currentUserData = docSnap.data();
+                    console.log('User data updated:', currentUserData);
                     
-                    profileEmail.textContent = userData.email;
+                    profileEmail.textContent = currentUserData.email;
                     profileUid.textContent = userId;
-                    profileCoins.textContent = userData.coins;
+                    profileCoins.textContent = currentUserData.coins;
                     
-                    requestCoinBalance.textContent = userData.coins;
-                    currentUserCoins = userData.coins; // Store for validation
+                    requestCoinBalance.textContent = currentUserData.coins;
                     
-                    // Enable/disable request button based on coins
-                    submitRequestButton.disabled = userData.coins < 10;
+                    // Check if cost is for free request
+                    const cost = 10; // TODO: Implement free request logic
+                    submitRequestButton.disabled = currentUserData.coins < cost;
+                    
+                    // NEW: Show/Hide Admin tab
+                    if (currentUserData.isAdmin) {
+                        navButtons.admin.classList.remove('hidden');
+                        setupAdminListeners(); // Start listening for admin data
+                    } else {
+                        navButtons.admin.classList.add('hidden');
+                    }
+
                 } else {
-                    // This case shouldn't happen if registration is correct
                     console.error("User document not found!");
                 }
             }, (error) => {
                 console.error("Error listening to user doc:", error);
-                showMessage(messageBox, "Error loading profile data.", true);
             });
             
-            listenersUnsubscribe.push(unsubUser); // Add to unsub array
+            listenersUnsubscribe.push(unsubUser);
 
-            // 2. Listen for orders sub-collection
-            const ordersColRef = collection(db, "users", userId, "orders");
-            // NOTE: Per instructions, not using orderBy()
-            const q = query(ordersColRef);
+            // 2. Listen for *user's* orders from the new *root* 'orders' collection
+            const ordersColRef = collection(db, "orders");
+            const q = query(ordersColRef, where("userId", "==", userId), orderBy("createdAt", "desc"));
             
             const unsubOrders = onSnapshot(q, (querySnapshot) => {
-                console.log('Orders data updated.');
+                console.log('User orders data updated.');
                 ordersListContainer.innerHTML = ''; // Clear list
                 
                 if (querySnapshot.empty) {
                     ordersListContainer.appendChild(noOrdersMessage);
                 } else {
-                    let orders = [];
                     querySnapshot.forEach((doc) => {
-                        orders.push({ id: doc.id, ...doc.data() });
-                    });
-                    
-                    // Client-side sorting (newest first)
-                    // Check for createdAt existence before sorting
-                    orders.sort((a, b) => {
-                        const timeA = a.createdAt ? a.createdAt.toDate().getTime() : 0;
-                        const timeB = b.createdAt ? b.createdAt.toDate().getTime() : 0;
-                        return timeB - timeA;
-                    });
-
-                    orders.forEach(order => {
-                        const orderEl = document.createElement('div');
-                        orderEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
-                        
-                        const desc = document.createElement('p');
-                        desc.textContent = order.description;
-                        desc.className = 'font-medium text-gray-900 dark:text-white';
-                        
-                        const meta = document.createElement('p');
-                        const date = order.createdAt ? order.createdAt.toDate().toLocaleString() : 'Pending...';
-                        meta.textContent = `Cost: ${order.cost} coins - On: ${date}`;
-                        meta.className = 'text-sm text-gray-600 dark:text-gray-400';
-                        
-                        orderEl.appendChild(desc);
-                        orderEl.appendChild(meta);
+                        const order = doc.data();
+                        const orderEl = createOrderElement(order, doc.id, false); // false = not admin
                         ordersListContainer.appendChild(orderEl);
                     });
                 }
             }, (error) => {
-                console.error("Error listening to orders:", error);
-                showMessage(messageBox, "Error loading orders.", true);
+                console.error("Error listening to user orders:", error);
             });
             
-            listenersUnsubscribe.push(unsubOrders); // Add to unsub array
+            listenersUnsubscribe.push(unsubOrders);
+        }
+
+        // NEW: Listeners for the Admin Panel
+        function setupAdminListeners() {
+            // Listen for ALL pending orders
+            const ordersColRef = collection(db, "orders");
+            const q = query(ordersColRef, where("status", "==", "pending"), orderBy("createdAt", "desc"));
+
+            const unsubAdminOrders = onSnapshot(q, (querySnapshot) => {
+                console.log('Admin: All orders updated.');
+                adminOrdersList.innerHTML = '';
+                if (querySnapshot.empty) {
+                    adminOrdersList.appendChild(adminNoOrders);
+                } else {
+                    querySnapshot.forEach((doc) => {
+                        const order = doc.data();
+                        const orderEl = createOrderElement(order, doc.id, true); // true = admin
+                        adminOrdersList.appendChild(orderEl);
+                    });
+                }
+            }, (error) => {
+                console.error("Admin: Error listening to orders:", error);
+            });
+
+            listenersUnsubscribe.push(unsubAdminOrders);
+        }
+
+        // NEW: Helper function to create order HTML elements
+        function createOrderElement(order, orderId, isAdmin) {
+            const orderEl = document.createElement('div');
+            orderEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
+            
+            const type = document.createElement('p');
+            type.textContent = order.type;
+            type.className = 'font-bold text-lg text-indigo-600 dark:text-indigo-400';
+
+            const details = document.createElement('p');
+            details.textContent = order.details;
+            details.className = 'font-medium text-gray-900 dark:text-white whitespace-pre-wrap'; // Show formatting
+            
+            const meta = document.createElement('p');
+            const date = order.createdAt ? order.createdAt.toDate().toLocaleString() : 'Pending...';
+            meta.textContent = `Cost: ${order.cost} coins - On: ${date}`;
+            meta.className = 'text-sm text-gray-600 dark:text-gray-400';
+            
+            orderEl.appendChild(type);
+            orderEl.appendChild(details);
+            orderEl.appendChild(meta);
+
+            if (isAdmin) {
+                const user = document.createElement('p');
+                user.textContent = `From: ${order.userEmail} (ID: ${order.userId})`;
+                user.className = 'text-xs font-mono bg-gray-200 dark:bg-gray-800 p-1 rounded';
+                orderEl.appendChild(user);
+
+                const deleteBtn = document.createElement('button');
+                deleteBtn.textContent = 'Delete Order';
+                deleteBtn.className = 'mt-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded';
+                deleteBtn.onclick = () => deleteOrder(orderId);
+                orderEl.appendChild(deleteBtn);
+            }
+            
+            return orderEl;
+        }
+
+        // NEW: Admin function to delete an order
+        async function deleteOrder(orderId) {
+            if (!confirm('Are you sure you want to delete this order?')) return;
+            
+            try {
+                const orderDocRef = doc(db, "orders", orderId);
+                await deleteDoc(orderDocRef);
+                console.log('Order deleted:', orderId);
+            } catch (error) {
+                console.error('Error deleting order:', error);
+                alert('Failed to delete order.');
+            }
         }
 
 
         // --- 8. Event Listeners ---
 
-        // Toggle between Login and Register
-        toggleFormBtn.addEventListener('click', toggleAuthMode);
+        toggleFormBtn.addEventListener('click', () => {
+            if (isForgotPasswordMode) {
+                toggleForgotPasswordMode(); // This will switch back to sign-in
+            } else {
+                toggleAuthMode();
+            }
+        });
 
-        // Handle form submission (Login or Register)
+        // NEW: Forgot Password button listener
+        forgotPasswordBtn.addEventListener('click', toggleForgotPasswordMode);
+
         authForm.addEventListener('submit', async (e) => {
-            e.preventDefault(); // Prevent default form submission
+            e.preventDefault();
             hideMessage(messageBox);
 
             const email = authForm.email.value;
             const password = authForm.password.value;
             
             submitButton.disabled = true;
-            submitButton.textContent = isLoginMode ? 'Signing In...' : 'Creating...';
 
+            // NEW: Handle Forgot Password logic
+            if (isForgotPasswordMode) {
+                submitButton.textContent = 'Sending...';
+                try {
+                    await sendPasswordResetEmail(auth, email);
+                    showMessage(messageBox, 'Password reset email sent! Check your inbox.', false);
+                    toggleForgotPasswordMode(); // Go back to login
+                } catch (error) {
+                    console.error('Password Reset Error:', error);
+                    showMessage(messageBox, 'Failed to send reset email. Is the email correct?', true);
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = 'Send Reset Email';
+                }
+                return; // Stop here
+            }
+
+            // --- Regular Login/Register Logic ---
+            submitButton.textContent = isLoginMode ? 'Signing In...' : 'Creating...';
             try {
                 if (isLoginMode) {
-                    // --- Sign In ---
                     await signInWithEmailAndPassword(auth, email, password);
-                    // onAuthStateChanged will handle the UI update
-                    // We don't even need a success message, the UI will just change.
                 } else {
-                    // --- Register (Create User) ---
                     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
                     console.log('User created:', userCredential.user);
                     
-                    // --- Create user document in Firestore ---
+                    // Create user document in Firestore
                     const userDocRef = doc(db, "users", userCredential.user.uid);
-                    try {
-                        await setDoc(userDocRef, {
-                           email: userCredential.user.email,
-                           coins: 100, // Give 100 starting coins
-                           createdAt: serverTimestamp()
-                        });
-                        console.log('User document created in Firestore');
-                    } catch (dbError) {
-                        console.error('Firestore setDoc Error:', dbError);
-                        showMessage(messageBox, 'Account created, but failed to save profile data.', true);
-                        return; // Exit, auth state will still log them in
-                    }
+                    await setDoc(userDocRef, {
+                        email: userCredential.user.email,
+                        coins: 100, // Give 100 starting coins
+                        createdAt: serverTimestamp(),
+                        isAdmin: false // NEW: Default to not admin
+                    });
+                    console.log('User document created in Firestore');
                     
                     showMessage(messageBox, 'Account created successfully! You are now logged in.', false);
-                    // onAuthStateChanged will also fire here and update the UI
                 }
             } catch (error) {
-                console.error('Auth Error:', error);
-                // Log the specific error code to the console for debugging
-                console.log('Firebase error code:', error.code);
-                
-                // Provide user-friendly error messages
+                console.error('Auth Error:', error.code, error.message);
                 let friendlyMessage = 'An unknown error occurred.';
                 switch(error.code) {
                     case 'auth/user-not-found':
                     case 'auth/wrong-password':
+                    case 'auth/invalid-credential':
                         friendlyMessage = 'Invalid email or password.';
                         break;
                     case 'auth/email-already-in-use':
@@ -520,48 +622,42 @@
                     case 'auth/invalid-email':
                         friendlyMessage = 'Please enter a valid email address.';
                         break;
-                    case 'auth/operation-not-allowed':
-                        friendlyMessage = 'Sign-in method is not enabled. Please check Firebase console.';
-                        break;
                     case 'auth/network-request-failed':
-                        friendlyMessage = 'Network error. Please check your connection and try again.';
+                        friendlyMessage = 'Network error. Please check your connection.';
                         break;
                 }
                 showMessage(messageBox, friendlyMessage, true);
             } finally {
-                // Re-enable button and reset text regardless of success or failure
                 submitButton.disabled = false;
                 submitButton.textContent = isLoginMode ? 'Sign In' : 'Create Account';
             }
         });
 
-        // Handle Logout
         logoutButton.addEventListener('click', async () => {
             await signOut(auth);
-            // onAuthStateChanged will handle the UI update and listener detachment
         });
         
-        // --- New App Event Listeners ---
-        
-        // Navigation
+        // App Navigation
         navButtons.profile.addEventListener('click', () => showAppView('profile'));
         navButtons.request.addEventListener('click', () => showAppView('request'));
         navButtons.orders.addEventListener('click', () => showAppView('orders'));
+        navButtons.admin.addEventListener('click', () => showAppView('admin')); // NEW
         
-        // Handle Request Order Form Submission
+        // Handle Request Order Form Submission (UPDATED)
         requestForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             hideMessage(requestMessageBox);
             
-            const description = requestDescription.value;
-            const cost = 10; // Fixed cost for this example
+            const type = requestType.value;
+            const details = requestDetails.value;
+            const cost = 10; // TODO: Implement free request logic (Twitch)
             
-            if (!description.trim()) {
-                showMessage(requestMessageBox, "Description cannot be empty.", true);
+            if (!type || !details.trim()) {
+                showMessage(requestMessageBox, "Please select a type and fill in the details.", true);
                 return;
             }
             
-            if (currentUserCoins < cost) {
+            if (currentUserData.coins < cost) {
                 showMessage(requestMessageBox, "You don't have enough coins!", true);
                 return;
             }
@@ -569,11 +665,13 @@
             submitRequestButton.disabled = true;
             submitRequestButton.textContent = 'Processing...';
 
-            // --- Use a Transaction to deduct coins AND create the order ---
+            // Use a Transaction to deduct coins AND create the order
             try {
                 const userDocRef = doc(db, "users", currentUserId);
-                const ordersColRef = collection(db, "users", currentUserId, "orders");
                 
+                // NEW: Use the root 'orders' collection
+                const newOrderRef = doc(collection(db, "orders")); 
+
                 await runTransaction(db, async (transaction) => {
                     const userDoc = await transaction.get(userDocRef);
                     if (!userDoc.exists()) {
@@ -582,25 +680,27 @@
                     
                     const newCoins = userDoc.data().coins - cost;
                     if (newCoins < 0) {
-                        throw "Not enough coins!"; // Double-check inside transaction
+                        throw "Not enough coins!";
                     }
                     
                     // 1. Update the user's coin balance
                     transaction.update(userDocRef, { coins: newCoins });
                     
-                    // 2. Create the new order document
-                    const newOrderRef = doc(ordersColRef); // Auto-generate ID
+                    // 2. Create the new order document in the root 'orders' collection
                     transaction.set(newOrderRef, {
-                        description: description,
+                        type: type,
+                        details: details,
                         cost: cost,
                         createdAt: serverTimestamp(),
-                        status: 'pending'
+                        status: 'pending',
+                        userId: currentUserId, // NEW: Store who made the order
+                        userEmail: currentUserData.email // NEW: Store for admin convenience
                     });
                 });
                 
                 // Success
                 showMessage(requestMessageBox, 'Order submitted successfully!', false);
-                requestForm.reset(); // Clear the form
+                requestForm.reset();
                 showAppView('orders'); // Switch to orders view
                 
             } catch (error) {
@@ -614,8 +714,6 @@
 
 
         // --- 9. Authentication State Observer ---
-        // This is the most important listener. It fires when the app
-        // loads and any time the user's login state changes.
         onAuthStateChanged(auth, (user) => {
             console.log('Auth state changed. User:', user ? user.uid : 'null');
             if (user) {
@@ -627,7 +725,8 @@
             } else {
                 // User is signed out
                 currentUserId = null;
-                detachListeners(); // Detach listeners on logout
+                currentUserData = null;
+                detachListeners();
                 showMainView('auth');
             }
         });
@@ -638,4 +737,3 @@
     </script>
 </body>
 </html>
-
