@@ -27,13 +27,20 @@
         .nav-btn.active {
             @apply bg-indigo-700 text-white;
         }
-        /* NEW: Styles for the gallery slideshow */
+        /* Styles for the gallery slideshow */
         .slide {
             display: none;
             animation: fadeIn 0.5s ease-in-out;
         }
         .slide.active {
             display: block;
+        }
+        /* NEW: Styles for logged-out nav */
+        .auth-nav-btn {
+            @apply p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700;
+        }
+        .auth-nav-btn.active {
+            @apply bg-indigo-700 text-white;
         }
     </style>
 </head>
@@ -47,59 +54,85 @@
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
             </div>
             
-            <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
-                <div class="text-center">
-                    <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
-                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
-                        Or
-                        <button id="toggle-form" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
-                            create a new account
-                        </button>
-                    </p>
-                </div>
+            <div id="logged-out-container" class="hidden">
+                <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
+                    <button id="auth-nav-gallery" class="auth-nav-btn flex-1 text-center">
+                        Gallery
+                    </button>
+                    <button id="auth-nav-login" class="auth-nav-btn flex-1 text-center">
+                        Sign In
+                    </button>
+                </nav>
 
-                <form id="auth-form" class="mt-8 space-y-6">
-                    <div class="rounded-md shadow-sm -space-y-px">
-                        <div>
-                            <label for="email" class="sr-only">Email address</label>
-                            <input id="email" name="email" type="email" autocomplete="email" required
-                                class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Email address">
-                        </div>
-                        <div id="password-field">
-                            <label for="password" class="sr-only">Password</label>
-                            <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
-                                class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                                placeholder="Password (min. 6 characters)">
-                        </div>
+                <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
+                    <div class="text-center">
+                        <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
+                        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                            Or
+                            <button id="toggle-form" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                                create a new account
+                            </button>
+                        </p>
                     </div>
 
-                    <div class="flex items-center justify-end">
-                        <div class="text-sm">
-                            <button type="button" id="forgot-password-btn" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
-                                Forgot your password?
+                    <form id="auth-form" class="mt-8 space-y-6">
+                        <div class="rounded-md shadow-sm -space-y-px">
+                            <div>
+                                <label for="email" class="sr-only">Email address</label>
+                                <input id="email" name="email" type="email" autocomplete="email" required
+                                    class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Email address">
+                            </div>
+                            <div id="password-field">
+                                <label for="password" class="sr-only">Password</label>
+                                <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
+                                    class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                    placeholder="Password (min. 6 characters)">
+                            </div>
+                        </div>
+
+                        <div class="flex items-center justify-end">
+                            <div class="text-sm">
+                                <button type="button" id="forgot-password-btn" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                                    Forgot your password?
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" id="submit-button"
+                                class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                    <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd"
+                                            d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                </span>
+                                Sign In
                             </button>
                         </div>
-                    </div>
+                    </form>
+                    
+                    <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
+                </div>
 
-                    <div>
-                        <button type="submit" id="submit-button"
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
-                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                    <path fill-rule="evenodd"
-                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                                        clip-rule="evenodd" />
-                                </svg>
-                            </span>
-                            Sign In
+                <div id="gallery-view" class="app-view hidden space-y-4 bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
+                    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Commission Gallery</h2>
+                    
+                    <div id="slideshow-container" class="relative w-full">
+                        <div id="gallery-loading" class="text-center text-gray-500">Loading gallery...</div>
+                        
+                        <button id="prev-slide" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+                            &#10094;
+                        </button>
+                        <button id="next-slide" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+                            &#10095;
                         </button>
                     </div>
-                </form>
-                
-                <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-
+                    <p id="slide-description" class="text-center text-gray-600 dark:text-gray-400 italic"></p>
+                </div>
             </div>
 
             <div id="app-container" class="hidden w-full max-w-2xl">
@@ -110,12 +143,6 @@
                     <button id="nav-profile" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
                         Profile
                     </button>
-                    <button id="nav-request" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
-                        Request
-                    </button>
-                    <button id="nav-orders" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
-                        Orders
-                    </button>
                     <button id="nav-admin" class="nav-btn hidden flex-1 text-center p-2 rounded-lg font-medium text-yellow-600 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-gray-700">
                         Admin
                     </button>
@@ -125,22 +152,6 @@
                 </nav>
 
                 <main class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
-                    
-                    <div id="gallery-view" class="app-view hidden space-y-4">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Commission Gallery</h2>
-                        
-                        <div id="slideshow-container" class="relative w-full">
-                            <div id="gallery-loading" class="text-center text-gray-500">Loading gallery...</div>
-                            
-                            <button id="prev-slide" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-                                &#10094;
-                            </button>
-                            <button id="next-slide" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-                                &#10095;
-                            </button>
-                        </div>
-                        <p id="slide-description" class="text-center text-gray-600 dark:text-gray-400 italic"></p>
-                    </div>
                     
                     <div id="profile-view" class="app-view space-y-4">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h2>
@@ -163,50 +174,11 @@
                              <h3 class="text-lg font-medium text-gray-900 dark:text-white">Buy Coins</h3>
                              <div class="mt-2 p-4 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-lg">
                                  <p class="font-bold">This is a placeholder.</p>
-                                 <p class="text-sm">Securely processing payments (with Stripe or PayPal) requires a backend. This cannot be built into this HTML file alone and must be done with **Firebase Functions** to protect against fraud.</p>
+                                 <p class="text-sm">Securely processing payments (with Stripe or PayPal) requires a backend. This must be done with **Firebase Functions** to protect against fraud.</p>
                              </div>
                              <button id="buy-coins-btn-100" class="mt-4 w-full py-2 px-4 rounded-md text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50" disabled>
                                  Buy 100 Coins (Coming Soon)
                              </button>
-                        </div>
-                    </div>
-
-                    <div id="request-view" class="app-view hidden space-y-4">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Request an Order</h2>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">This request will cost <span class="font-bold text-lg text-green-600 dark:text-green-400">10 coins</span>. Your current balance is <span id="request-coin-balance" class="font-bold text-lg text-green-600 dark:text-green-400">--</span>.</p>
-                        
-                        <form id="request-form" class="space-y-4">
-                            <div>
-                                <label for="request-type" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Type</label>
-                                <select id="request-type" name="type" required
-                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                    <option value="">Select a type...</option>
-                                    <option value="Logo Design">Logo Design</option>
-                                    <option value="Social Design">Social Design (Banner, Icon, etc.)</option>
-                                    <option value="Twitch Emote">Twitch Emote</option>
-                                    <option value="Other">Other (Please specify below)</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label for="request-details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Details</label>
-                                <textarea id="request-details" name="details" rows="3" required
-                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                                    placeholder="Provide all relevant details: text, colors, style, links to examples, etc."></textarea>
-                            </div>
-                            
-                            <button type="submit" id="submit-request-button"
-                                class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
-                                Submit Request (10 Coins)
-                            </button>
-                        </form>
-                        <div id="request-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-                    </div>
-
-                    <div id="orders-view" class="app-view hidden space-y-4">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Orders</h2>
-                        <div id="orders-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                            <p id="no-orders-message" class="text-gray-500 dark:text-gray-400">You haven't requested any orders yet.</p>
                         </div>
                     </div>
 
@@ -237,13 +209,6 @@
                             <button id="admin-add-coins-btn" class="w-full py-2 px-4 rounded-md text-white bg-green-600 hover:bg-green-700 disabled:opacity-50">
                                 Add Coins
                             </button>
-                        </div>
-
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Pending Orders</h3>
-                            <div id="admin-orders-list" class="space-y-3 max-h-96 overflow-y-auto pr-2">
-                                <p id="admin-no-orders" class="text-gray-500 dark:text-gray-400">No pending orders found.</p>
-                            </div>
                         </div>
 
                         <div class="space-y-2">
@@ -282,20 +247,16 @@
             getFirestore,
             doc,
             setDoc,
-            getDoc,
-            addDoc,
             collection,
             onSnapshot,
             serverTimestamp,
-            runTransaction,
             query,
-            where,
             orderBy,
             deleteDoc,
             updateDoc,
-            increment
+            increment,
+            addDoc
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        // NEW: Import Firebase Storage
         import {
             getStorage,
             ref,
@@ -318,36 +279,37 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const storage = getStorage(app); // NEW: Initialize Storage
+        const storage = getStorage(app);
 
         // --- 6. Get UI Elements ---
         const loadingContainer = document.getElementById('loading-container');
-        const authContainer = document.getElementById('auth-container');
+        const loggedOutContainer = document.getElementById('logged-out-container'); // NEW
         const appContainer = document.getElementById('app-container');
         
+        // Auth Elements
+        const authContainer = document.getElementById('auth-container');
         const authForm = document.getElementById('auth-form');
         const toggleFormBtn = document.getElementById('toggle-form');
         const formTitle = document.getElementById('form-title');
         const submitButton = document.getElementById('submit-button');
         const messageBox = document.getElementById('message-box');
-        
         const passwordField = document.getElementById('password-field');
         const passwordInput = document.getElementById('password');
         const forgotPasswordBtn = document.getElementById('forgot-password-btn');
 
+        // Logged-out Nav
+        const authNavGallery = document.getElementById('auth-nav-gallery');
+        const authNavLogin = document.getElementById('auth-nav-login');
+
         // App UI Elements
         const navButtons = {
-            gallery: document.getElementById('nav-gallery'), // NEW
+            gallery: document.getElementById('nav-gallery'),
             profile: document.getElementById('nav-profile'),
-            request: document.getElementById('nav-request'),
-            orders: document.getElementById('nav-orders'),
             admin: document.getElementById('nav-admin')
         };
         const appViews = {
-            gallery: document.getElementById('gallery-view'), // NEW
+            gallery: document.getElementById('gallery-view'),
             profile: document.getElementById('profile-view'),
-            request: document.getElementById('request-view'),
-            orders: document.getElementById('orders-view'),
             admin: document.getElementById('admin-view')
         };
         const logoutButton = document.getElementById('logout-button');
@@ -357,35 +319,20 @@
         const profileUid = document.getElementById('profile-uid');
         const profileCoins = document.getElementById('profile-coins');
 
-        // Request View Elements
-        const requestForm = document.getElementById('request-form');
-        const requestType = document.getElementById('request-type');
-        const requestDetails = document.getElementById('request-details');
-        const requestCoinBalance = document.getElementById('request-coin-balance');
-        const submitRequestButton = document.getElementById('submit-request-button');
-        const requestMessageBox = document.getElementById('request-message-box');
-        
-        // Orders View Elements
-        const ordersListContainer = document.getElementById('orders-list-container');
-        const noOrdersMessage = document.getElementById('no-orders-message');
-
         // Admin View Elements
-        const adminOrdersList = document.getElementById('admin-orders-list');
-        const adminNoOrders = document.getElementById('admin-no-orders');
         const adminUserIdInput = document.getElementById('admin-user-id');
         const adminCoinAmountInput = document.getElementById('admin-coin-amount');
         const adminAddCoinsBtn = document.getElementById('admin-add-coins-btn');
         const adminUsersList = document.getElementById('admin-users-list');
         const adminNoUsers = document.getElementById('admin-no-users');
-        
-        // NEW: Admin Gallery Upload Elements
         const galleryUploadForm = document.getElementById('gallery-upload-form');
         const galleryImageInput = document.getElementById('gallery-image-input');
         const galleryDescriptionInput = document.getElementById('gallery-description-input');
         const galleryUploadBtn = document.getElementById('gallery-upload-btn');
         const galleryUploadMessage = document.getElementById('gallery-upload-message');
 
-        // NEW: Gallery View Elements
+        // Gallery View Elements
+        const galleryView = document.getElementById('gallery-view'); // NEW
         const slideshowContainer = document.getElementById('slideshow-container');
         const galleryLoading = document.getElementById('gallery-loading');
         const prevSlideBtn = document.getElementById('prev-slide');
@@ -399,9 +346,9 @@
         let currentUserData = null;
         let listenersUnsubscribe = [];
         
-        // NEW: Gallery State
         let galleryImages = [];
         let currentSlideIndex = 0;
+        let galleryListenerUnsub = null; // NEW: Specific listener for gallery
 
         // --- 7. Utility Functions ---
         
@@ -462,13 +409,14 @@
 
         function showMainView(viewName) {
             loadingContainer.classList.add('hidden');
-            authContainer.classList.add('hidden');
+            loggedOutContainer.classList.add('hidden'); // NEW
             appContainer.classList.add('hidden');
 
             if (viewName === 'loading') {
                 loadingContainer.classList.remove('hidden');
             } else if (viewName === 'auth') {
-                authContainer.classList.remove('hidden');
+                loggedOutContainer.classList.remove('hidden'); // NEW
+                showLoggedOutView('login'); // NEW
                 isLoginMode = true;
                 isForgotPasswordMode = false;
                 toggleAuthMode();
@@ -478,20 +426,41 @@
             }
         }
         
+        // NEW: Toggle between Login and Gallery on logged-out screen
+        function showLoggedOutView(viewName) {
+            if (viewName === 'login') {
+                authContainer.classList.remove('hidden');
+                galleryView.classList.add('hidden');
+                authNavLogin.classList.add('active');
+                authNavGallery.classList.remove('active');
+            } else if (viewName === 'gallery') {
+                authContainer.classList.add('hidden');
+                galleryView.classList.remove('hidden');
+                authNavLogin.classList.remove('active');
+                authNavGallery.classList.add('active');
+                renderGallery(); // Make sure gallery is rendered
+            }
+        }
+        
         function showAppView(viewId) {
-            Object.values(appViews).forEach(view => view.classList.add('hidden'));
-            Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
-
+            // Hide all *app* views (Profile, Admin)
+            appViews.profile.classList.add('hidden');
+            appViews.admin.classList.add('hidden');
+            // Show the main gallery view
+            galleryView.classList.add('hidden');
+            
+            // Deactivate all *app* nav buttons
+            navButtons.profile.classList.remove('active');
+            navButtons.admin.classList.remove('active');
+            navButtons.gallery.classList.remove('active');
+            
+            // Show the selected view
             if (appViews[viewId]) {
                 appViews[viewId].classList.remove('hidden');
             }
+            // Activate the selected button
             if (navButtons[viewId]) {
                 navButtons[viewId].classList.add('active');
-            }
-            
-            // NEW: Load gallery when shown
-            if (viewId === 'gallery') {
-                renderGallery();
             }
         }
         
@@ -501,9 +470,27 @@
             listenersUnsubscribe = [];
         }
 
-        // UPDATED: Realtime Listeners
+        // NEW: Separate gallery listener so it can run on page load
+        function setupGalleryListener() {
+            if (galleryListenerUnsub) galleryListenerUnsub(); // Detach old one if exists
+
+            const galleryColRef = collection(db, "gallery");
+            const qGallery = query(galleryColRef, orderBy("createdAt", "desc"));
+            galleryListenerUnsub = onSnapshot(qGallery, (querySnapshot) => {
+                console.log('Gallery data updated.');
+                galleryImages = []; // Clear old images
+                querySnapshot.forEach((doc) => {
+                    galleryImages.push(doc.data());
+                });
+                renderGallery(); // Re-render the gallery
+            }, (error) => {
+                console.error("Error listening to gallery:", error);
+                galleryLoading.textContent = "Error loading gallery.";
+            });
+        }
+        
         function setupRealtimeListeners(userId) {
-            detachListeners();
+            detachListeners(); // This will clear admin listeners
             
             // 1. Listen for user document
             const userDocRef = doc(db, "users", userId);
@@ -516,15 +503,10 @@
                     profileUid.textContent = userId;
                     profileCoins.textContent = currentUserData.coins;
                     
-                    requestCoinBalance.textContent = currentUserData.coins;
-                    
-                    const cost = 10;
-                    submitRequestButton.disabled = currentUserData.coins < cost;
-                    
                     if (currentUserData.isAdmin) {
                         navButtons.admin.classList.remove('hidden');
                         adminAddCoinsBtn.disabled = false;
-                        setupAdminListeners();
+                        setupAdminListeners(); // Start admin listeners
                     } else {
                         navButtons.admin.classList.add('hidden');
                         adminAddCoinsBtn.disabled = true;
@@ -537,68 +519,11 @@
                 console.error("Error listening to user doc:", error);
             });
             listenersUnsubscribe.push(unsubUser);
-
-            // 2. Listen for user's orders
-            const ordersColRef = collection(db, "orders");
-            const q = query(ordersColRef, where("userId", "==", userId), orderBy("createdAt", "desc"));
-            const unsubOrders = onSnapshot(q, (querySnapshot) => {
-                console.log('User orders data updated.');
-                ordersListContainer.innerHTML = '';
-                
-                if (querySnapshot.empty) {
-                    ordersListContainer.appendChild(noOrdersMessage);
-                } else {
-                    querySnapshot.forEach((doc) => {
-                        const order = doc.data();
-                        const orderEl = createOrderElement(order, doc.id, false);
-                        ordersListContainer.appendChild(orderEl);
-                    });
-                }
-            }, (error) => {
-                console.error("Error listening to user orders:", error);
-            });
-            listenersUnsubscribe.push(unsubOrders);
-            
-            // 3. NEW: Listen for Gallery
-            const galleryColRef = collection(db, "gallery");
-            const qGallery = query(galleryColRef, orderBy("createdAt", "desc"));
-            const unsubGallery = onSnapshot(qGallery, (querySnapshot) => {
-                console.log('Gallery data updated.');
-                galleryImages = []; // Clear old images
-                querySnapshot.forEach((doc) => {
-                    galleryImages.push(doc.data());
-                });
-                renderGallery(); // Re-render the gallery
-            }, (error) => {
-                console.error("Error listening to gallery:", error);
-            });
-            listenersUnsubscribe.push(unsubGallery);
         }
 
         // Admin Listeners
         function setupAdminListeners() {
-            // 1. Listen for ALL pending orders
-            const ordersColRef = collection(db, "orders");
-            const qOrders = query(ordersColRef, where("status", "==", "pending"), orderBy("createdAt", "desc"));
-
-            const unsubAdminOrders = onSnapshot(qOrders, (querySnapshot) => {
-                console.log('Admin: All orders updated.');
-                adminOrdersList.innerHTML = '';
-                if (querySnapshot.empty) {
-                    adminOrdersList.appendChild(adminNoOrders);
-                } else {
-                    querySnapshot.forEach((doc) => {
-                        const order = doc.data();
-                        const orderEl = createOrderElement(order, doc.id, true);
-                        adminOrdersList.appendChild(orderEl);
-                    });
-                }
-            }, (error) => {
-                console.error("Admin: Error listening to orders:", error);
-            });
-            listenersUnsubscribe.push(unsubAdminOrders);
-
-            // 2. Listen for ALL users
+            // 1. Listen for ALL users
             const usersColRef = collection(db, "users");
             const qUsers = query(usersColRef, orderBy("createdAt", "desc"));
 
@@ -622,7 +547,7 @@
             listenersUnsubscribe.push(unsubAdminUsers);
         }
         
-        // --- NEW: Gallery Slideshow Functions ---
+        // --- Gallery Slideshow Functions ---
         
         function renderGallery() {
             // Clear existing slides
@@ -654,24 +579,23 @@
                 img.className = 'w-full h-auto object-cover rounded-lg shadow-md';
                 
                 slide.appendChild(img);
-                slideshowContainer.prepend(slide); // Prepend to keep buttons on top
+                slideshowContainer.prepend(slide);
             });
             
+            currentSlideIndex = 0; // Always reset to first slide on render
             showSlide(currentSlideIndex);
         }
         
         function showSlide(index) {
-            const slides = document.querySelectorAll('.slide');
+            const slides = document.querySelectorAll('#slideshow-container .slide');
             if (!slides || slides.length === 0) return;
             
             // Wrap index
             if (index >= slides.length) currentSlideIndex = 0;
             if (index < 0) currentSlideIndex = slides.length - 1;
             
-            // Hide all
             slides.forEach(slide => slide.classList.remove('active'));
             
-            // Show current
             slides[currentSlideIndex].classList.add('active');
             slideDescription.textContent = galleryImages[currentSlideIndex].description;
         }
@@ -712,58 +636,6 @@
             return userEl;
         }
 
-        // Helper to create order HTML elements
-        function createOrderElement(order, orderId, isAdmin) {
-            const orderEl = document.createElement('div');
-            orderEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
-            
-            const type = document.createElement('p');
-            type.textContent = order.type;
-            type.className = 'font-bold text-lg text-indigo-600 dark:text-indigo-400';
-
-            const details = document.createElement('p');
-            details.textContent = order.details;
-            details.className = 'font-medium text-gray-900 dark:text-white whitespace-pre-wrap';
-            
-            const meta = document.createElement('p');
-            const date = order.createdAt ? order.createdAt.toDate().toLocaleString() : 'Pending...';
-            meta.textContent = `Cost: ${order.cost} coins - On: ${date}`;
-            meta.className = 'text-sm text-gray-600 dark:text-gray-400';
-            
-            orderEl.appendChild(type);
-            orderEl.appendChild(details);
-            orderEl.appendChild(meta);
-
-            if (isAdmin) {
-                const user = document.createElement('p');
-                user.textContent = `From: ${order.userEmail} (ID: ${order.userId})`;
-                user.className = 'text-xs font-mono bg-gray-200 dark:bg-gray-800 p-1 rounded';
-                orderEl.appendChild(user);
-
-                const deleteBtn = document.createElement('button');
-                deleteBtn.textContent = 'Delete Order';
-                deleteBtn.className = 'mt-2 px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded';
-                deleteBtn.onclick = () => deleteOrder(orderId);
-                orderEl.appendChild(deleteBtn);
-            }
-            
-            return orderEl;
-        }
-
-        // Admin function to delete an order
-        async function deleteOrder(orderId) {
-            if (!confirm('Are you sure you want to delete this order?')) return;
-            
-            try {
-                const orderDocRef = doc(db, "orders", orderId);
-                await deleteDoc(orderDocRef);
-                console.log('Order deleted:', orderId);
-            } catch (error) {
-                console.error('Error deleting order:', error);
-                alert('Failed to delete order.');
-            }
-        }
-
         // Admin function to add coins to a user
         async function addCoinsToUser(userId, amount) {
             const userDocRef = doc(db, "users", userId);
@@ -784,7 +656,6 @@
                 adminAddCoinsBtn.textContent = "Add Coins";
             }
         }
-
 
         // --- 8. Event Listeners ---
 
@@ -811,7 +682,8 @@
                 submitButton.textContent = 'Sending...';
                 try {
                     await sendPasswordResetEmail(auth, email);
-                    showMessage(messageBox, 'Password reset email sent! Check your inbox.', false);
+                    // UPDATED: Spam folder tip
+                    showMessage(messageBox, 'Password reset email sent! Please check your inbox (and spam folder).', false);
                 } catch (error) {
                     console.error('Password Reset Error:', error);
                     let friendlyMessage = 'Failed to send reset email. Is the email correct?';
@@ -882,14 +754,28 @@
             await signOut(auth);
         });
         
-        // App Navigation
-        navButtons.gallery.addEventListener('click', () => showAppView('gallery')); // NEW
+        // --- App Navigation ---
+        // NEW: Moved Gallery to be part of the Profile view nav
+        navButtons.gallery.addEventListener('click', () => {
+             // This is tricky. We show the main app container,
+             // then manually show the gallery view and hide the others.
+            showMainView('app'); // Show the logged-in container
+            appViews.profile.classList.add('hidden');
+            appViews.admin.classList.add('hidden');
+            galleryView.classList.remove('hidden'); // Show gallery
+            
+            navButtons.gallery.classList.add('active');
+            navButtons.profile.classList.remove('active');
+            navButtons.admin.classList.remove('active');
+        });
         navButtons.profile.addEventListener('click', () => showAppView('profile'));
-        navButtons.request.addEventListener('click', () => showAppView('request'));
-        navButtons.orders.addEventListener('click', () => showAppView('orders'));
         navButtons.admin.addEventListener('click', () => showAppView('admin'));
         
-        // NEW: Gallery slide listeners
+        // NEW: Logged-out Nav Listeners
+        authNavGallery.addEventListener('click', () => showLoggedOutView('gallery'));
+        authNavLogin.addEventListener('click', () => showLoggedOutView('login'));
+        
+        // Gallery slide listeners
         prevSlideBtn.addEventListener('click', prevSlide);
         nextSlideBtn.addEventListener('click', nextSlide);
         
@@ -910,7 +796,7 @@
             }
         });
         
-        // NEW: Admin Gallery Upload form listener
+        // Admin Gallery Upload form listener
         galleryUploadForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const file = galleryImageInput.files[0];
@@ -926,16 +812,10 @@
             hideMessage(galleryUploadMessage);
             
             try {
-                // 1. Create a storage reference
                 const storageRef = ref(storage, 'gallery/' + Date.now() + '-' + file.name);
-                
-                // 2. Upload the file
                 await uploadBytes(storageRef, file);
-                
-                // 3. Get the download URL
                 const imageUrl = await getDownloadURL(storageRef);
                 
-                // 4. Save the URL and description to Firestore
                 await addDoc(collection(db, 'gallery'), {
                     imageUrl: imageUrl,
                     description: description,
@@ -954,84 +834,28 @@
             }
         });
 
-        // Handle Request Order Form Submission
-        requestForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            hideMessage(requestMessageBox);
-            
-            const type = requestType.value;
-            const details = requestDetails.value;
-            const cost = 10;
-            
-            if (!type || !details.trim()) {
-                showMessage(requestMessageBox, "Please select a type and fill in the details.", true);
-                return;
-            }
-            
-            if (currentUserData.coins < cost) {
-                showMessage(requestMessageBox, "You don't have enough coins!", true);
-                return;
-            }
-            
-            submitRequestButton.disabled = true;
-            submitRequestButton.textContent = 'Processing...';
-
-            try {
-                const userDocRef = doc(db, "users", currentUserId);
-                const newOrderRef = doc(collection(db, "orders")); 
-
-                await runTransaction(db, async (transaction) => {
-                    const userDoc = await transaction.get(userDocRef);
-                    if (!userDoc.exists()) throw "User document does not exist!";
-                    
-                    const newCoins = userDoc.data().coins - cost;
-                    if (newCoins < 0) throw "Not enough coins!";
-                    
-                    transaction.update(userDocRef, { coins: newCoins });
-                    
-                    transaction.set(newOrderRef, {
-                        type: type,
-                        details: details,
-                        cost: cost,
-                        createdAt: serverTimestamp(),
-                        status: 'pending',
-                        userId: currentUserId,
-                        userEmail: currentUserData.email
-                    });
-                });
-                
-                showMessage(requestMessageBox, 'Order submitted successfully!', false);
-                requestForm.reset();
-                showAppView('orders');
-                
-            } catch (error) {
-                console.error("Transaction Error:", error);
-                showMessage(requestMessageBox, `Error: ${error.message || error}`, true);
-            } finally {
-                submitRequestButton.disabled = false;
-                submitRequestButton.textContent = `Submit Request (${cost} Coins)`;
-            }
-        });
-
-
         // --- 9. Authentication State Observer ---
         onAuthStateChanged(auth, (user) => {
             console.log('Auth state changed. User:', user ? user.uid : 'null');
             if (user) {
+                // User is signed in
                 currentUserId = user.uid;
-                setupRealtimeListeners(user.uid);
+                setupRealtimeListeners(user.uid); // This sets up user/admin listeners
                 showMainView('app');
                 // Default to gallery view on login
-                showAppView('gallery'); 
+                navButtons.gallery.click(); // Programmatically click the gallery button
             } else {
+                // User is signed out
                 currentUserId = null;
                 currentUserData = null;
                 detachListeners();
                 showMainView('auth');
+                showLoggedOutView('gallery'); // Default to gallery on logged out
             }
         });
         
-        // Initial load
+        // --- Initial Load ---
+        setupGalleryListener(); // NEW: Load gallery immediately
         showMainView('loading');
 
     </script>
