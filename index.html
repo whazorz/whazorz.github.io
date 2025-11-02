@@ -1,3 +1,68 @@
+This is a major structural change, but I understand what you want: a simpler system where the gallery is always visible and pulls from a local folder.
+
+This is not possible.
+
+A web browser, for security reasons, cannot read the contents of a folder on your server (or in your GitHub repository). It doesn't know that image1.jpg or image2.png exist unless you explicitly tell it.
+
+The Solution: A Manual List
+The only way to achieve this is to manually create a list of your image filenames in the code. When you add a new image to your images folder, you will also have to add its filename to this list in your index.html.
+
+I have rebuilt your index.html file to do exactly this. I have also moved the gallery above the navigation bar and removed all the "Order" and "Request" features, as requested.
+
+Step 1: 🔒 Update Your Firestore Security Rules
+Since we are removing the "Order" and "Gallery" collections from Firestore, your rules can be simpler.
+
+Go to Firebase Console -> Build -> Firestore Database -> Rules and replace everything with this:
+
+JavaScript
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    // --- USERS Collection ---
+    match /users/{userId} {
+      
+      // CREATE: User can create their OWN doc, CANNOT set admin,
+      // and coins MUST be 0.
+      allow create: if request.auth.uid == userId
+                     && request.resource.data.isAdmin == false
+                     && request.resource.data.coins == 0;
+                     
+      // READ: User can read their OWN doc, or Admin can read ALL docs.
+      allow read: if request.auth.uid == userId
+                   || get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      
+      // UPDATE: Admin can update anything.
+      // OR a User can update their own doc, but cannot
+      // change their admin status or give themselves coins.
+      allow update: if 
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true) 
+        || 
+        (request.auth.uid == userId 
+          && request.resource.data.isAdmin == resource.data.isAdmin
+          && request.resource.data.coins <= resource.data.coins
+        );
+    }
+  }
+}
+Step 2: 📁 Update Your Storage Rules
+Go to Build -> Storage -> Rules and replace everything with this. This blocks all uploads, since you are no longer uploading from the admin panel.
+
+JavaScript
+
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Disallow all reads and writes by default
+    allow read, write: if false;
+  }
+}
+Step 3: 📄 Replace Your index.html File
+Replace your entire index.html with this new code. I have clearly marked where you need to add your image filenames.
+
+HTML
+
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 <head>
@@ -27,20 +92,12 @@
         .nav-btn.active {
             @apply bg-indigo-700 text-white;
         }
-        /* Styles for the gallery slideshow */
         .slide {
             display: none;
             animation: fadeIn 0.5s ease-in-out;
         }
         .slide.active {
             display: block;
-        }
-        /* NEW: Styles for logged-out nav */
-        .auth-nav-btn {
-            @apply p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700;
-        }
-        .auth-nav-btn.active {
-            @apply bg-indigo-700 text-white;
         }
     </style>
 </head>
@@ -53,18 +110,24 @@
             <div id="loading-container" class="text-center p-10">
                 <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
             </div>
+
+            <div id="gallery-view" class="space-y-4 bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10 mb-6">
+                <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Commission Gallery</h2>
+                
+                <div id="slideshow-container" class="relative w-full">
+                    <div id="gallery-loading" class="text-center text-gray-500">Loading gallery...</div>
+                    
+                    <button id="prev-slide" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+                        &#10094;
+                    </button>
+                    <button id="next-slide" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+                        &#10095;
+                    </button>
+                </div>
+                </div>
             
             <div id="logged-out-container" class="hidden">
-                <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
-                    <button id="auth-nav-gallery" class="auth-nav-btn flex-1 text-center">
-                        Gallery
-                    </button>
-                    <button id="auth-nav-login" class="auth-nav-btn flex-1 text-center">
-                        Sign In
-                    </button>
-                </nav>
-
-                <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
+                <div id="auth-container" class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
                     <div class="text-center">
                         <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
                         <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
@@ -117,29 +180,10 @@
                     
                     <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
                 </div>
-
-                <div id="gallery-view" class="app-view hidden space-y-4 bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
-                    <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white">Commission Gallery</h2>
-                    
-                    <div id="slideshow-container" class="relative w-full">
-                        <div id="gallery-loading" class="text-center text-gray-500">Loading gallery...</div>
-                        
-                        <button id="prev-slide" class="absolute top-1/2 left-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-                            &#10094;
-                        </button>
-                        <button id="next-slide" class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
-                            &#10095;
-                        </button>
-                    </div>
-                    <p id="slide-description" class="text-center text-gray-600 dark:text-gray-400 italic"></p>
-                </div>
             </div>
 
             <div id="app-container" class="hidden w-full max-w-2xl">
                 <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
-                    <button id="nav-gallery" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
-                        Gallery
-                    </button>
                     <button id="nav-profile" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
                         Profile
                     </button>
@@ -184,23 +228,6 @@
 
                     <div id="admin-view" class="app-view hidden space-y-6">
                         <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h2>
-                        
-                        <div class="space-y-2">
-                            <h3 class="text-lg font-medium text-gray-900 dark:text-white">Upload to Gallery</h3>
-                            <form id="gallery-upload-form" class="space-y-2">
-                                <input id="gallery-image-input" type="file" accept="image/*" required class="block w-full text-sm text-gray-500
-                                  file:mr-4 file:py-2 file:px-4
-                                  file:rounded-full file:border-0
-                                  file:text-sm file:font-semibold
-                                  file:bg-indigo-50 file:text-indigo-700
-                                  hover:file:bg-indigo-100"/>
-                                <input id="gallery-description-input" type="text" placeholder="Image description (e.g., 'Logo for Client X')" required class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm">
-                                <button type="submit" id="gallery-upload-btn" class="w-full py-2 px-4 rounded-md text-white bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50">
-                                    Upload Image
-                                </button>
-                            </form>
-                            <div id="gallery-upload-message" class="hidden fade-in mt-2 p-3 rounded-md text-sm"></div>
-                        </div>
                         
                         <div class="space-y-2">
                             <h3 class="text-lg font-medium text-gray-900 dark:text-white">Manage Coins</h3>
@@ -252,17 +279,10 @@
             serverTimestamp,
             query,
             orderBy,
-            deleteDoc,
             updateDoc,
-            increment,
-            addDoc
+            increment
         } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-        import {
-            getStorage,
-            ref,
-            uploadBytes,
-            getDownloadURL
-        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-storage.js";
+        // Storage imports removed
 
         // --- 4. YOUR FIREBASE CONFIGURATION ---
         const firebaseConfig = {
@@ -279,11 +299,26 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const storage = getStorage(app);
+        // Storage init removed
+
+        // --- (NEW) LOCAL IMAGE GALLERY LIST ---
+        //
+        // IMPORTANT: You MUST manually update this list.
+        // Add the filenames of any images you put in your "images" folder.
+        //
+        const localImageFiles = [
+            "image1.jpg",
+            "image2.png",
+            "logo.jpg"
+            // e.g., "new-design.png", "another-one.jpg"
+        ];
+        //
+        // --- END OF LOCAL IMAGE LIST ---
+
 
         // --- 6. Get UI Elements ---
         const loadingContainer = document.getElementById('loading-container');
-        const loggedOutContainer = document.getElementById('logged-out-container'); // NEW
+        const loggedOutContainer = document.getElementById('logged-out-container');
         const appContainer = document.getElementById('app-container');
         
         // Auth Elements
@@ -297,18 +332,12 @@
         const passwordInput = document.getElementById('password');
         const forgotPasswordBtn = document.getElementById('forgot-password-btn');
 
-        // Logged-out Nav
-        const authNavGallery = document.getElementById('auth-nav-gallery');
-        const authNavLogin = document.getElementById('auth-nav-login');
-
         // App UI Elements
         const navButtons = {
-            gallery: document.getElementById('nav-gallery'),
             profile: document.getElementById('nav-profile'),
             admin: document.getElementById('nav-admin')
         };
         const appViews = {
-            gallery: document.getElementById('gallery-view'),
             profile: document.getElementById('profile-view'),
             admin: document.getElementById('admin-view')
         };
@@ -325,19 +354,14 @@
         const adminAddCoinsBtn = document.getElementById('admin-add-coins-btn');
         const adminUsersList = document.getElementById('admin-users-list');
         const adminNoUsers = document.getElementById('admin-no-users');
-        const galleryUploadForm = document.getElementById('gallery-upload-form');
-        const galleryImageInput = document.getElementById('gallery-image-input');
-        const galleryDescriptionInput = document.getElementById('gallery-description-input');
-        const galleryUploadBtn = document.getElementById('gallery-upload-btn');
-        const galleryUploadMessage = document.getElementById('gallery-upload-message');
+        // Admin upload elements removed
 
         // Gallery View Elements
-        const galleryView = document.getElementById('gallery-view'); // NEW
+        const galleryView = document.getElementById('gallery-view');
         const slideshowContainer = document.getElementById('slideshow-container');
         const galleryLoading = document.getElementById('gallery-loading');
         const prevSlideBtn = document.getElementById('prev-slide');
         const nextSlideBtn = document.getElementById('next-slide');
-        const slideDescription = document.getElementById('slide-description');
         
 
         let isLoginMode = true;
@@ -346,9 +370,8 @@
         let currentUserData = null;
         let listenersUnsubscribe = [];
         
-        let galleryImages = [];
         let currentSlideIndex = 0;
-        let galleryListenerUnsub = null; // NEW: Specific listener for gallery
+        // galleryImages array removed, we use localImageFiles now
 
         // --- 7. Utility Functions ---
         
@@ -407,16 +430,18 @@
             }
         }
 
+        // Show main view (Logged-Out or Logged-In)
         function showMainView(viewName) {
             loadingContainer.classList.add('hidden');
-            loggedOutContainer.classList.add('hidden'); // NEW
+            loggedOutContainer.classList.add('hidden');
             appContainer.classList.add('hidden');
+            galleryView.classList.remove('hidden'); // Gallery is ALWAYS visible
 
             if (viewName === 'loading') {
                 loadingContainer.classList.remove('hidden');
+                galleryView.classList.add('hidden'); // Hide gallery while loading
             } else if (viewName === 'auth') {
-                loggedOutContainer.classList.remove('hidden'); // NEW
-                showLoggedOutView('login'); // NEW
+                loggedOutContainer.classList.remove('hidden');
                 isLoginMode = true;
                 isForgotPasswordMode = false;
                 toggleAuthMode();
@@ -426,39 +451,17 @@
             }
         }
         
-        // NEW: Toggle between Login and Gallery on logged-out screen
-        function showLoggedOutView(viewName) {
-            if (viewName === 'login') {
-                authContainer.classList.remove('hidden');
-                galleryView.classList.add('hidden');
-                authNavLogin.classList.add('active');
-                authNavGallery.classList.remove('active');
-            } else if (viewName === 'gallery') {
-                authContainer.classList.add('hidden');
-                galleryView.classList.remove('hidden');
-                authNavLogin.classList.remove('active');
-                authNavGallery.classList.add('active');
-                renderGallery(); // Make sure gallery is rendered
-            }
-        }
-        
+        // Show view within the logged-in container
         function showAppView(viewId) {
-            // Hide all *app* views (Profile, Admin)
             appViews.profile.classList.add('hidden');
             appViews.admin.classList.add('hidden');
-            // Show the main gallery view
-            galleryView.classList.add('hidden');
             
-            // Deactivate all *app* nav buttons
             navButtons.profile.classList.remove('active');
             navButtons.admin.classList.remove('active');
-            navButtons.gallery.classList.remove('active');
             
-            // Show the selected view
             if (appViews[viewId]) {
                 appViews[viewId].classList.remove('hidden');
             }
-            // Activate the selected button
             if (navButtons[viewId]) {
                 navButtons[viewId].classList.add('active');
             }
@@ -469,30 +472,11 @@
             listenersUnsubscribe.forEach(unsub => unsub());
             listenersUnsubscribe = [];
         }
-
-        // NEW: Separate gallery listener so it can run on page load
-        function setupGalleryListener() {
-            if (galleryListenerUnsub) galleryListenerUnsub(); // Detach old one if exists
-
-            const galleryColRef = collection(db, "gallery");
-            const qGallery = query(galleryColRef, orderBy("createdAt", "desc"));
-            galleryListenerUnsub = onSnapshot(qGallery, (querySnapshot) => {
-                console.log('Gallery data updated.');
-                galleryImages = []; // Clear old images
-                querySnapshot.forEach((doc) => {
-                    galleryImages.push(doc.data());
-                });
-                renderGallery(); // Re-render the gallery
-            }, (error) => {
-                console.error("Error listening to gallery:", error);
-                galleryLoading.textContent = "Error loading gallery.";
-            });
-        }
         
+        // Setup listeners for the logged-in user
         function setupRealtimeListeners(userId) {
-            detachListeners(); // This will clear admin listeners
+            detachListeners();
             
-            // 1. Listen for user document
             const userDocRef = doc(db, "users", userId);
             const unsubUser = onSnapshot(userDocRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -506,7 +490,7 @@
                     if (currentUserData.isAdmin) {
                         navButtons.admin.classList.remove('hidden');
                         adminAddCoinsBtn.disabled = false;
-                        setupAdminListeners(); // Start admin listeners
+                        setupAdminListeners();
                     } else {
                         navButtons.admin.classList.add('hidden');
                         adminAddCoinsBtn.disabled = true;
@@ -521,9 +505,8 @@
             listenersUnsubscribe.push(unsubUser);
         }
 
-        // Admin Listeners
+        // Admin-only listeners
         function setupAdminListeners() {
-            // 1. Listen for ALL users
             const usersColRef = collection(db, "users");
             const qUsers = query(usersColRef, orderBy("createdAt", "desc"));
 
@@ -547,20 +530,18 @@
             listenersUnsubscribe.push(unsubAdminUsers);
         }
         
-        // --- Gallery Slideshow Functions ---
+        // --- Gallery Slideshow Functions (UPDATED) ---
         
         function renderGallery() {
-            // Clear existing slides
-            slideshowContainer.innerHTML = '';
+            slideshowContainer.innerHTML = ''; // Clear everything
             slideshowContainer.appendChild(galleryLoading);
             slideshowContainer.appendChild(prevSlideBtn);
             slideshowContainer.appendChild(nextSlideBtn);
 
-            if (galleryImages.length === 0) {
-                galleryLoading.textContent = 'Gallery is empty. Admin can upload images.';
+            if (localImageFiles.length === 0) {
+                galleryLoading.textContent = 'Gallery is empty.';
                 prevSlideBtn.classList.add('hidden');
                 nextSlideBtn.classList.add('hidden');
-                slideDescription.textContent = '';
                 return;
             }
             
@@ -568,21 +549,22 @@
             prevSlideBtn.classList.remove('hidden');
             nextSlideBtn.classList.remove('hidden');
 
-            galleryImages.forEach((imgData, index) => {
+            // Loop through the local file list
+            localImageFiles.forEach((fileName, index) => {
                 const slide = document.createElement('div');
                 slide.className = 'slide';
                 if (index === 0) slide.classList.add('active');
                 
                 const img = document.createElement('img');
-                img.src = imgData.imageUrl;
-                img.alt = imgData.description;
+                img.src = 'images/' + fileName; // Build the path
+                img.alt = fileName; // Use filename as alt text
                 img.className = 'w-full h-auto object-cover rounded-lg shadow-md';
                 
                 slide.appendChild(img);
                 slideshowContainer.prepend(slide);
             });
             
-            currentSlideIndex = 0; // Always reset to first slide on render
+            currentSlideIndex = 0;
             showSlide(currentSlideIndex);
         }
         
@@ -590,14 +572,12 @@
             const slides = document.querySelectorAll('#slideshow-container .slide');
             if (!slides || slides.length === 0) return;
             
-            // Wrap index
             if (index >= slides.length) currentSlideIndex = 0;
             if (index < 0) currentSlideIndex = slides.length - 1;
             
             slides.forEach(slide => slide.classList.remove('active'));
-            
             slides[currentSlideIndex].classList.add('active');
-            slideDescription.textContent = galleryImages[currentSlideIndex].description;
+            // No description to update
         }
         
         function nextSlide() {
@@ -682,7 +662,6 @@
                 submitButton.textContent = 'Sending...';
                 try {
                     await sendPasswordResetEmail(auth, email);
-                    // UPDATED: Spam folder tip
                     showMessage(messageBox, 'Password reset email sent! Please check your inbox (and spam folder).', false);
                 } catch (error) {
                     console.error('Password Reset Error:', error);
@@ -755,25 +734,8 @@
         });
         
         // --- App Navigation ---
-        // NEW: Moved Gallery to be part of the Profile view nav
-        navButtons.gallery.addEventListener('click', () => {
-             // This is tricky. We show the main app container,
-             // then manually show the gallery view and hide the others.
-            showMainView('app'); // Show the logged-in container
-            appViews.profile.classList.add('hidden');
-            appViews.admin.classList.add('hidden');
-            galleryView.classList.remove('hidden'); // Show gallery
-            
-            navButtons.gallery.classList.add('active');
-            navButtons.profile.classList.remove('active');
-            navButtons.admin.classList.remove('active');
-        });
         navButtons.profile.addEventListener('click', () => showAppView('profile'));
         navButtons.admin.addEventListener('click', () => showAppView('admin'));
-        
-        // NEW: Logged-out Nav Listeners
-        authNavGallery.addEventListener('click', () => showLoggedOutView('gallery'));
-        authNavLogin.addEventListener('click', () => showLoggedOutView('login'));
         
         // Gallery slide listeners
         prevSlideBtn.addEventListener('click', prevSlide);
@@ -796,43 +758,7 @@
             }
         });
         
-        // Admin Gallery Upload form listener
-        galleryUploadForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const file = galleryImageInput.files[0];
-            const description = galleryDescriptionInput.value;
-            
-            if (!file || !description) {
-                showMessage(galleryUploadMessage, 'Please select a file and add a description.', true);
-                return;
-            }
-            
-            galleryUploadBtn.disabled = true;
-            galleryUploadBtn.textContent = 'Uploading...';
-            hideMessage(galleryUploadMessage);
-            
-            try {
-                const storageRef = ref(storage, 'gallery/' + Date.now() + '-' + file.name);
-                await uploadBytes(storageRef, file);
-                const imageUrl = await getDownloadURL(storageRef);
-                
-                await addDoc(collection(db, 'gallery'), {
-                    imageUrl: imageUrl,
-                    description: description,
-                    createdAt: serverTimestamp()
-                });
-                
-                showMessage(galleryUploadMessage, 'Image uploaded successfully!', false);
-                galleryUploadForm.reset();
-                
-            } catch (error) {
-                console.error("Gallery Upload Error:", error);
-                showMessage(galleryUploadMessage, 'Upload failed. Check console and permissions.', true);
-            } finally {
-                galleryUploadBtn.disabled = false;
-                galleryUploadBtn.textContent = 'Upload Image';
-            }
-        });
+        // Admin Gallery Upload listener removed
 
         // --- 9. Authentication State Observer ---
         onAuthStateChanged(auth, (user) => {
@@ -840,22 +766,20 @@
             if (user) {
                 // User is signed in
                 currentUserId = user.uid;
-                setupRealtimeListeners(user.uid); // This sets up user/admin listeners
+                setupRealtimeListeners(user.uid);
                 showMainView('app');
-                // Default to gallery view on login
-                navButtons.gallery.click(); // Programmatically click the gallery button
+                showAppView('profile'); // Default to profile
             } else {
                 // User is signed out
                 currentUserId = null;
                 currentUserData = null;
                 detachListeners();
                 showMainView('auth');
-                showLoggedOutView('gallery'); // Default to gallery on logged out
             }
         });
         
         // --- Initial Load ---
-        setupGalleryListener(); // NEW: Load gallery immediately
+        renderGallery(); // NEW: Render local gallery on load
         showMainView('loading');
 
     </script>
