@@ -572,12 +572,19 @@
                 try {
                     await sendPasswordResetEmail(auth, email);
                     showMessage(messageBox, 'Password reset email sent! Check your inbox.', false);
-                    toggleForgotPasswordMode(); // Go back to login
+                    
+                    // --- THIS IS THE CHANGE ---
+                    // We *don't* toggle back automatically. The user will
+                    // now see the success message and can click
+                    // "back to sign in" when they are ready.
+                    // toggleForgotPasswordMode(); // Go back to login
+                    
                 } catch (error) {
                     console.error('Password Reset Error:', error);
                     showMessage(messageBox, 'Failed to send reset email. Is the email correct?', true);
                 } finally {
                     submitButton.disabled = false;
+                    // Keep the button text matching the mode
                     submitButton.textContent = 'Send Reset Email';
                 }
                 return; // Stop here
@@ -629,7 +636,12 @@
                 showMessage(messageBox, friendlyMessage, true);
             } finally {
                 submitButton.disabled = false;
-                submitButton.textContent = isLoginMode ? 'Sign In' : 'Create Account';
+                // Reset text based on *current* mode, not just login
+                if (isLoginMode) {
+                    submitButton.textContent = 'Sign In';
+                } else {
+                    submitButton.textContent = 'Create Account';
+                }
             }
         });
 
