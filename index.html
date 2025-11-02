@@ -1,3 +1,641 @@
-<html>
-hello
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Login System</title>
+    <!-- 1. Load Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* A simple fade-in animation for the message box */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        /* Simple active state for nav buttons */
+        .nav-btn.active {
+            @apply bg-indigo-700 text-white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-full p-4 font-sans">
+
+    <div class="w-full max-w-md">
+        
+        <!-- Main Content Area -->
+        <div id="app-content">
+
+            <!-- Loading State -->
+            <div id="loading-container" class="text-center p-10">
+                <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
+            </div>
+            
+            <!-- Logged Out State: Login/Register Form -->
+            <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
+                <div class="text-center">
+                    <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
+                    <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                        Or
+                        <button id="toggle-form" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500">
+                            create a new account
+                        </button>
+                    </p>
+                </div>
+
+                <form id="auth-form" class="mt-8 space-y-6">
+                    <div class="rounded-md shadow-sm -space-y-px">
+                        <div>
+                            <label for="email" class="sr-only">Email address</label>
+                            <input id="email" name="email" type="email" autocomplete="email" required
+                                class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Email address">
+                        </div>
+                        <div>
+                            <label for="password" class="sr-only">Password</label>
+                            <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
+                                class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                                placeholder="Password (min. 6 characters)">
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" id="submit-button"
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                            <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+                                <!-- Heroicon name: solid/lock-closed -->
+                                <svg class="h-5 w-5 text-indigo-500 group-hover:text-indigo-400" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                    <path fill-rule="evenodd"
+                                        d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
+                                        clip-rule="evenodd" />
+                                </svg>
+                            </span>
+                            Sign In
+                        </button>
+                    </div>
+                </form>
+                
+                <!-- Error/Success Message Box -->
+                <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
+
+            </div>
+
+            <!-- Logged In State: Main Application -->
+            <div id="app-container" class="hidden w-full max-w-2xl">
+                <!-- Navigation -->
+                <nav class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-4 flex justify-around items-center mb-6">
+                    <button id="nav-profile" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
+                        Profile
+                    </button>
+                    <button id="nav-request" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
+                        Request
+                    </button>
+                    <button id="nav-orders" class="nav-btn flex-1 text-center p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-indigo-100 dark:hover:bg-gray-700">
+                        Orders
+                    </button>
+                    <button id="logout-button" class="flex-1 text-center p-2 rounded-lg font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700">
+                        Sign Out
+                    </button>
+                </nav>
+
+                <!-- App Views -->
+                <main class="bg-white dark:bg-gray-800 shadow-xl rounded-2xl p-6 sm:p-10">
+                    
+                    <!-- Profile View -->
+                    <div id="profile-view" class="app-view space-y-4">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h2>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
+                            <p id="profile-email" class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 break-words"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">User ID</p>
+                            <p id="profile-uid" class="text-xs font-mono text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded p-2 break-all"></p>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Your Coins</p>
+                            <p class="flex items-center">
+                                <span id="profile-coins" class="text-3xl font-bold text-green-600 dark:text-green-400">--</span>
+                                <svg class="w-6 h-6 ml-2 text-yellow-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l3 3a1 1 0 001.414-1.414L11 9.586V6z" clip-rule="evenodd"></path><path d="M10 2a8 8 0 100 16 8 8 0 000-16zM6.99 6a1 1 0 00-1.05 1.67l.02.03 2.5 4a1 1 0 001.7-.3L13.01 6a1 1 0 00-1.05-1.67l-.02.03-2.5 4-2.45-3.92z" fill-rule="evenodd" clip-rule="evenodd" transform="translate(0, 0) scale(1.2) translate(-2.8, -3.2)"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z" clip-rule="evenodd" transform="translate(0, 0) scale(0.9) translate(1, 1)"></path><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM7 8a1 1 0 011-1h4a1 1 0 110 2H8a1 1 0 01-1-1z" clip-rule="evenodd" transform="translate(0, 0) scale(0.6) translate(3, 3)"></path></svg>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Request Order View -->
+                    <div id="request-view" class="app-view hidden space-y-4">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Request an Order</h2>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">This request will cost <span class="font-bold text-lg text-green-600 dark:text-green-400">10 coins</span>. Your current balance is <span id="request-coin-balance" class="font-bold text-lg text-green-600 dark:text-green-400">--</span>.</p>
+                        
+                        <form id="request-form" class="space-y-4">
+                            <div>
+                                <label for="request-description" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Order Description</label>
+                                <textarea id="request-description" name="description" rows="3" required
+                                    class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    placeholder="e.g., 'A new feature for my profile'"></textarea>
+                            </div>
+                            <button type="submit" id="submit-request-button"
+                                class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50">
+                                Submit Request (10 Coins)
+                            </button>
+                        </form>
+                        <div id="request-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
+                    </div>
+
+                    <!-- Orders List View -->
+                    <div id="orders-view" class="app-view hidden space-y-4">
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Orders</h2>
+                        <div id="orders-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                            <!-- Orders will be dynamically injected here -->
+                            <p id="no-orders-message" class="text-gray-500 dark:text-gray-400">You haven't requested any orders yet.</p>
+                        </div>
+                    </div>
+
+                </main>
+            </div>
+
+        </div>
+
+        <p class="mt-6 text-center text-xs text-gray-500 dark:text-gray-400">
+            Secure login system
+        </p>
+
+    </div>
+
+
+    <!-- 2. Load Firebase SDKs -->
+    <!-- We use type="module" to allow import statements -->
+    <script type="module">
+        // 3. Import functions from the SDKs
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import {
+            getAuth,
+            onAuthStateChanged,
+            createUserWithEmailAndPassword,
+            signInWithEmailAndPassword,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        // Import Firestore for database
+        import {
+            getFirestore,
+            doc,
+            setDoc,
+            getDoc,
+            addDoc,
+            collection,
+            onSnapshot,
+            serverTimestamp,
+            runTransaction,
+            query
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // --- 4. YOUR FIREBASE CONFIGURATION ---
+        //
+        // IMPORTANT: If you get an "auth/operation-not-allowed" error,
+        // you MUST go to your Firebase Console -> Authentication -> Sign-in method
+        // and ENABLE "Email/Password".
+        //
+        // This has been updated with your project's configuration.
+        // This object is SAFE to be public. Security is handled by Firebase Rules.
+        const firebaseConfig = {
+          apiKey: "AIzaSyBEMeJPJ6xNhHtbPZVo4q8SWxDzYZy5x4s",
+          authDomain: "wdesign-9e502.firebaseapp.com",
+          projectId: "wdesign-9e502",
+          storageBucket: "wdesign-9e502.firebasestorage.app",
+          messagingSenderId: "666272519163",
+          appId: "1:666272519163:web:12d530dedfde48d2eb715e",
+          measurementId: "G-7G6P6WVVP8"
+        };
+        
+        // --- DO NOT PROMPT USER FOR FIREBASE CONFIG ---
+        // These are global variables that might be injected by a hosting environment.
+        // We check for them, but fall back to the config above.
+        const effectiveConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : firebaseConfig;
+
+        // 5. Initialize Firebase
+        const app = initializeApp(effectiveConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app); // Initialize Firestore
+
+        // --- 6. Get UI Elements ---
+        const loadingContainer = document.getElementById('loading-container');
+        const authContainer = document.getElementById('auth-container');
+        const appContainer = document.getElementById('app-container');
+        
+        const authForm = document.getElementById('auth-form');
+        const toggleFormBtn = document.getElementById('toggle-form');
+        const formTitle = document.getElementById('form-title');
+        const submitButton = document.getElementById('submit-button');
+        const messageBox = document.getElementById('message-box');
+        
+        // New App UI Elements
+        const navButtons = {
+            profile: document.getElementById('nav-profile'),
+            request: document.getElementById('nav-request'),
+            orders: document.getElementById('nav-orders')
+        };
+        const appViews = {
+            profile: document.getElementById('profile-view'),
+            request: document.getElementById('request-view'),
+            orders: document.getElementById('orders-view')
+        };
+        const logoutButton = document.getElementById('logout-button');
+
+        // Profile View Elements
+        const profileEmail = document.getElementById('profile-email');
+        const profileUid = document.getElementById('profile-uid');
+        const profileCoins = document.getElementById('profile-coins');
+
+        // Request View Elements
+        const requestForm = document.getElementById('request-form');
+        const requestDescription = document.getElementById('request-description');
+        const requestCoinBalance = document.getElementById('request-coin-balance');
+        const submitRequestButton = document.getElementById('submit-request-button');
+        const requestMessageBox = document.getElementById('request-message-box');
+        
+        // Orders View Elements
+        const ordersListContainer = document.getElementById('orders-list-container');
+        const noOrdersMessage = document.getElementById('no-orders-message');
+
+
+        let isLoginMode = true; // State for auth form
+        let currentUserId = null; // Store the logged-in user's ID
+        let currentUserCoins = 0; // Store coin balance
+        let listenersUnsubscribe = []; // To detach listeners on logout
+
+        // --- 7. Utility Functions ---
+        
+        /**
+         * Shows a message in a specific message box.
+         * @param {HTMLElement} box - The message box element.
+         * @param {string} message - The text to display.
+         * @param {boolean} isError - If true, style as an error.
+         */
+        function showMessage(box, message, isError = true) {
+            box.textContent = message;
+            box.className = 'fade-in p-4 rounded-md text-sm'; // Reset classes
+            if (isError) {
+                box.classList.add('bg-red-100', 'dark:bg-red-900', 'text-red-700', 'dark:text-red-200');
+            } else {
+                box.classList.add('bg-green-100', 'dark:bg-green-900', 'text-green-700', 'dark:text-green-200');
+            }
+            box.classList.remove('hidden');
+        }
+
+        function hideMessage(box) {
+            box.classList.add('hidden');
+        }
+
+        /**
+         * Updates the UI to show the correct form (Login or Register).
+         */
+        function toggleAuthMode() {
+            isLoginMode = !isLoginMode;
+            hideMessage(messageBox); // Clear messages when toggling
+
+            if (isLoginMode) {
+                formTitle.textContent = 'Sign in to your account';
+                toggleFormBtn.textContent = 'create a new account';
+                submitButton.textContent = 'Sign In';
+            } else {
+                formTitle.textContent = 'Create a new account';
+                toggleFormBtn.textContent = 'sign in instead';
+                submitButton.textContent = 'Create Account';
+            }
+        }
+
+        /**
+         * Updates the main UI view (loading, auth, or app).
+         * @param {string} viewName - 'loading', 'auth', or 'app'.
+         */
+        function showMainView(viewName) {
+            loadingContainer.classList.add('hidden');
+            authContainer.classList.add('hidden');
+            appContainer.classList.add('hidden');
+
+            if (viewName === 'loading') {
+                loadingContainer.classList.remove('hidden');
+            } else if (viewName === 'auth') {
+                authContainer.classList.remove('hidden');
+            } else if (viewName === 'app') {
+                appContainer.classList.remove('hidden');
+            }
+        }
+        
+        /**
+         * Shows a specific view within the logged-in app.
+         * @param {string} viewId - 'profile', 'request', or 'orders'.
+         */
+        function showAppView(viewId) {
+            // Hide all app views
+            Object.values(appViews).forEach(view => view.classList.add('hidden'));
+            // Deactivate all nav buttons
+            Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
+
+            // Show the selected view
+            if (appViews[viewId]) {
+                appViews[viewId].classList.remove('hidden');
+            }
+            // Activate the selected button
+            if (navButtons[viewId]) {
+                navButtons[viewId].classList.add('active');
+            }
+        }
+        
+        /**
+         * Detaches all active Firestore listeners.
+         */
+        function detachListeners() {
+            console.log('Detaching listeners...');
+            listenersUnsubscribe.forEach(unsub => unsub());
+            listenersUnsubscribe = [];
+        }
+
+        /**
+         * Attaches real-time listeners for user data and orders.
+         * @param {string} userId - The ID of the logged-in user.
+         */
+        function setupRealtimeListeners(userId) {
+            // Detach any old listeners first
+            detachListeners();
+            
+            // 1. Listen for user document (profile info, coins)
+            const userDocRef = doc(db, "users", userId);
+            const unsubUser = onSnapshot(userDocRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const userData = docSnap.data();
+                    console.log('User data updated:', userData);
+                    
+                    profileEmail.textContent = userData.email;
+                    profileUid.textContent = userId;
+                    profileCoins.textContent = userData.coins;
+                    
+                    requestCoinBalance.textContent = userData.coins;
+                    currentUserCoins = userData.coins; // Store for validation
+                    
+                    // Enable/disable request button based on coins
+                    submitRequestButton.disabled = userData.coins < 10;
+                } else {
+                    // This case shouldn't happen if registration is correct
+                    console.error("User document not found!");
+                }
+            }, (error) => {
+                console.error("Error listening to user doc:", error);
+                showMessage(messageBox, "Error loading profile data.", true);
+            });
+            
+            listenersUnsubscribe.push(unsubUser); // Add to unsub array
+
+            // 2. Listen for orders sub-collection
+            const ordersColRef = collection(db, "users", userId, "orders");
+            // NOTE: Per instructions, not using orderBy()
+            const q = query(ordersColRef);
+            
+            const unsubOrders = onSnapshot(q, (querySnapshot) => {
+                console.log('Orders data updated.');
+                ordersListContainer.innerHTML = ''; // Clear list
+                
+                if (querySnapshot.empty) {
+                    ordersListContainer.appendChild(noOrdersMessage);
+                } else {
+                    let orders = [];
+                    querySnapshot.forEach((doc) => {
+                        orders.push({ id: doc.id, ...doc.data() });
+                    });
+                    
+                    // Client-side sorting (newest first)
+                    // Check for createdAt existence before sorting
+                    orders.sort((a, b) => {
+                        const timeA = a.createdAt ? a.createdAt.toDate().getTime() : 0;
+                        const timeB = b.createdAt ? b.createdAt.toDate().getTime() : 0;
+                        return timeB - timeA;
+                    });
+
+                    orders.forEach(order => {
+                        const orderEl = document.createElement('div');
+                        orderEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
+                        
+                        const desc = document.createElement('p');
+                        desc.textContent = order.description;
+                        desc.className = 'font-medium text-gray-900 dark:text-white';
+                        
+                        const meta = document.createElement('p');
+                        const date = order.createdAt ? order.createdAt.toDate().toLocaleString() : 'Pending...';
+                        meta.textContent = `Cost: ${order.cost} coins - On: ${date}`;
+                        meta.className = 'text-sm text-gray-600 dark:text-gray-400';
+                        
+                        orderEl.appendChild(desc);
+                        orderEl.appendChild(meta);
+                        ordersListContainer.appendChild(orderEl);
+                    });
+                }
+            }, (error) => {
+                console.error("Error listening to orders:", error);
+                showMessage(messageBox, "Error loading orders.", true);
+            });
+            
+            listenersUnsubscribe.push(unsubOrders); // Add to unsub array
+        }
+
+
+        // --- 8. Event Listeners ---
+
+        // Toggle between Login and Register
+        toggleFormBtn.addEventListener('click', toggleAuthMode);
+
+        // Handle form submission (Login or Register)
+        authForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent default form submission
+            hideMessage(messageBox);
+
+            const email = authForm.email.value;
+            const password = authForm.password.value;
+            
+            submitButton.disabled = true;
+            submitButton.textContent = isLoginMode ? 'Signing In...' : 'Creating...';
+
+            try {
+                if (isLoginMode) {
+                    // --- Sign In ---
+                    await signInWithEmailAndPassword(auth, email, password);
+                    // onAuthStateChanged will handle the UI update
+                    // We don't even need a success message, the UI will just change.
+                } else {
+                    // --- Register (Create User) ---
+                    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                    console.log('User created:', userCredential.user);
+                    
+                    // --- Create user document in Firestore ---
+                    const userDocRef = doc(db, "users", userCredential.user.uid);
+                    try {
+                        await setDoc(userDocRef, {
+                           email: userCredential.user.email,
+                           coins: 100, // Give 100 starting coins
+                           createdAt: serverTimestamp()
+                        });
+                        console.log('User document created in Firestore');
+                    } catch (dbError) {
+                        console.error('Firestore setDoc Error:', dbError);
+                        showMessage(messageBox, 'Account created, but failed to save profile data.', true);
+                        return; // Exit, auth state will still log them in
+                    }
+                    
+                    showMessage(messageBox, 'Account created successfully! You are now logged in.', false);
+                    // onAuthStateChanged will also fire here and update the UI
+                }
+            } catch (error) {
+                console.error('Auth Error:', error);
+                // Log the specific error code to the console for debugging
+                console.log('Firebase error code:', error.code);
+                
+                // Provide user-friendly error messages
+                let friendlyMessage = 'An unknown error occurred.';
+                switch(error.code) {
+                    case 'auth/user-not-found':
+                    case 'auth/wrong-password':
+                        friendlyMessage = 'Invalid email or password.';
+                        break;
+                    case 'auth/email-already-in-use':
+                        friendlyMessage = 'This email address is already in use.';
+                        break;
+                    case 'auth/weak-password':
+                        friendlyMessage = 'The password is too weak (must be at least 6 characters).';
+                        break;
+                    case 'auth/invalid-email':
+                        friendlyMessage = 'Please enter a valid email address.';
+                        break;
+                    case 'auth/operation-not-allowed':
+                        friendlyMessage = 'Sign-in method is not enabled. Please check Firebase console.';
+                        break;
+                    case 'auth/network-request-failed':
+                        friendlyMessage = 'Network error. Please check your connection and try again.';
+                        break;
+                }
+                showMessage(messageBox, friendlyMessage, true);
+            } finally {
+                // Re-enable button and reset text regardless of success or failure
+                submitButton.disabled = false;
+                submitButton.textContent = isLoginMode ? 'Sign In' : 'Create Account';
+            }
+        });
+
+        // Handle Logout
+        logoutButton.addEventListener('click', async () => {
+            await signOut(auth);
+            // onAuthStateChanged will handle the UI update and listener detachment
+        });
+        
+        // --- New App Event Listeners ---
+        
+        // Navigation
+        navButtons.profile.addEventListener('click', () => showAppView('profile'));
+        navButtons.request.addEventListener('click', () => showAppView('request'));
+        navButtons.orders.addEventListener('click', () => showAppView('orders'));
+        
+        // Handle Request Order Form Submission
+        requestForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            hideMessage(requestMessageBox);
+            
+            const description = requestDescription.value;
+            const cost = 10; // Fixed cost for this example
+            
+            if (!description.trim()) {
+                showMessage(requestMessageBox, "Description cannot be empty.", true);
+                return;
+            }
+            
+            if (currentUserCoins < cost) {
+                showMessage(requestMessageBox, "You don't have enough coins!", true);
+                return;
+            }
+            
+            submitRequestButton.disabled = true;
+            submitRequestButton.textContent = 'Processing...';
+
+            // --- Use a Transaction to deduct coins AND create the order ---
+            try {
+                const userDocRef = doc(db, "users", currentUserId);
+                const ordersColRef = collection(db, "users", currentUserId, "orders");
+                
+                await runTransaction(db, async (transaction) => {
+                    const userDoc = await transaction.get(userDocRef);
+                    if (!userDoc.exists()) {
+                        throw "User document does not exist!";
+                    }
+                    
+                    const newCoins = userDoc.data().coins - cost;
+                    if (newCoins < 0) {
+                        throw "Not enough coins!"; // Double-check inside transaction
+                    }
+                    
+                    // 1. Update the user's coin balance
+                    transaction.update(userDocRef, { coins: newCoins });
+                    
+                    // 2. Create the new order document
+                    const newOrderRef = doc(ordersColRef); // Auto-generate ID
+                    transaction.set(newOrderRef, {
+                        description: description,
+                        cost: cost,
+                        createdAt: serverTimestamp(),
+                        status: 'pending'
+                    });
+                });
+                
+                // Success
+                showMessage(requestMessageBox, 'Order submitted successfully!', false);
+                requestForm.reset(); // Clear the form
+                showAppView('orders'); // Switch to orders view
+                
+            } catch (error) {
+                console.error("Transaction Error:", error);
+                showMessage(requestMessageBox, `Error: ${error.message || error}`, true);
+            } finally {
+                submitRequestButton.disabled = false;
+                submitRequestButton.textContent = `Submit Request (${cost} Coins)`;
+            }
+        });
+
+
+        // --- 9. Authentication State Observer ---
+        // This is the most important listener. It fires when the app
+        // loads and any time the user's login state changes.
+        onAuthStateChanged(auth, (user) => {
+            console.log('Auth state changed. User:', user ? user.uid : 'null');
+            if (user) {
+                // User is signed in
+                currentUserId = user.uid;
+                setupRealtimeListeners(user.uid);
+                showMainView('app');
+                showAppView('profile'); // Default to profile view
+            } else {
+                // User is signed out
+                currentUserId = null;
+                detachListeners(); // Detach listeners on logout
+                showMainView('auth');
+            }
+        });
+        
+        // Initial load
+        showMainView('loading');
+
+    </script>
+</body>
 </html>
+
