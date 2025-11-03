@@ -1,0 +1,41 @@
+/* --- Global Styles --- */
+
+/* Hide scrollbars */
+::-webkit-scrollbar {
+    display: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* --- Custom Components --- */
+.wow-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 1px solid #4a4a4a;
+    flex-shrink: 0;
+}
+
+.wow-icon-sm {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    border: 1px solid #4a4a4a;
+    flex-shrink: 0;
+}
