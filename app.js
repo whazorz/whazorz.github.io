@@ -252,8 +252,22 @@ function showAppView(viewId) {
 // --- 9. Rendering Functions ---
 
 function renderGalleryGrid() {
+    // 1. Define the Welcome Text HTML
+    const welcomeHtml = `
+        <div class="text-center mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg">
+            <h2 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">Welcome to Wdesign.</h2>
+            <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
+                Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
+            </p>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                Powered by Firebase & GitHub.
+            </p>
+        </div>
+    `;
+
+    // 2. Define the Gallery HTML
     const galleryHtml = `
-        <h2 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">Hall of Fame</h2>
+        <h3 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">Hall of Fame Designs.</h3>
         <div id="gallery-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
             ${staticGalleryImages.length === 0 ?
                 '<p id="gallery-loading-text" class="text-center text-gray-500 sm:col-span-2 md:col-span-3">Gallery is empty.</p>' :
@@ -266,12 +280,21 @@ function renderGalleryGrid() {
             }
         </div>
     `;
-    galleryViewAuth.innerHTML = galleryHtml;
-    galleryViewApp.innerHTML = galleryHtml;
 
+    // 3. Combine them
+    const fullHomepageHtml = welcomeHtml + galleryHtml;
+
+    // 4. Apply to BOTH gallery views
+    galleryViewAuth.innerHTML = fullHomepageHtml;
+    appViews.gallery.innerHTML = fullHomepageHtml; // <--- THIS WAS THE FIX
+
+    // 5. Handle the empty gallery message
     if(staticGalleryImages.length === 0) {
-        const loadingTexts = document.querySelectorAll('#gallery-loading-text');
-        loadingTexts.forEach(el => el.textContent = "Gallery is empty.");
+        // We query the new containers
+        const loadingTextsAuth = galleryViewAuth.querySelector('#gallery-loading-text');
+        const loadingTextsApp = appViews.gallery.querySelector('#gallery-loading-text'); // <--- THIS WAS THE FIX
+        if (loadingTextsAuth) loadingTextsAuth.textContent = "Gallery is empty.";
+        if (loadingTextsApp) loadingTextsApp.textContent = "Gallery is empty.";
     }
 }
 
@@ -629,9 +652,9 @@ function renderPayPalButton() {
         createOrder: function(data, actions) {
             return actions.order.create({
                 purchase_units: [{
-                    description: "15 WDESIGN Coins", // <-- EDIT THIS
+                    description: "15 WDESIGN Coins",
                     amount: {
-                        value: '5.00', // <-- EDIT THIS
+                        value: '5.00',
                         currency_code: 'EUR'
                     }
                 }]
@@ -809,7 +832,7 @@ requestForm.addEventListener('submit', async (e) => {
     const background = requestBackground.value;
     const extraDetails = requestExtraDetails.value;
     
-    const cost = 10; // <-- EDIT THIS (Must also change in setupRealtimeListeners)
+    const cost = 10;
     
     if (!charName || !serverRegion || !race || !charClass || !gearSet || !background) {
         showMessage(requestMessageBox, "Please fill in all required fields.", true);
