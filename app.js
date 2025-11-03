@@ -1,5 +1,5 @@
 // --- 1. Firebase Imports ---
-import { initializeApp } from "https-www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
 import {
     getAuth,
     onAuthStateChanged,
@@ -7,7 +7,7 @@ import {
     signInWithEmailAndPassword,
     signOut,
     sendPasswordResetEmail
-} from "https-www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import {
     getFirestore,
     doc,
@@ -23,11 +23,11 @@ import {
     addDoc,
     runTransaction,
     where
-} from "https-www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 import {
     getFunctions,
     httpsCallable
-} from "https-www.gstatic.com/firebasejs/11.6.1/firebase-functions.js";
+} from "https://www.gstatic.com/firebasejs/11.6.1/firebase-functions.js";
 
 // --- 2. Firebase Configuration ---
 const firebaseConfig = {
