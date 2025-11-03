@@ -30,6 +30,32 @@ import {
 } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-functions.js";
 
 // --- 2. Firebase Configuration ---
+
+/*
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ * CRITICAL SECURITY WARNING
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ *
+ * This API key IS PUBLIC and visible in your website's code. This is normal.
+ * HOWEVER, you MUST secure it before deploying to a public URL (like GitHub Pages).
+ *
+ * GO TO:
+ * 1. Your Firebase Console (https://console.firebase.google.com/)
+ * 2. Project Settings -> General -> Your Apps -> Web app
+ * 3. Find your API Key and click the "Manage API keys" link.
+ *
+ * IN THE GOOGLE CLOUD CONSOLE:
+ * 1. Under "Application restrictions", select "HTTP referrers (web sites)".
+ * 2. Click "ADD".
+ * 3. Add your website's URL (e.g., "your-username.github.io/your-repo-name/*")
+ * 4. Add your custom domain if you have one (e.g., "www.your-site.com/*")
+ * 5. Add "localhost" for testing (you can remove this later).
+ * 6. Click "Save".
+ *
+ * This ensures ONLY your website can use this key.
+ *
+ * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+ */
 const firebaseConfig = {
     apiKey: "AIzaSyBEMeJPJ6xNhHtbPZVo4q8SWxDzYZy5x4s",
     authDomain: "wdesign-9e502.firebaseapp.com",
@@ -134,17 +160,24 @@ const adminNoOrders = document.getElementById('admin-no-orders');
 const adminCompletedOrdersList = document.getElementById('admin-completed-orders-list');
 const adminNoCompletedOrders = document.getElementById('admin-no-completed-orders');
 
+// -- NEW: Lightbox Elements --
+const lightbox = document.getElementById('lightbox');
+const lightboxImage = document.getElementById('lightbox-image');
+const lightboxClose = document.getElementById('lightbox-close');
+
+
 // --- 7. Utility Functions ---
 
 function showMessage(box, message, isError = true) {
     box.textContent = message;
-    box.className = 'fade-in p-4 rounded-md text-sm';
+    // box.className = 'fade-in p-4 rounded-md text-sm'; // Old class
+    box.className = 'fade-in'; // Use new, simpler class from CSS
     if (isError) {
-        box.classList.add('bg-red-100', 'dark:bg-red-900', 'text-red-700', 'dark:text-red-200');
+        box.classList.add('bg-red-100');
     } else {
-        box.classList.add('bg-green-100', 'dark:bg-green-900', 'text-green-700', 'dark:text-green-200');
+        box.classList.add('bg-green-100');
     }
-    box.classList.remove('hidden');
+    // box.classList.remove('hidden'); // This is handled in CSS
 }
 
 function hideMessage(box) {
@@ -191,7 +224,7 @@ function toggleForgotPasswordMode() {
     }
 }
 
-// --- 8. View Management Functions ---
+// --- 8. View Management Functions (UPDATED FOR TRANSITIONS) ---
 
 function showMainView(viewName) {
     loadingContainer.classList.add('hidden');
@@ -206,7 +239,7 @@ function showMainView(viewName) {
     } else if (viewName === 'auth') {
         loggedOutContainer.classList.remove('hidden');
         authNavMenu.classList.remove('hidden');
-        showLoggedOutView('login');
+        showLoggedOutView('gallery'); // Default to gallery
         isLoginMode = true;
         isForgotPasswordMode = false;
         toggleAuthMode();
@@ -218,54 +251,75 @@ function showMainView(viewName) {
 }
 
 function showLoggedOutView(viewName) {
+    // Hide all auth views
+    authContainer.classList.add('view-hidden');
+    galleryViewAuth.classList.add('view-hidden');
+
+    // Show the selected auth view
     if (viewName === 'login') {
-        authContainer.classList.remove('hidden');
-        galleryViewAuth.classList.add('hidden');
+        authContainer.classList.remove('view-hidden');
         authNavLogin.classList.add('active');
         authNavGallery.classList.remove('active');
     } else if (viewName === 'gallery') {
-        authContainer.classList.add('hidden');
-        galleryViewAuth.classList.remove('hidden');
+        galleryViewAuth.classList.remove('view-hidden');
         authNavLogin.classList.remove('active');
         authNavGallery.classList.add('active');
     }
 }
 
 function showAppView(viewId) {
-    Object.values(appViews).forEach(view => view.classList.add('hidden'));
+    // Hide all app views
+    Object.values(appViews).forEach(view => view.classList.add('view-hidden'));
+    
+    // Deactivate all nav buttons
     Object.values(navButtons).forEach(btn => btn.classList.remove('active'));
     
+    // Show the selected view
     if (appViews[viewId]) {
-        appViews[viewId].classList.remove('hidden');
+        appViews[viewId].classList.remove('view-hidden');
     }
+    // Activate the selected button
     if (navButtons[viewId]) {
         navButtons[viewId].classList.add('active');
     }
 }
 
-// --- 9. Rendering Functions ---
+// --- 9. NEW: Lightbox Functions ---
+
+function openLightbox(src) {
+    if (!src) return;
+    lightboxImage.src = src;
+    lightbox.classList.remove('hidden');
+}
+
+function closeLightbox() {
+    lightbox.classList.add('hidden');
+    lightboxImage.src = ''; // Clear src to stop loading
+}
+
+// --- 10. Rendering Functions ---
 
 // (Removed renderGalleryGrid - content is now in index.html)
 
 function createUserElement(user, userId) {
     const userEl = document.createElement('div');
-    userEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
+    userEl.className = 'user-element';
     
     const email = document.createElement('p');
     email.textContent = user.email;
-    email.className = 'font-bold text-md text-indigo-600 dark:text-indigo-400';
+    email.className = 'email';
     if (user.isAdmin) {
         email.textContent += ' (Admin)';
-        email.classList.add('text-yellow-500');
+        email.classList.add('admin');
     }
 
     const meta = document.createElement('p');
     meta.textContent = `Coins: ${user.coins}`;
-    meta.className = 'text-sm text-gray-700 dark:text-gray-300';
+    meta.className = 'meta';
     
     const uid = document.createElement('p');
     uid.textContent = `ID: ${userId}`;
-    uid.className = 'text-xs font-mono text-gray-500 dark:text-gray-400';
+    uid.className = 'uid';
     
     userEl.appendChild(email);
     userEl.appendChild(meta);
@@ -276,21 +330,21 @@ function createUserElement(user, userId) {
 
 function createOrderElement(order, orderId, isAdmin) {
     const orderEl = document.createElement('div');
-    orderEl.className = 'p-3 bg-gray-50 dark:bg-gray-700 rounded-lg shadow-sm';
+    orderEl.className = 'order-element';
     
     // 1. Basic Order Info
     const type = document.createElement('p');
     type.textContent = order.type;
-    type.className = 'font-bold text-lg text-indigo-600 dark:text-indigo-400';
+    type.className = 'type';
 
     const details = document.createElement('p');
     details.textContent = order.details;
-    details.className = 'font-medium text-gray-900 dark:text-white whitespace-pre-wrap mt-2';
+    details.className = 'details';
     
     const meta = document.createElement('p');
     const date = order.createdAt ? order.createdAt.toDate().toLocaleString() : 'Pending...';
     meta.textContent = `Cost: ${order.cost} coins - On: ${date}`;
-    meta.className = 'text-sm text-gray-600 dark:text-gray-400 mt-2';
+    meta.className = 'meta';
     
     orderEl.appendChild(type);
     orderEl.appendChild(details);
@@ -298,14 +352,14 @@ function createOrderElement(order, orderId, isAdmin) {
 
     // 2. Status & Image (Visible to User and Admin)
     const statusEl = document.createElement('div');
-    statusEl.className = 'mt-2 pt-2 border-t border-gray-200 dark:border-gray-600';
+    statusEl.className = 'status-box';
     
     const statusLabel = document.createElement('span');
-    statusLabel.className = 'font-bold text-lg';
+    statusLabel.className = 'status-label';
     
     if (order.status === 'completed') {
         statusLabel.textContent = 'Status: Completed';
-        statusLabel.classList.add('text-green-600', 'dark:text-green-400');
+        statusLabel.classList.add('status-completed');
         statusEl.appendChild(statusLabel);
         
         if (order.imageUrl) {
@@ -314,18 +368,18 @@ function createOrderElement(order, orderId, isAdmin) {
             imgLink.target = '_blank';
             imgLink.rel = 'noopener noreferrer';
             imgLink.textContent = 'View Full Image';
-            imgLink.className = 'block text-sm text-indigo-600 dark:text-indigo-400 hover:underline mt-1';
+            imgLink.className = 'image-link';
             statusEl.appendChild(imgLink);
 
             const imgPreview = document.createElement('img');
             imgPreview.src = order.imageUrl;
             imgPreview.alt = 'Completed Order Preview';
-            imgPreview.className = 'mt-2 rounded-lg shadow-md w-full max-w-sm object-cover';
+            imgPreview.className = 'image-preview';
             statusEl.appendChild(imgPreview);
         }
     } else { // 'pending'
         statusLabel.textContent = 'Status: Pending';
-        statusLabel.classList.add('text-yellow-600', 'dark:text-yellow-400');
+        statusLabel.classList.add('status-pending');
         statusEl.appendChild(statusLabel);
     }
     orderEl.appendChild(statusEl);
@@ -334,23 +388,22 @@ function createOrderElement(order, orderId, isAdmin) {
     if (isAdmin) {
         const user = document.createElement('p');
         user.textContent = `From: ${order.userEmail} (ID: ${order.userId})`;
-        user.className = 'text-xs font-mono bg-gray-200 dark:bg-gray-800 p-1 rounded mt-2';
+        user.className = 'admin-user-info';
         orderEl.appendChild(user);
 
         const adminActionsEl = document.createElement('div');
-        adminActionsEl.className = 'mt-2 space-y-2 border-t border-gray-300 dark:border-gray-600 pt-2';
+        adminActionsEl.className = 'admin-actions';
 
         const imageUrlInput = document.createElement('input');
         imageUrlInput.type = 'text';
         imageUrlInput.placeholder = 'Image URL (e.g., Imgur link)';
-        imageUrlInput.className = 'block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-900 rounded-md sm:text-sm transition';
         
         const actionButton = document.createElement('button');
-        actionButton.className = 'w-full px-3 py-1 text-white text-xs font-medium rounded transition-colors duration-200';
+        actionButton.className = 'admin-btn'; // Generic class for styling
 
         if (order.status === 'pending') {
             actionButton.textContent = 'Complete Order';
-            actionButton.classList.add('bg-green-600', 'hover:bg-green-700');
+            actionButton.classList.add('complete-btn');
             actionButton.onclick = () => {
                 const url = imageUrlInput.value;
                 completeOrder(orderId, url);
@@ -358,7 +411,7 @@ function createOrderElement(order, orderId, isAdmin) {
         } else { // 'completed'
             imageUrlInput.value = order.imageUrl || '';
             actionButton.textContent = 'Update Link';
-            actionButton.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            actionButton.classList.add('update-btn');
             actionButton.onclick = () => {
                 const url = imageUrlInput.value;
                 updateOrderLink(orderId, url); 
@@ -370,7 +423,7 @@ function createOrderElement(order, orderId, isAdmin) {
 
         const deleteBtn = document.createElement('button');
         deleteBtn.textContent = 'Delete Order';
-        deleteBtn.className = 'mt-2 w-full px-3 py-1 bg-red-600 hover:bg-red-700 text-white text-xs font-medium rounded transition-colors duration-200';
+        deleteBtn.className = 'delete-btn';
         deleteBtn.onclick = () => deleteOrder(orderId);
         
         adminActionsEl.appendChild(deleteBtn);
@@ -380,7 +433,7 @@ function createOrderElement(order, orderId, isAdmin) {
     return orderEl;
 }
 
-// --- 10. Firebase Listener Functions ---
+// --- 11. Firebase Listener Functions ---
 
 function detachListeners() {
     console.log('Detaching listeners...');
@@ -513,7 +566,7 @@ function setupAdminListeners() {
     listenersUnsubscribe.push(unsubAdminUsers);
 }
 
-// --- 11. Firebase Action Functions (CRUD) ---
+// --- 12. Firebase Action Functions (CRUD) ---
 
 async function completeOrder(orderId, imageUrl) {
     if (!imageUrl || !imageUrl.startsWith('http')) {
@@ -586,7 +639,7 @@ async function addCoinsToUser(userId, amount) {
     }
 }
 
-// --- 12. PayPal Functions ---
+// --- 13. PayPal Functions ---
 
 function renderPayPalButton() {
     const container = document.getElementById('paypal-button-container');
@@ -644,7 +697,7 @@ function renderPayPalButton() {
     }).render('#paypal-button-container');
 }
 
-// --- 13. Event Listeners ---
+// --- 14. Event Listeners ---
 
 // -- Auth Form Listeners --
 toggleFormBtn.addEventListener('click', () => {
@@ -841,7 +894,29 @@ Extra Details: ${extraDetails || 'None'}`;
     }
 });
 
-// --- 14. App Initialization ---
+// -- NEW: Lightbox Listeners --
+lightboxClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', (e) => {
+    // Close if the user clicks on the dark background,
+    // but not if they click on the image itself.
+    if (e.target === lightbox) {
+        closeLightbox();
+    }
+});
+
+// -- NEW: Gallery Item Click Listeners --
+// We select all gallery items (in both auth and app views)
+// and attach the lightbox opener.
+document.querySelectorAll('#gallery-grid-container .gallery-item, #gallery-grid-container-app .gallery-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault(); // Stop the <a> tag from opening a new tab
+        const imgSrc = item.href; // Get the full image URL from the link
+        openLightbox(imgSrc);
+    });
+});
+
+
+// --- 15. App Initialization ---
 
 // -- Main Auth State Observer --
 onAuthStateChanged(auth, (user) => {
@@ -865,5 +940,4 @@ onAuthStateChanged(auth, (user) => {
 });
 
 // -- Initial Page Load --
-// (Removed renderGalleryGrid() call)
 showMainView('loading');

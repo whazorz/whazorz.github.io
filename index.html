@@ -22,7 +22,9 @@
                 <h2>Whazorz Designs</h2>
             </h1>
             
-            <nav id="auth-nav-menu" class="hidden"> <button id="auth-nav-gallery" class="auth-nav-btn active"> <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
+            <nav id="auth-nav-menu" class="hidden">
+                <button id="auth-nav-gallery" class="auth-nav-btn active">
+                    <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
                     <span>Home&nbsp;</span>
                 </button>
                 <button id="auth-nav-login" class="auth-nav-btn">
@@ -31,7 +33,9 @@
                 </button>
             </nav>
 
-            <nav id="app-nav-menu" class="hidden"> <button id="nav-gallery" class="nav-btn"> <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
+            <nav id="app-nav-menu" class="hidden">
+                <button id="nav-gallery" class="nav-btn">
+                    <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
                     <span>Home</span>
                 </button>
                 <button id="nav-profile" class="nav-btn">
@@ -46,7 +50,8 @@
                     <img src="images/icons/icon-orders.jpg" alt="Orders" class="wow-icon">
                     <span>Orders</span>
                 </button>
-                <button id="nav-admin" class="nav-btn hidden"> <img src="images/icons/icon-admin.jpg" alt="Admin" class="wow-icon">
+                <button id="nav-admin" class="nav-btn hidden">
+                    <img src="images/icons/icon-admin.jpg" alt="Admin" class="wow-icon">
                     <span>Admin</span>
                 </button>
                 <button id="logout-button" class="nav-btn">
@@ -69,9 +74,11 @@
                     <h2>Loading...</h2>
                 </div>
                 
-                <div id="logged-out-container" class="hidden"> <div id="auth-container" class="hidden"> <div class="auth-header">
-                            
-                    <h2 id="form-title">Sign in to your account</h2>
+                <div id="logged-out-container" class="hidden">
+                    
+                    <div id="auth-container" class="auth-view view-hidden">
+                        <div class="auth-header">
+                            <h2 id="form-title">Sign in to your account</h2>
                             <p>
                                 Or
                                 <button id="toggle-form">
@@ -105,10 +112,11 @@
                             </div>
                         </form>
                     
-                        
-                        <div id="message-box" class="hidden"></div> </div>
+                        <div id="message-box" class="hidden"></div>
+                    </div>
 
-                    <div id="gallery-view-auth" class="app-view"> <div class="welcome-banner">
+                    <div id="gallery-view-auth" class="auth-view">
+                        <div class="welcome-banner">
                             <h2>Welcome to Wdesign.</h2>
                             <p>
                                 Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
@@ -129,7 +137,10 @@
                     </div>
                 </div>
 
-                <div id="app-container" class="hidden"> <div id="gallery-view-app" class="app-view hidden"> <div class="welcome-banner">
+                <div id="app-container" class="hidden">
+
+                    <div id="gallery-view-app" class="app-view">
+                        <div class="welcome-banner">
                             <h2>Welcome to Wdesign.</h2>
                             <p>
                                 Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
@@ -139,14 +150,16 @@
                             </p>
                         </div>
                         <h3> <strong>Hall of Fame Designs.</strong>&nbsp;</h3>
-                        <div id="gallery-grid-container-app"> <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="gallery-item">
+                        <div id="gallery-grid-container-app">
+                            <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="gallery-item">
                                 <img src="images/my-logo.jpg" alt="Watch me live doing designs.">
                                 <p>Watch me live doing designs.</p>
                             </a>
-                        </div>
+                            </div>
                     </div>
                             
-                    <div id="profile-view" class="app-view hidden"> <h2>Your Profile</h2>
+                    <div id="profile-view" class="app-view view-hidden">
+                        <h2>Your Profile</h2>
                         <div>
                             <p class="label">Email</p>
                             <p id="profile-email"></p>
@@ -171,7 +184,8 @@
                         </div>
                     </div>
 
-                    <div id="request-view" class="app-view hidden"> <h2>Request a WoW Banner</h2>
+                    <div id="request-view" class="app-view view-hidden">
+                        <h2>Request a WoW Banner</h2>
                         <p class="cost-notice">This request will cost <span class="coin-text">10 coins</span>. Your current balance is <span id="request-coin-balance" class="coin-text">--</span>.</p>
                         
                         <form id="request-form">
@@ -254,15 +268,18 @@
                                 Submit Request (10 Coins)
                             </button>
                         </form>
-                        <div id="request-message-box" class="hidden"></div> </div>
+                        <div id="request-message-box" class="hidden"></div>
+                    </div>
 
-                    <div id="orders-view" class="app-view hidden"> <h2>Your Orders</h2>
+                    <div id="orders-view" class="app-view view-hidden">
+                        <h2>Your Orders</h2>
                         <div id="orders-list-container">
                             <p id="no-orders-message">You haven't requested any orders yet.</p>
                         </div>
                     </div>
 
-                    <div id="admin-view" class="app-view hidden"> <h2>Admin Panel</h2>
+                    <div id="admin-view" class="app-view view-hidden">
+                        <h2>Admin Panel</h2>
                         
                         <div class="admin-section">
                             <h3>Manage Coins</h3>
@@ -295,7 +312,17 @@
                         </div>
                     </div>
 
-                </div> </div> </div> </div> <script type="module" src="app.js"></script>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="lightbox" class="lightbox hidden">
+      <button id="lightbox-close" class="lightbox-close">&times;</button>
+      <img id="lightbox-image" class="lightbox-image" src="" alt="Lightbox image view">
+    </div>
+
+    <script type="module" src="app.js"></script>
     
 </body>
 </html>
