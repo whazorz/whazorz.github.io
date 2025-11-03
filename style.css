@@ -1,21 +1,51 @@
-/* --- Global Styles --- */
+/* --- 0. GLOBAL RESET & FONT --- */
 
-
-
-/* Hide scrollbars */
-::-webkit-scrollbar {
-    display: none;
+/* Critical: A basic reset. 
+  'box-sizing' makes padding and borders not add to the width/height, 
+  which is how Tailwind works and makes layout *much* easier. 
+*/
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
-.no-scrollbar::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+html {
+    height: 100%; /* Ensures the html element fills the viewport */
 }
 
-/* --- Animations --- */
+body {
+    /* Critical: This is the main app layout. 
+       Flexbox is used to center the main card ('#main-wrapper') 
+       perfectly in the middle of the screen. 
+    */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100%;
+    padding: 1rem; /* 16px */
+    font-family: 'Inter', sans-serif;
+    
+    /* Base text and background colors */
+    background-color: #F9FAFB; /* gray-50 */
+    color: #111827; /* gray-900 */
+}
+
+/* --- 1. UTILITY CLASSES (FOR JAVASCRIPT) --- */
+
+/* Critical: This class is added/removed by app.js to show/hide elements. */
+.hidden {
+    display: none !important; /* Use !important to ensure it always hides */
+}
+
+/* Critical: This is a placeholder class. 
+  The JS adds this class to all main views.
+*/
+.app-view {
+    display: block; /* Will be 'none' if it also has .hidden */
+}
+
+/* A simple fade-in animation for views and messages */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
@@ -25,7 +55,142 @@
     animation: fadeIn 0.3s ease-out;
 }
 
-/* --- Custom Components --- */
+/* Hide scrollbars for a cleaner look */
+.no-scrollbar::-webkit-scrollbar,
+#content-column::-webkit-scrollbar,
+.admin-list-box::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar,
+#content-column,
+.admin-list-box {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+
+/* --- 2. MAIN LAYOUT --- */
+
+#main-wrapper {
+    /* Critical: This is the main app card. */
+    width: 100%;
+    max-width: 90rem; /* 1440px (was max-w-6xl) */
+    min-height: 90vh; /* From your inline style */
+    display: flex;
+    background-color: #FFFFFF; /* white */
+    border-radius: 1rem; /* rounded-2xl */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    overflow: hidden; /* Keeps rounded corners */
+}
+
+#menu-column {
+    width: 14rem; /* 224px (was w-56) */
+    padding: 1.5rem; /* 24px (was p-6) */
+    background-color: #F3F4F6; /* gray-100 */
+    
+    /* Critical: This makes the menu a vertical layout */
+    display: flex;
+    flex-direction: column;
+    
+    /* This prevents the menu from shrinking if content is too wide */
+    flex-shrink: 0; 
+}
+
+/* Critical: This creates the vertical spacing between menu items */
+#menu-column > *:not(:first-child) {
+    margin-top: 1.5rem; /* 24px (was space-y-6) */
+}
+
+#menu-column h1 {
+    font-size: 1.5rem; /* 24px (was text-2xl) */
+    font-weight: 800; /* bold */
+    color: #4F46E5; /* indigo-600 */
+}
+
+#menu-column h2 {
+    /* Your original h2 style */
+    font-size: 10px;
+    font-weight: 300; /* lighter */
+}
+
+/* This is the empty div that pushes the footer down */
+.flex-grow {
+    flex-grow: 1;
+}
+
+.footer-text {
+    font-size: 0.75rem; /* 12px (was text-xs) */
+    color: #6B7280; /* gray-500 */
+}
+
+#content-column {
+    flex-grow: 1; /* Takes up all remaining space */
+    padding: 2.5rem; /* 40px (was sm:p-10) */
+    overflow-y: auto; /* Allows content to scroll */
+}
+
+/* --- 3. REUSABLE COMPONENTS --- */
+
+/* Base button styles */
+button {
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+    color: inherit;
+}
+
+/* Base styles for all form inputs */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+select,
+textarea {
+    /* Critical: Basic form styling */
+    display: block;
+    width: 100%;
+    padding: 0.5rem 0.75rem; /* 8px 12px */
+    border: 1px solid #D1D5DB; /* gray-300 */
+    border-radius: 0.375rem; /* rounded-md */
+    background-color: #FFFFFF; /* bg-white */
+    color: #111827; /* text-gray-900 */
+    transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+select:focus,
+textarea:focus {
+    /* Critical: Shows a blue 'focus' ring */
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    border-color: #4F46E5; /* indigo-500 */
+    box-shadow: 0 0 0 2px #4F46E5; /* ring-2 ring-indigo-500 */
+}
+
+/* General "message box" for errors or success */
+#message-box,
+#buy-coins-message-box,
+#request-message-box {
+    padding: 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem; /* 14px */
+}
+
+/* These classes are added by the showMessage() function in JS */
+.bg-red-100 { 
+    background-color: #FEE2E2; 
+    color: #991B1B;
+}
+.bg-green-100 { 
+    background-color: #D1FAE5; 
+    color: #047857;
+}
+
+/* The square "WoW" style icons */
 .wow-icon {
     width: 28px;
     height: 28px;
@@ -34,26 +199,750 @@
     flex-shrink: 0;
 }
 
-.wow-icon-sm {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    border: 1px solid #4a4a4a;
-    flex-shrink: 0;
+/* --- 4. NAVIGATION BUTTONS --- */
+
+/* Base style for ALL nav buttons (both auth and app) */
+.auth-nav-btn,
+.nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem; /* 12px (was p-3) */
+    border-radius: 0.5rem; /* rounded-lg */
+    font-weight: 500; /* medium */
+    color: #374151; /* gray-700 */
+    
+    /* Critical: Aligns icon and text */
+    display: flex;
+    align-items: center;
+    gap: 0.75rem; /* 12px (was space-x-3) */
+    
+    transition: all 0.2s ease-in-out;
 }
 
-h1 {
-    font-size: 24px;
-    font-weight: bold;
+/* Hover state for nav buttons */
+.auth-nav-btn:hover,
+.nav-btn:hover {
+    background-color: #E5E7EB; /* gray-100 */
 }
 
-h2 {
-    font-size: 8px;
-	font-weight: lighter;
-}.fade {
+/* Critical: The 'active' class is toggled by JS */
+.auth-nav-btn.active,
+.nav-btn.active {
+    background-color: #4338CA; /* indigo-700 */
+    color: #FFFFFF; /* white */
 }
 
-#content-column {
-	background: white;
-	padding: 2%;
+/* Special color for Admin button */
+#nav-admin {
+    color: #CA8A04; /* yellow-600 */
+}
+#nav-admin:hover {
+    background-color: #FEF9C3; /* yellow-100 */
+}
+#nav-admin.active {
+    background-color: #CA8A04; /* yellow-600 */
+    color: #FFFFFF;
+}
+
+/* Special color for Logout button */
+#logout-button {
+    color: #DC2626; /* red-600 */
+}
+#logout-button:hover {
+    background-color: #FEE2E2; /* red-100 */
+}
+
+
+/* --- 5. AUTH FORM (#auth-container) --- */
+
+#auth-container {
+    background-color: #FFFFFF; /* white */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+    border-radius: 1rem; /* rounded-2xl */
+    padding: 2.5rem; /* 40px (was sm:p-10) */
+}
+
+.auth-header {
+    text-align: center;
+}
+
+#form-title {
+    font-size: 1.875rem; /* 30px (was text-3xl) */
+    font-weight: 800;
+    letter-spacing: -0.025em; /* tracking-tight */
+    color: #111827; /* gray-900 */
+}
+
+.auth-header p {
+    margin-top: 0.5rem; /* 8px */
+    font-size: 0.875rem; /* 14px */
+    color: #4B5563; /* gray-600 */
+}
+
+#toggle-form,
+#forgot-password-btn {
+    font-weight: 500;
+    color: #4F46E5; /* indigo-600 */
+    transition: color 0.2s;
+}
+#toggle-form:hover,
+#forgot-password-btn:hover {
+    color: #6366F1; /* indigo-500 */
+}
+
+#auth-form {
+    margin-top: 2rem; /* 32px */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* 24px (was space-y-6) */
+}
+
+/* This is the <div> wrapping email and password */
+.form-input-group {
+    border-radius: 0.375rem; /* rounded-md */
+    /* Critical: This 'trick' makes the inputs look like one unit */
+    display: flex;
+    flex-direction: column;
+}
+
+/* We override the default input styles for this specific form */
+#auth-form #email,
+#auth-form #password {
+    border-radius: 0;
+    border: 1px solid #D1D5DB; /* gray-300 */
+    /* Critical: Makes them "stick" to each other */
+    margin-top: -1px; 
+}
+#auth-form #email {
+    border-top-left-radius: 0.375rem;
+    border-top-right-radius: 0.375rem;
+}
+#auth-form #password {
+    border-bottom-left-radius: 0.375rem;
+    border-bottom-right-radius: 0.375rem;
+}
+
+.form-options {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 0.875rem; /* 14px */
+}
+
+/* This is the main Sign In / Create Account button */
+#submit-button {
+    width: 100%;
+    padding: 0.75rem 1rem; /* 12px 16px */
+    font-weight: 500;
+    color: #FFFFFF;
+    background-color: #4F46E5; /* indigo-600 */
+    border: 1px solid transparent;
+    border-radius: 0.375rem; /* rounded-md */
+    transition: background-color 0.2s;
+}
+#submit-button:hover {
+    background-color: #4338CA; /* indigo-700 */
+}
+
+/* This is a helper class for screen readers */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+
+/* --- 6. GALLERY & WELCOME BANNER --- */
+
+.welcome-banner {
+    margin-bottom: 2rem; /* 32px */
+    padding: 1.5rem; /* 24px */
+    background-color: #FFFFFF; /* white */
+    border-radius: 0.5rem; /* rounded-lg */
+}
+.welcome-banner h2 {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    color: #4F46E5; /* indigo-600 */
+}
+.welcome-banner p {
+    margin-top: 0.5rem; /* 8px */
+    font-size: 1.125rem; /* 18px */
+    color: #374151; /* gray-700 */
+}
+.welcome-banner .powered-by {
+    margin-top: 0.25rem;
+    font-size: 0.875rem; /* 14px */
+    color: #6B7280; /* gray-500 */
+}
+
+/* This targets the <h3> for "Hall of Fame" */
+#gallery-view-auth h3,
+#gallery-view-app h3 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 800;
+    color: #111827; /* gray-900 */
+    margin-bottom: 1.5rem; /* 24px */
+}
+
+#gallery-grid-container,
+#gallery-grid-container-app {
+    /* Critical: This creates the responsive grid */
+    display: grid;
+    grid-template-columns: 1fr; /* Default to 1 column */
+    gap: 1rem; /* 16px */
+}
+
+.gallery-item {
+    display: block;
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+    overflow: hidden;
+    background-color: #FFFFFF; /* white */
+    transition: all 0.3s ease-in-out;
+}
+.gallery-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04); /* shadow-xl */
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 16rem; /* 256px (was h-64) */
+    object-fit: cover; /* Ensures image covers the area */
+}
+
+.gallery-item p {
+    padding: 0.75rem; /* 12px */
+    font-size: 0.875rem; /* 14px */
+    color: #374151; /* gray-700 */
+}
+
+
+/* --- 7. PROFILE VIEW (#profile-view) --- */
+
+#profile-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* 24px */
+}
+#profile-view h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 800;
+    color: #111827; /* gray-900 */
+}
+#profile-view .label {
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: #6B7280; /* gray-500 */
+}
+#profile-email {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    color: #4F46E5; /* indigo-600 */
+    word-break: break-all; /* Breaks long emails */
+}
+#profile-uid {
+    font-size: 0.75rem; /* 12px */
+    font-family: monospace;
+    color: #374151; /* gray-700 */
+    background-color: #F3F4F6; /* gray-100 */
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    word-break: break-all;
+}
+.coin-balance {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* 8px */
+}
+#profile-coins {
+    font-size: 1.875rem; /* 30px */
+    font-weight: 800;
+    color: #16A34A; /* green-600 */
+}
+.buy-coins-section {
+    padding-top: 1rem;
+    border-top: 1px solid #E5E7EB; /* gray-200 */
+}
+.buy-coins-section h3 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+.coin-price {
+    font-size: 1rem; /* 16px */
+    font-weight: 600;
+    color: #1F2937; /* gray-800 */
+}
+#paypal-button-container {
+    margin-top: 1rem;
+}
+
+/* --- 8. REQUEST VIEW (#request-view) --- */
+
+#request-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* 24px */
+}
+#request-view h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 800;
+}
+.cost-notice {
+    font-size: 0.875rem; /* 14px */
+    color: #4B5563; /* gray-600 */
+}
+.coin-text {
+    font-weight: 800;
+    font-size: 1.125rem; /* 18px */
+    color: #16A34A; /* green-600 */
+}
+#request-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* 16px */
+}
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to 1 column */
+    gap: 1rem;
+}
+#request-form label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.875rem; /* 14px */
+    font-weight: 500;
+    color: #374151; /* gray-700 */
+}
+#request-form textarea {
+    font-family: inherit;
+}
+#submit-request-button {
+    /* Same style as #submit-button */
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+    font-size: 0.875rem; /* 14px */
+    color: #FFFFFF;
+    background-color: #4F46E5; /* indigo-600 */
+    border: 1px solid transparent;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s;
+}
+#submit-request-button:hover {
+    background-color: #4338CA; /* indigo-700 */
+}
+/* Critical: Style for when JS disables the button */
+#submit-request-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* --- 9. ORDERS & ADMIN VIEW --- */
+
+#orders-view, #admin-view {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* 24px */
+}
+#orders-view h2, #admin-view h2 {
+    font-size: 1.5rem; /* 24px */
+    font-weight: 800;
+}
+#orders-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem; /* 12px */
+    max-height: 36rem; /* 576px */
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+#no-orders-message {
+    color: #6B7280; /* gray-500 */
+}
+
+/* Admin Sections */
+.admin-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem; /* 8px */
+}
+#admin-view h3 {
+    font-size: 1.125rem; /* 18px */
+    font-weight: 600;
+}
+#admin-add-coins-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    color: #FFFFFF;
+    background-color: #16A34A; /* green-600 */
+    transition: background-color 0.2s;
+}
+#admin-add-coins-btn:hover {
+    background-color: #15803D; /* green-700 */
+}
+#admin-add-coins-btn:disabled {
+    opacity: 0.5;
+}
+
+.admin-list-box {
+    max-height: 24rem; /* 384px */
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    padding-right: 0.5rem;
+}
+
+/* Styles for the JS-generated order/user elements */
+.order-element, .user-element {
+    padding: 0.75rem;
+    background-color: #F9FAFB; /* gray-50 */
+    border-radius: 0.5rem; /* rounded-lg */
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05); /* shadow-sm */
+}
+.user-element .email {
+    font-weight: 800;
+    color: #4F46E5; /* indigo-600 */
+}
+.user-element .email.admin {
+    color: #EAB308; /* yellow-500 */
+}
+.user-element .meta, .order-element .meta {
+    font-size: 0.875rem; /* 14px */
+    color: #374151; /* gray-700 */
+}
+.user-element .uid {
+    font-size: 0.75rem; /* 12px */
+    font-family: monospace;
+    color: #6B7280; /* gray-500 */
+}
+.order-element .type {
+    font-weight: 800;
+    font-size: 1.125rem; /* 18px */
+    color: #4F46E5; /* indigo-600 */
+}
+.order-element .details {
+    font-weight: 500;
+    color: #111827; /* gray-900 */
+    white-space: pre-wrap; /* Preserves line breaks */
+    margin-top: 0.5rem;
+}
+.order-element .status-box {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #E5E7EB; /* gray-200 */
+}
+.order-element .status-label {
+    font-weight: 800;
+    font-size: 1.125rem; /* 18px */
+}
+.order-element .status-completed {
+    color: #16A34A; /* green-600 */
+}
+.order-element .status-pending {
+    color: #D97706; /* yellow-600 */
+}
+.order-element .image-link {
+    display: block;
+    font-size: 0.875rem; /* 14px */
+    color: #4F46E5; /* indigo-600 */
+    text-decoration: underline;
+    margin-top: 0.25rem;
+}
+.order-element .image-preview {
+    margin-top: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 24rem; /* 384px */
+    object-fit: cover;
+}
+.order-element .admin-user-info {
+    font-size: 0.75rem; /* 12px */
+    font-family: monospace;
+    background-color: #E5E7EB; /* gray-200 */
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    margin-top: 0.5rem;
+}
+.order-element .admin-actions {
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid #D1D5DB; /* gray-300 */
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.order-element .admin-actions button {
+    width: 100%;
+    padding: 0.25rem 0.75rem;
+    color: #FFFFFF;
+    font-size: 0.75rem; /* 12px */
+    font-weight: 500;
+    border-radius: 0.25rem;
+    transition: background-color 0.2s;
+}
+.order-element .admin-actions .complete-btn {
+    background-color: #16A34A; /* green-600 */
+}
+.order-element .admin-actions .complete-btn:hover {
+    background-color: #15803D; /* green-700 */
+}
+.order-element .admin-actions .update-btn {
+    background-color: #2563EB; /* blue-600 */
+}
+.order-element .admin-actions .update-btn:hover {
+    background-color: #1D4ED8; /* blue-700 */
+}
+.order-element .admin-actions .delete-btn {
+    background-color: #DC2626; /* red-600 */
+}
+.order-element .admin-actions .delete-btn:hover {
+    background-color: #B91C1C; /* red-700 */
+}
+
+
+/* --- 10. RESPONSIVE DESIGN --- */
+
+/* Critical: These are 'min-width' media queries.
+  They apply styles ONLY when the screen is *at least*
+  this wide. This is how 'sm:' and 'md:' work.
+*/
+
+/* For tablets (small) - 640px and up */
+@media (min-width: 640px) {
+    #gallery-grid-container,
+    #gallery-grid-container-app {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+}
+
+/* For tablets (medium) & desktops - 768px and up */
+@media (min-width: 768px) {
+    #gallery-grid-container,
+    #gallery-grid-container-app {
+        grid-template-columns: repeat(3, 1fr); /* 3 columns */
+    }
+
+    #request-form .form-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    }
+}
+
+
+/* --- 11. DARK MODE --- */
+
+/* Critical: This media query checks the user's
+  Operating System preference. 
+*/
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #111827; /* gray-900 */
+        color: #F9FAFB; /* gray-100 */
+    }
+
+    #main-wrapper {
+        background-color: #1F2937; /* gray-800 */
+    }
+
+    #menu-column {
+        background-color: #111827; /* gray-900 */
+    }
+
+    #menu-column h1 {
+        color: #818CF8; /* indigo-400 */
+    }
+
+    .footer-text {
+        color: #9CA3AF; /* gray-400 */
+    }
+
+    /* Nav buttons dark */
+    .auth-nav-btn,
+    .nav-btn {
+        color: #D1D5DB; /* gray-300 */
+    }
+    .auth-nav-btn:hover,
+    .nav-btn:hover {
+        background-color: #374151; /* gray-700 */
+    }
+    .auth-nav-btn.active,
+    .nav-btn.active {
+        background-color: #4338CA; /* indigo-700 */
+        color: #FFFFFF;
+    }
+    #nav-admin {
+        color: #FACC15; /* yellow-400 */
+    }
+    #nav-admin:hover {
+        background-color: #374151; /* gray-700 */
+    }
+    #logout-button {
+        color: #F87171; /* red-400 */
+    }
+    #logout-button:hover {
+        background-color: #374151; /* gray-700 */
+    }
+
+    /* Auth Form dark */
+    #auth-container {
+        background-color: #1F2937; /* gray-800 */
+    }
+    #form-title {
+        color: #FFFFFF; /* white */
+    }
+    .auth-header p {
+        color: #9CA3AF; /* gray-400 */
+    }
+    #toggle-form,
+    #forgot-password-btn {
+        color: #818CF8; /* indigo-400 */
+    }
+    
+    /* Inputs dark */
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    input[type="number"],
+    select,
+    textarea {
+        background-color: #374151; /* gray-700 */
+        border-color: #4B5563; /* gray-600 */
+        color: #FFFFFF; /* white */
+    }
+    input::placeholder,
+    textarea::placeholder {
+        color: #9CA3AF; /* gray-400 */
+    }
+    
+    /* Message box dark */
+    .bg-red-100 { 
+        background-color: #7f1d1d; /* red-900 */
+        color: #FEE2E2; /* red-200 */
+    }
+    .bg-green-100 { 
+        background-color: #064e3b; /* green-900 */
+        color: #D1FAE5; /* green-200 */
+    }
+
+    /* Gallery/Welcome dark */
+    .welcome-banner {
+        background-color: #1F2937; /* gray-800 */
+    }
+    .welcome-banner h2 {
+        color: #818CF8; /* indigo-400 */
+    }
+    .welcome-banner p {
+        color: #D1D5DB; /* gray-300 */
+    }
+    .welcome-banner .powered-by {
+        color: #6B7280; /* gray-500 */
+    }
+    #gallery-view-auth h3,
+    #gallery-view-app h3 {
+        color: #FFFFFF; /* white */
+    }
+    .gallery-item {
+        background-color: #1F2937; /* gray-800 */
+    }
+    .gallery-item p {
+        color: #D1D5DB; /* gray-300 */
+    }
+
+    /* Profile dark */
+    #profile-view h2 {
+        color: #FFFFFF; /* white */
+    }
+    #profile-view .label {
+        color: #9CA3AF; /* gray-400 */
+    }
+    #profile-email {
+        color: #818CF8; /* indigo-400 */
+    }
+    #profile-uid {
+        color: #D1D5DB; /* gray-300 */
+        background-color: #374151; /* gray-700 */
+    }
+    #profile-coins {
+        color: #4ADE80; /* green-400 */
+    }
+    .buy-coins-section {
+        border-top-color: #374151; /* gray-700 */
+    }
+    .buy-coins-section h3 {
+        color: #FFFFFF; /* white */
+    }
+    .coin-price {
+        color: #E5E7EB; /* gray-200 */
+    }
+
+    /* Request dark */
+    #request-view h2 {
+        color: #FFFFFF; /* white */
+    }
+    .cost-notice {
+        color: #9CA3AF; /* gray-400 */
+    }
+    .coin-text {
+        color: #4ADE80; /* green-400 */
+    }
+    #request-form label {
+        color: #D1D5DB; /* gray-300 */
+    }
+
+    /* Orders/Admin dark */
+    #orders-view h2, #admin-view h2 {
+        color: #FFFFFF; /* white */
+    }
+    #no-orders-message {
+        color: #9CA3AF; /* gray-400 */
+    }
+    #admin-view h3 {
+        color: #FFFFFF; /* white */
+    }
+    .order-element, .user-element {
+        background-color: #374151; /* gray-700 */
+    }
+    .user-element .email {
+        color: #818CF8; /* indigo-400 */
+    }
+    .user-element .meta, .order-element .meta {
+        color: #D1D5DB; /* gray-300 */
+    }
+    .user-element .uid {
+        color: #9CA3AF; /* gray-400 */
+    }
+    .order-element .type {
+        color: #818CF8; /* indigo-400 */
+    }
+    .order-element .details {
+        color: #FFFFFF; /* white */
+    }
+    .order-element .status-box {
+        border-top-color: #4B5563; /* gray-600 */
+    }
+    .order-element .status-completed {
+        color: #4ADE80; /* green-400 */
+    }
+    .order-element .status-pending {
+        color: #FBBF24; /* yellow-400 */
+    }
+    .order-element .image-link {
+        color: #818CF8; /* indigo-400 */
+    }
+    .order-element .admin-user-info {
+        background-color: #1F2937; /* gray-800 */
+    }
+    .order-element .admin-actions {
+        border-top-color: #4B5563; /* gray-600 */
+    }
 }

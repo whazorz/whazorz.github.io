@@ -1,362 +1,297 @@
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WDESIGN</title>
     
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                },
-            },
-        }
-    </script>
-    <script src="https://www.paypal.com/sdk/js?client-id=AZqTbz5nRPWu2TEZhLsJKFlKuC6MneW3Xwj9XeACCZ1QM1CXVJ4mNIt4RIh1_JoG-yQypUnzDQKz4Jtc&currency=EUR&disable-funding=credit,card&locale=en_US"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="style.css">
     
-    <style>
-        .nav-btn.active {
-            @apply bg-indigo-700 text-white;
-        }
-        .auth-nav-btn {
-            @apply p-2 rounded-lg font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200;
-        }
-        .auth-nav-btn.active {
-            @apply bg-indigo-700 text-white;
-        }
-    </style>
+    <script src="https://www.paypal.com/sdk/js?client-id=AZqTbz5nRPWu2TEZhLsJKFlKuC6MneW3Xwj9XeACCZ1QM1CXVJ4mNIt4RIh1_JoG-yQypUnzDQKz4Jtc&currency=EUR&disable-funding=credit,card&locale=en_US"></script>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex items-center justify-center min-h-full p-4 font-sans">
+<body>
 
-    <div class="w-full max-w-6xl flex bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden" style="min-height: 90vh;">
+    <div id="main-wrapper">
         
-        <div id="menu-column" class="w-56 p-6 flex-shrink-0 flex flex-col space-y-6 bg-gray-100 dark:bg-gray-900">
-            <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">WDESIGN
+        <div id="menu-column">
+            <h1>WDESIGN
                 <h2>Whazorz Designs</h2>
             </h1>
             
-            <nav id="auth-nav-menu" class="hidden flex flex-col space-y-2">
-                <button id="auth-nav-gallery" class="auth-nav-btn w-full text-left p-3 flex items-center space-x-3">
-                    <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
+            <nav id="auth-nav-menu" class="hidden"> <button id="auth-nav-gallery" class="auth-nav-btn active"> <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
                     <span>Home&nbsp;</span>
                 </button>
-                <button id="auth-nav-login" class="auth-nav-btn w-full text-left p-3 flex items-center space-x-3">
+                <button id="auth-nav-login" class="auth-nav-btn">
                     <img src="images/icons/icon-signin.jpg" alt="Sign In" class="wow-icon">
                     <span>Login&nbsp;</span>
                 </button>
             </nav>
 
-            <nav id="app-nav-menu" class="hidden flex flex-col space-y-2">
-                <button id="nav-gallery" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
-                    <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
+            <nav id="app-nav-menu" class="hidden"> <button id="nav-gallery" class="nav-btn"> <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
                     <span>Home</span>
                 </button>
-                <button id="nav-profile" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                <button id="nav-profile" class="nav-btn">
                     <img src="images/icons/icon-gallery.jpg" alt="Profile" class="wow-icon">
                     <span>Profile</span>
                 </button>
-                <button id="nav-request" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                <button id="nav-request" class="nav-btn">
                     <img src="images/icons/icon-request.jpg" alt="Request" class="wow-icon">
                     <span>Request</span>
                 </button>
-                <button id="nav-orders" class="nav-btn w-full text-left p-3 flex items-center space-x-3">
+                <button id="nav-orders" class="nav-btn">
                     <img src="images/icons/icon-orders.jpg" alt="Orders" class="wow-icon">
                     <span>Orders</span>
                 </button>
-                <button id="nav-admin" class="nav-btn hidden w-full text-left p-3 font-medium text-yellow-600 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-gray-700 flex items-center space-x-3">
-                    <img src="images/icons/icon-admin.jpg" alt="Admin" class="wow-icon">
+                <button id="nav-admin" class="nav-btn hidden"> <img src="images/icons/icon-admin.jpg" alt="Admin" class="wow-icon">
                     <span>Admin</span>
                 </button>
-                <button id="logout-button" class="w-full text-left p-3 rounded-lg font-medium text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-gray-700 transition-colors duration-200 flex items-center space-x-3">
+                <button id="logout-button" class="nav-btn">
                     <img src="images/icons/icon-signout.jpg" alt="Sign Out" class="wow-icon">
                     <span>Sign Out</span>
                 </button>
             </nav>
 
-            <div class="flex-grow"></div>
+            <div class="flex-grow"></div> 
             
-            <p class="text-xs text-gray-500 dark:text-gray-400">
+            <p class="footer-text">
                 Secure login system Powered by Firebase.
             </p>
         </div>
 
-        <div id="content-column" class="flex-1 p-6 sm:p-10 overflow-y-auto no-scrollbar">
+        <div id="content-column">
             <div id="app-content">
 
-                <div id="loading-container" class="text-center p-10">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Loading...</h2>
+                <div id="loading-container">
+                    <h2>Loading...</h2>
                 </div>
                 
-                <div id="logged-out-container" class="hidden">
-                    
-                    <div id="auth-container" class="hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
-                        <div class="text-center">
-                            <h2 id="form-title" class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Sign in to your account</h2>
-                            <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                <div id="logged-out-container" class="hidden"> <div id="auth-container" class="hidden"> <div class="auth-header">
+                            <h2 id="form-title">Sign in to your account</h2>
+                            <p>
                                 Or
-                                <button id="toggle-form" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
+                                <button id="toggle-form">
                                     create a new account
                                 </button>
                             </p>
                         </div>
 
-                        <form id="auth-form" class="mt-8 space-y-6">
-                            <div class="rounded-md -space-y-px">
+                        <form id="auth-form">
+                            <div class="form-input-group">
                                 <div>
                                     <label for="email" class="sr-only">Email address</label>
-                                    <input id="email" name="email" type="email" autocomplete="email" required
-                                        class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:ring-2 focus:z-10 sm:text-sm transition">
+                                    <input id="email" name="email" type="email" autocomplete="email" required>
                                 </div>
                                 <div id="password-field">
                                     <label for="password" class="sr-only">Password</label>
-                                    <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6"
-                                        class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 placeholder-gray-500 text-gray-900 dark:text-white rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:ring-2 focus:z-10 sm:text-sm transition">
+                                    <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6">
                                 </div>
                             </div>
 
-                            <div class="flex items-center justify-end">
-                                <div class="text-sm">
-                                    <button type="button" id="forgot-password-btn" class="font-medium text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 transition-colors duration-200">
-                                        Forgot your password?
-                                    </button>
-                                </div>
+                            <div class="form-options">
+                                <button type="button" id="forgot-password-btn">
+                                    Forgot your password?
+                                </button>
                             </div>
 
                             <div>
-                                <button type="submit" id="submit-button"
-                                    class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-colors duration-200">
+                                <button type="submit" id="submit-button">
                                     Sign In
                                 </button>
                             </div>
                         </form>
                         
-                        <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-                    </div>
+                        <div id="message-box" class="hidden"></div> </div>
 
-                    <div id="gallery-view-auth" class="app-view hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10 fade-in">
-                        <div class="mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg fade-in">
-                            <h2 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400 fade">Welcome to Wdesign.</h2>
-                      
-                          <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
+                    <div id="gallery-view-auth" class="app-view"> <div class="welcome-banner">
+                            <h2>Welcome to Wdesign.</h2>
+                            <p>
                                 Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
                             </p>
-                          <blockquote>
-                            <h2>Powered by Firebase &amp; GitHub.</h2>
-                          </blockquote>
+                            <blockquote>
+                                <h2>Powered by Firebase &amp; GitHub.</h2>
+                            </blockquote>
                         </div>
-                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6"> <strong>Hall of Fame Designs</strong>&nbsp;</h3>
-<div id="gallery-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-              <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="block rounded-lg shadow-md overflow-hidden transform hover:scale-105 hover:shadow-xl transition-all duration-300">
-                  <img src="images/my-logo.jpg" alt="Watch me live doing designs." class="w-full h-64 object-cover">
-              <p class="p-3 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">Watch me live doing designs.</p>
-            </a>
-                      </div>
-                  </div>
+                        <h3> <strong>Hall of Fame Designs.</strong>&nbsp;</h3>
+                        <div id="gallery-grid-container">
+                            <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="gallery-item">
+                                <img src="images/my-logo.jpg" alt="Watch me live doing designs.">
+                                <p>Watch me live doing designs.</p>
+                            </a>
+                            </div>
+                    </div>
                 </div>
 
-                <div id="app-container" class="hidden w-full">
-                    <main class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
+                <div id="app-container" class="hidden"> <div id="gallery-view-app" class="app-view hidden"> <div class="welcome-banner">
+                            <h2>Welcome to Wdesign.</h2>
+                            <p>
+                                Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
+                            </p>
+                            <p class="powered-by">
+                                Powered by Firebase & GitHub.
+                            </p>
+                        </div>
+                        <h3> <strong>Hall of Fame Designs.</strong>&nbsp;</h3>
+                        <div id="gallery-grid-container-app"> <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="gallery-item">
+                                <img src="images/my-logo.jpg" alt="Watch me live doing designs.">
+                                <p>Watch me live doing designs.</p>
+                            </a>
+                        </div>
+                    </div>
+                            
+                    <div id="profile-view" class="app-view hidden"> <h2>Your Profile</h2>
+                        <div>
+                            <p class="label">Email</p>
+                            <p id="profile-email"></p>
+                        </div>
+                        <div>
+                            <p class="label">User ID</p>
+                            <p id="profile-uid"></p>
+                        </div>
+                        <div>
+                            <p class="label">Your Coins</p>
+                            <p class="coin-balance">
+                                <img src="images/icons/icon-coin.jpg" alt="Coins" class="wow-icon">
+                                <span id="profile-coins">--</span>
+                            </p>
+                        </div>
                         
-                        <div id="gallery-view-app" class="app-view hidden">
-                            <div class="text-center mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg">
-                                <h2 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">Welcome to Wdesign.</h2>
-                                <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
-                                    Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
-                                </p>
-                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
-                                    Powered by Firebase & GitHub.
-                                </p>
-                            </div>
-                            <h3 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">Hall of Fame Designs.</h3>
-                            <div id="gallery-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                                <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="block rounded-lg shadow-md overflow-hidden transform hover:scale-105 hover:shadow-xl transition-all duration-300">
-                                    <img src="images/my-logo.jpg" alt="Watch me live doing designs." class="w-full h-64 object-cover">
-                                    <p class="p-3 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">Watch me live doing designs.</p>
-                                </a>
-                                </div>
-                            </div>
+                        <div class="buy-coins-section">
+                            <h3>Buy Coins</h3>
+                            <p class="coin-price">15 Coins = 5,00 EUR</p>
+                            <div id="paypal-button-container"></div>
+                            <div id="buy-coins-message-box" class="hidden"></div>
+                        </div>
+                    </div>
+
+                    <div id="request-view" class="app-view hidden"> <h2>Request a WoW Banner</h2>
+                        <p class="cost-notice">This request will cost <span class="coin-text">10 coins</span>. Your current balance is <span id="request-coin-balance" class="coin-text">--</span>.</p>
                         
-                        <div id="profile-view" class="app-view hidden space-y-4">
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Profile</h2>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Email</p>
-                                <p id="profile-email" class="text-lg font-semibold text-indigo-600 dark:text-indigo-400 break-words"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">User ID</p>
-                                <p id="profile-uid" class="text-xs font-mono text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded p-2 break-all"></p>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-gray-500 dark:text-gray-400">Your Coins</p>
-                                <p class="flex items-center space-x-2">
-                                    <img src="images/icons/icon-coin.jpg" alt="Coins" class="wow-icon">
-                                    <span id="profile-coins" class="text-3xl font-bold text-green-600 dark:text-green-400">--</span>
-                                </p>
-                            </div>
+                        <form id="request-form">
                             
-                            <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
-                                <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-2">Buy Coins</h3>
-                                <p class="text-md font-semibold text-gray-800 dark:text-gray-200">15 Coins = 5,00 EUR</p>
-                                <div id="paypal-button-container" class="mt-4"></div>
-                                <div id="buy-coins-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-                            </div>
-                        </div>
-
-                        <div id="request-view" class="app-view hidden space-y-6">
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Request a WoW Banner</h2>
-                            <p class="text-sm text-gray-600 dark:text-gray-400">This request will cost <span class="font-bold text-lg text-green-600 dark:text-green-400">10 coins</span>. Your current balance is <span id="request-coin-balance" class="font-bold text-lg text-green-600 dark:text-green-400">--</span>.</p>
-                            
-                            <form id="request-form" class="space-y-4">
-                                
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="request-character-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Character Name</label>
-                                        <input type="text" id="request-character-name" required
-                                            class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
-                                    </div>
-                                    <div>
-                                        <label for="request-server-region" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Server & Region</label>
-                                        <input type="text" id="request-server-region" required
-                                            placeholder="e.g., Stormrage - NA"
-                                            class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
-                                    </div>
-                                </div>
-
-                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    <div>
-                                        <label for="request-race" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Race</label>
-                                        <select id="request-race" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
-                                            <option value="">Select a race...</option>
-                                            <optgroup label="Alliance">
-                                                <option value="Human">Human</option>
-                                                <option value="Dwarf">Dwarf</option>
-                                                <option value="Night Elf">Night Elf</option>
-                                                <option value="Gnome">Gnome</option>
-                                                <option value="Draenei">Draenei</option>
-                                                <option value="Worgen">Worgen</option>
-                                            </optgroup>
-                                            <optgroup label="Horde">
-                                                <option value="Orc">Orc</option>
-                                                <option value="Undead">Undead</option>
-                                                <option value="Tauren">Tauren</option>
-                                                <option value="Troll">Troll</option>
-                                                <option value="Blood Elf">Blood Elf</option>
-                                                <option value="Goblin">Goblin</option>
-                                            </optgroup>
-                                            <optgroup label="Neutral">
-                                                <option value="Pandaren">Pandaren</option>
-                                                <option value="Dracthyr">Dracthyr</option>
-                                            </optgroup>
-                                        </select>
-                                    </div>
-                                    <div>
-                                        <label for="request-class" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Class</label>
-                                        <select id="request-class" required class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
-                                            <option value="">Select a class...</option>
-                                            <option value="Warrior">Warrior</option>
-                                            <option value="Paladin">Paladin</option>
-                                            <option value="Hunter">Hunter</option>
-                                            <option value="Rogue">Rogue</option>
-                                            <option value="Priest">Priest</option>
-                                            <option value="Death Knight">Death Knight</option>
-                                            <option value="Shaman">Shaman</option>
-                                            <option value="Mage">Mage</option>
-                                            <option value="Warlock">Warlock</option>
-                                            <option value="Monk">Monk</option>
-                                            <option value="Druid">Druid</option>
-                                            <option value="Demon Hunter">Demon Hunter</option>
-                                            <option value="Evoker">Evoker</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
+                            <div class="form-grid">
                                 <div>
-                                    <label for="request-gear-set" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Gear Set / Transmog</label>
-                                    <input type="text" id="request-gear-set" required
-                                        placeholder="e.g., Judgement Armor (Recolor), Shadowlands Gladiator"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition">
+                                    <label for="request-character-name">Character Name</label>
+                                    <input type="text" id="request-character-name" required>
                                 </div>
-
                                 <div>
-                                    <label for="request-background" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Background Description</label>
-                                    <textarea id="request-background" name="background" rows="3" required
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition"
-                                        placeholder="e.g., Standing at the gates of Stormwind, a dark forest, top of Icecrown Citadel..."></textarea>
+                                    <label for="request-server-region">Server & Region</label>
+                                    <input type="text" id="request-server-region" required placeholder="e.g., Stormrage - NA">
                                 </div>
-                                
+                            </div>
+
+                            <div class="form-grid">
                                 <div>
-                                    <label for="request-extra-details" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Extra Details (Optional)</label>
-                                    <textarea id="request-extra-details" name="extra-details" rows="2"
-                                        class="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm transition"
-                                        placeholder="Specific pose? Weapon effects glowing? Any pets?"></textarea>
+                                    <label for="request-race">Race</label>
+                                    <select id="request-race" required>
+                                        <option value="">Select a race...</option>
+                                        <optgroup label="Alliance">
+                                            <option value="Human">Human</option>
+                                            <option value="Dwarf">Dwarf</option>
+                                            <option value="Night Elf">Night Elf</option>
+                                            <option value="Gnome">Gnome</option>
+                                            <option value="Draenei">Draenei</option>
+                                            <option value="Worgen">Worgen</option>
+                                        </optgroup>
+                                        <optgroup label="Horde">
+                                            <option value="Orc">Orc</option>
+                                            <option value="Undead">Undead</option>
+                                            <option value="Tauren">Tauren</option>
+                                            <option value="Troll">Troll</option>
+                                            <option value="Blood Elf">Blood Elf</option>
+                                            <option value="Goblin">Goblin</option>
+                                        </optgroup>
+                                        <optgroup label="Neutral">
+                                            <option value="Pandaren">Pandaren</option>
+                                            <option value="Dracthyr">Dracthyr</option>
+                                        </optgroup>
+                                    </select>
                                 </div>
-                                
-                                <button type="submit" id="submit-request-button"
-                                    class="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-colors duration-200">
-                                    Submit Request (10 Coins)
-                                </button>
-                            </form>
-                            <div id="request-message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
-                        </div>
-
-                        <div id="orders-view" class="app-view hidden space-y-4">
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Your Orders</h2>
-                            <div id="orders-list-container" class="space-y-3 max-h-96 overflow-y-auto pr-2 no-scrollbar">
-                                <p id="no-orders-message" class="text-gray-500 dark:text-gray-400">You haven't requested any orders yet.</p>
+                                <div>
+                                    <label for="request-class">Class</label>
+                                    <select id="request-class" required>
+                                        <option value="">Select a class...</option>
+                                        <option value="Warrior">Warrior</option>
+                                        <option value="Paladin">Paladin</option>
+                                        <option value="Hunter">Hunter</option>
+                                        <option value="Rogue">Rogue</option>
+                                        <option value="Priest">Priest</option>
+                                        <option value="Death Knight">Death Knight</option>
+                                        <option value="Shaman">Shaman</option>
+                                        <option value="Mage">Mage</option>
+                                        <option value="Warlock">Warlock</option>
+                                        <option value="Monk">Monk</option>
+                                        <option value="Druid">Druid</option>
+                                        <option value="Demon Hunter">Demon Hunter</option>
+                                        <option value="Evoker">Evoker</option>
+                                    </select>
                                 </div>
-                        </div>
-
-                        <div id="admin-view" class="app-view hidden space-y-6">
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Admin Panel</h2>
-                            
-                            <div class="space-y-2">
-                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Manage Coins</h3>
-                                <input id="admin-user-id" type="text" placeholder="User ID" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm transition">
-                                <input id="admin-coin-amount" type="number" placeholder="Amount to Add (e.g., 50 or -10)" class="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 dark:bg-gray-700 rounded-md sm:text-sm transition">
-                                <button id="admin-add-coins-btn" class="w-full py-2 px-4 rounded-md text-white bg-green-600 hover:bg-green-700 disabled:opacity-50 transition-colors duration-200">
-                                    Add Coins
-                                </button>
-                            </div>
-
-                            <div class="space-y-2">
-                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Pending Orders</h3>
-                                <div id="admin-orders-list" class="space-y-3 max-h-96 overflow-y-auto pr-2 no-scrollbar">
-                                    <p id="admin-no-orders" class="text-gray-500 dark:text-gray-400">No pending orders found.</p>
-                                    </div>
                             </div>
                             
-                            <div class="space-y-2">
-                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">Recently Completed Orders (for Editing)</h3>
-                                <div id="admin-completed-orders-list" class="space-y-3 max-h-96 overflow-y-auto pr-2 no-scrollbar">
-                                    <p id="admin-no-completed-orders" class="text-gray-500 dark:text-gray-400">No completed orders found.</p>
-                                    </div>
+                            <div>
+                                <label for="request-gear-set">Gear Set / Transmog</label>
+                                <input type="text" id="request-gear-set" required placeholder="e.g., Judgement Armor (Recolor), Shadowlands Gladiator">
                             </div>
 
-                            <div class="space-y-2">
-                                <h3 class="text-lg font-medium text-gray-900 dark:text-white">All Users</h3>
-                                <div id="admin-users-list" class="space-y-3 max-h-96 overflow-y-auto pr-2 no-scrollbar">
-                                    <p id="admin-no-users" class="text-gray-500 dark:text-gray-400">Loading users...</p>
-                                    </div>
+                            <div>
+                                <label for="request-background">Background Description</label>
+                                <textarea id="request-background" name="background" rows="3" required placeholder="e.g., Standing at the gates of Stormwind, a dark forest, top of Icecrown Citadel..."></textarea>
                             </div>
+                            
+                            <div>
+                                <label for="request-extra-details">Extra Details (Optional)</label>
+                                <textarea id="request-extra-details" name="extra-details" rows="2" placeholder="Specific pose? Weapon effects glowing? Any pets?"></textarea>
+                            </div>
+                            
+                            <button type="submit" id="submit-request-button">
+                                Submit Request (10 Coins)
+                            </button>
+                        </form>
+                        <div id="request-message-box" class="hidden"></div> </div>
 
+                    <div id="orders-view" class="app-view hidden"> <h2>Your Orders</h2>
+                        <div id="orders-list-container">
+                            <p id="no-orders-message">You haven't requested any orders yet.</p>
+                        </div>
+                    </div>
+
+                    <div id="admin-view" class="app-view hidden"> <h2>Admin Panel</h2>
+                        
+                        <div class="admin-section">
+                            <h3>Manage Coins</h3>
+                            <input id="admin-user-id" type="text" placeholder="User ID">
+                            <input id="admin-coin-amount" type="number" placeholder="Amount to Add (e.g., 50 or -10)">
+                            <button id="admin-add-coins-btn">
+                                Add Coins
+                            </button>
                         </div>
 
-                    </main>
-                </div>
+                        <div class="admin-section">
+                            <h3>All Pending Orders</h3>
+                            <div id="admin-orders-list" class="admin-list-box">
+                                <p id="admin-no-orders">No pending orders found.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="admin-section">
+                            <h3>Recently Completed Orders (for Editing)</h3>
+                            <div id="admin-completed-orders-list" class="admin-list-box">
+                                <p id="admin-no-completed-orders">No completed orders found.</p>
+                            </div>
+                        </div>
 
-            </div>
-        </div>
-    </div>
+                        <div class="admin-section">
+                            <h3>All Users</h3>
+                            <div id="admin-users-list" class="admin-list-box">
+                                <p id="admin-no-users">Loading users...</p>
+                            </div>
+                        </div>
+                    </div>
 
-    <script type="module" src="app.js"></script>
+                </div> </div> </div> </div> <script type="module" src="app.js"></script>
     
 </body>
 </html>
