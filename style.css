@@ -1,5 +1,7 @@
 /* --- Global Styles --- */
 
+
+
 /* Hide scrollbars */
 ::-webkit-scrollbar {
     display: none;
@@ -46,5 +48,12 @@ h1 {
 }
 
 h2 {
-    font-size: 10px;
+    font-size: 8px;
+	font-weight: lighter;
+}.fade {
+}
+
+#content-column {
+	background: white;
+	padding: 2%;
 }

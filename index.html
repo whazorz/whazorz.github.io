@@ -39,18 +39,18 @@
     <div class="w-full max-w-6xl flex bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden" style="min-height: 90vh;">
         
         <div id="menu-column" class="w-56 p-6 flex-shrink-0 flex flex-col space-y-6 bg-gray-100 dark:bg-gray-900">
-            <h1 class="text-2xl font-bold text-center text-indigo-600 dark:text-indigo-400">WDESIGN
-                <h2><center>Whazorz Designs</center></h2>
+            <h1 class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">WDESIGN
+                <h2>Whazorz Designs</h2>
             </h1>
             
             <nav id="auth-nav-menu" class="hidden flex flex-col space-y-2">
                 <button id="auth-nav-gallery" class="auth-nav-btn w-full text-left p-3 flex items-center space-x-3">
                     <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
-                    <span>Home</span>
+                    <span>Home&nbsp;</span>
                 </button>
                 <button id="auth-nav-login" class="auth-nav-btn w-full text-left p-3 flex items-center space-x-3">
                     <img src="images/icons/icon-signin.jpg" alt="Sign In" class="wow-icon">
-                    <span>Sign In</span>
+                    <span>Login&nbsp;</span>
                 </button>
             </nav>
 
@@ -83,7 +83,7 @@
 
             <div class="flex-grow"></div>
             
-            <p class="text-center text-xs text-gray-500 dark:text-gray-400">
+            <p class="text-xs text-gray-500 dark:text-gray-400">
                 Secure login system Powered by Firebase.
             </p>
         </div>
@@ -141,14 +141,47 @@
                         <div id="message-box" class="hidden fade-in mt-4 p-4 rounded-md text-sm"></div>
                     </div>
 
-                    <div id="gallery-view-auth" class="app-view hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
+                    <div id="gallery-view-auth" class="app-view hidden bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10 fade-in">
+                        <div class="mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg fade-in">
+                            <h2 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400 fade">Welcome to Wdesign.</h2>
+                      
+                          <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
+                                Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
+                            </p>
+                          <blockquote>
+                            <h2>Powered by Firebase &amp; GitHub.</h2>
+                          </blockquote>
                         </div>
+                        <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-6"> <strong>Hall of Fame Designs</strong>&nbsp;</h3>
+<div id="gallery-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="block rounded-lg shadow-md overflow-hidden transform hover:scale-105 hover:shadow-xl transition-all duration-300">
+                  <img src="images/my-logo.jpg" alt="Watch me live doing designs." class="w-full h-64 object-cover">
+              <p class="p-3 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">Watch me live doing designs.</p>
+            </a>
+                      </div>
+                  </div>
                 </div>
 
                 <div id="app-container" class="hidden w-full">
                     <main class="bg-white dark:bg-gray-800 shadow-lg rounded-2xl p-6 sm:p-10">
                         
                         <div id="gallery-view-app" class="app-view hidden">
+                            <div class="text-center mb-8 p-6 bg-white dark:bg-gray-800 rounded-lg">
+                                <h2 class="text-3xl font-bold tracking-tight text-indigo-600 dark:text-indigo-400">Welcome to Wdesign.</h2>
+                                <p class="mt-2 text-lg text-gray-700 dark:text-gray-300">
+                                    Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
+                                </p>
+                                <p class="mt-1 text-sm text-gray-500 dark:text-gray-500">
+                                    Powered by Firebase & GitHub.
+                                </p>
+                            </div>
+                            <h3 class="text-2xl font-bold text-center text-gray-900 dark:text-white mb-6">Hall of Fame Designs.</h3>
+                            <div id="gallery-grid-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                                <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="block rounded-lg shadow-md overflow-hidden transform hover:scale-105 hover:shadow-xl transition-all duration-300">
+                                    <img src="images/my-logo.jpg" alt="Watch me live doing designs." class="w-full h-64 object-cover">
+                                    <p class="p-3 text-sm text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800">Watch me live doing designs.</p>
+                                </a>
+                                </div>
                             </div>
                         
                         <div id="profile-view" class="app-view hidden space-y-4">
