@@ -24,7 +24,7 @@ admin.initializeApp();
 const db = admin.firestore();
 
 // PayPal API URLs - use "api-m.paypal.com" for LIVE
-const PAYPAL_API = "https://api-m.paypal.com";
+const PAYPAL_API = "https://api-m.sandbox.paypal.com";
 
 /**
  * Generates a PayPal access token for API calls.
