@@ -132,7 +132,7 @@ exports.verifyPayPalOrder = functions.https.onCall(async (data, context) => {
     const currencyPaid = orderData.purchase_units[0].amount.currency_code;
 
     // 4. Security Check: Verify both amount and currency
-    if (parseFloat(amountPaid) < 0 || currencyPaid !== "EUR") {
+    if (parseFloat(amountPaid) < 5 || currencyPaid !== "EUR") {
       throw new functions.https.HttpsError(
         "failed-precondition",
         `Incorrect payment. Expected 5.00 EUR, got ${amountPaid} ${currencyPaid}`
