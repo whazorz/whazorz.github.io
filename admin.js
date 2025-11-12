@@ -81,6 +81,7 @@ const firebaseConfig = {
           details += `Info: ${req.poster_info}`;
         } // ... add other product types
         
+        // --- MODIFIED INNERHTML TO ADD NEW COLUMNS ---
         tr.innerHTML = `
           <td>${date}</td>
           <td>${req.email}</td>
@@ -93,6 +94,8 @@ const firebaseConfig = {
               <option value="declined" ${req.status === 'declined' ? 'selected' : ''}>Declined</option>
             </select>
           </td>
+          <td>${req.showcase ? 'Yes' : 'No'}</td>
+          <td>${req.email_agree ? 'Yes' : 'No'}</td>
           <td><pre class="request-details">${details}</pre></td>
           <td>
             <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>

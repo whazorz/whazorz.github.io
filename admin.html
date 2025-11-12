@@ -7,7 +7,6 @@
   <link rel="icon" href="w.png" type="image/png">
   <link rel="stylesheet" href="style.css">
 
-  <!-- Inline Admin-specific Styles -->
   <style>
     /* ===== Body & Layout ===== */
     body {
@@ -138,7 +137,6 @@
 
   <div class="admin-container">
 
-    <!-- ===== Admin Login ===== -->
     <div id="admin-login">
       <h2>Admin Login</h2>
       <form id="login-form">
@@ -155,14 +153,12 @@
       </form>
     </div>
 
-    <!-- ===== Admin Dashboard ===== -->
     <div id="admin-dashboard">
       <button id="logout-btn">Logout</button>
       <h2>Admin Dashboard</h2>
 
       <hr>
 
-      <!-- Gallery Management -->
       <h3>Manage Portfolio Gallery</h3>
       <form id="gallery-form">
         
@@ -199,7 +195,6 @@
       <hr>
 
       <div class="scroll-box">
-      <!-- Requests Management -->
       <h3>View Requests</h3>
       <table class="request-list">
         <thead>
@@ -209,6 +204,8 @@
             <th>Product</th>
             <th>Budget</th>
             <th>Status</th>
+            <th>Showcase</th>
+            <th>Emails</th>
             <th>Details</th>
             <th>Actions</th>
           </tr>
@@ -221,7 +218,6 @@
   </div>
   
 
-  <!-- ===== Firebase & Admin Script ===== -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>

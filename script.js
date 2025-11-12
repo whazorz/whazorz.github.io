@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadLatestWork(db);
     setupLightbox();
     setupHomePageLinks();
+    setupImageProtection(); // --- NEW: Call image protection function
 
   } catch (e) {
     console.error("❌ Error initializing Firebase:", e);
@@ -47,6 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById(targetId).classList.add("active");
     });
   });
+
+  // --- BROKEN CODE REMOVED ---
+  // The broken checkbox code that was here has been removed.
+  // The correct logic is now inside setupRequestForm.
 
   // --- 2. Portfolio Filter ---
   function setupPortfolioFilter() {
@@ -192,6 +197,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const formStatus = document.getElementById("form-status");
     const submitBtn = document.getElementById("submit-btn");
 
+    // --- NEW CHECKBOX LOGIC ---
+    const termsCheckbox = document.getElementById("terms-agree");
+
+    // Disable button by default
+    submitBtn.disabled = true; 
+
+    // Add event listener to the terms checkbox
+    termsCheckbox.addEventListener("change", () => {
+      submitBtn.disabled = !termsCheckbox.checked;
+    });
+    // --- END NEW CHECKBOX LOGIC ---
+
     const prices = {
       profile: 10,
       banner: 20,
@@ -229,7 +246,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async e => {
       e.preventDefault();
-      submitBtn.disabled = true;
+      submitBtn.disabled = true; // Disable on submit
       formStatus.textContent = "Submitting...";
       formStatus.className = "";
 
@@ -239,21 +256,48 @@ document.addEventListener("DOMContentLoaded", () => {
 
       requestData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
       requestData.status = "pending";
+      
+      // Correctly handle boolean conversion for checkboxes
       requestData.showcase = requestData.showcase === "true";
+      // --- NEW LINE TO CAPTURE EMAIL PREFERENCE ---
+      requestData.email_agree = requestData.email_agree === "true";
 
       try {
         const docRef = await db.collection("requests").add(requestData);
         console.log("✅ Request added with ID:", docRef.id);
-        formStatus.textContent = "Request submitted! We will contact you via email shortly.";
+        // --- MODIFIED FOR ANTI-SPAM ---
+        formStatus.textContent = "Success! You can send another request in 30 seconds.";
         formStatus.className = "success";
         form.reset();
         updateForm();
+        
+        // Keep button disabled for 30 seconds
+        submitBtn.disabled = true; 
+        termsCheckbox.checked = false;
+
+        setTimeout(() => {
+          // Re-enable button *only if* checkbox is checked again later
+          submitBtn.disabled = !termsCheckbox.checked;
+          formStatus.textContent = ""; // Clear status message
+        }, 30000); // 30-second delay
+        // --- END ANTI-SPAM MOD ---
+
       } catch (error) {
         console.error("❌ Error adding document:", error);
         formStatus.textContent = "An error occurred. Please try again or contact us directly.";
         formStatus.className = "error";
-      } finally {
-        submitBtn.disabled = false;
+        // Re-enable button on error so user can try again
+        submitBtn.disabled = !termsCheckbox.checked; 
+      }
+    });
+  }
+
+  // --- 9. Image Right-Click Protection ---
+  function setupImageProtection() {
+    document.addEventListener('contextmenu', event => {
+      // Check if the target is an image inside a gallery-container
+      if (event.target.tagName === 'IMG' && event.target.closest('.gallery-container')) {
+        event.preventDefault();
       }
     });
   }

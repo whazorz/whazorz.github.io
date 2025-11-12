@@ -12,7 +12,6 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
@@ -33,7 +32,6 @@
 
   <div class="content-container">
     
-    <!-- HOME SECTION -->
     <section id="home" class="content active">
       <div class="home-content-wrapper">
         <div class="content-padding">
@@ -54,9 +52,12 @@
           <h3>REQUESTING INFO.</h3>
           <div class="info-boxes">
             <div class="box">
-              <p>Delivery timeframe for order mostly takes 2-3 days, can take longer if it is a complex task.</p>
-              <br>
-              <p>Revisions up to 2 depends on complexity.</p>
+              <h3>Key Terms</h3>
+              <p><strong>Approval:</strong> All requests are subject to review. Projects begin only after designer approval.</p>
+              <p><strong>Timeframe:</strong> Standard delivery is 2-3 business days, but complex projects may take longer.</p>
+              <p><strong>Revisions:</strong> Up to two revisions are included. Additional revisions may incur extra charges.</p>
+              <p><strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.</p>
+              <p><strong>Communication:</strong> All project communication will be via email.</p>
               <hr>
               <p>Contacts: whazorz.design@gmail.com</p>
             </div>
@@ -70,6 +71,7 @@
                 <tr><td>Promo Bundle [Logo/Profile/Banner]</td><td>80 Eur</td></tr>
               </table>
               <br>
+              <p><strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.</p>
               <p>Discount for regular client discussable.</p>
             </div>
           </div>
@@ -79,7 +81,6 @@
       </div>
     </section>
 
-    <!-- PORTFOLIO SECTION -->
     <section id="Portfolio" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
@@ -98,21 +99,57 @@
       </div>
     </section>
 
-    <!-- REQUEST SECTION -->
     <section id="Request" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
           <h2>Request a Design</h2>
 
-<div class="disclaimer-box">
-  <h3>Important Design Request Information</h3>
-  <p><strong>Approval:</strong> Your design request will only proceed if it meets the designer’s requirements and is approved for production. The designer reserves the right to decline requests that do not fit the project criteria.</p>
-  <p><strong>Payment:</strong> Payment will only be processed after the client approves and is satisfied with the proposed design. Once approved, the total cost may vary depending on complexity and can exceed your initial budget.</p>
-  <p><strong>Timeframe:</strong> Typical delivery time is 2–3 days, but may extend for more complex designs.</p>
-  <p><strong>Revisions:</strong> Up to 2 revisions are included, depending on the project’s scope and complexity.</p>
-  <p><strong>Communication:</strong> All future communication will be conducted via email.</p>
-</div>
-          
+          <details class="terms-and-conditions">
+            <summary>Please read the full Commission Terms & Conditions before proceeding.</summary>
+            
+            <div class="terms-content">
+              <h3>Commission Terms & Conditions</h3>
+              
+              <h4>Approval</h4>
+              <ul>
+                <li>All design requests are subject to review and approval by the designer.</li>
+                <li>Projects will only proceed if they meet the designer’s creative and technical requirements.</li>
+                <li>The designer reserves the right to decline any request that does not align with the project criteria or ethical guidelines.</li>
+              </ul>
+
+              <h4>Payment</h4>
+              <ul>
+                <li>Payment will be processed only after the client has reviewed and approved the proposed design.</li>
+                <li>Please note that final pricing may vary depending on the project’s complexity and may exceed the initial estimate.</li>
+                <li>Clients will be notified and must approve any cost adjustments before further work continues.</li>
+              </ul>
+
+              <h4>Timeframe</h4>
+              <ul>
+                <li>The standard delivery timeframe is 2–3 business days.</li>
+                <li>However, more complex or customized projects may require additional time.</li>
+                <li>Clients will be informed of any expected delays in advance.</li>
+              </ul>
+
+              <h4>Revisions</h4>
+              <ul>
+                <li>Each project includes up to two (2) revisions, depending on the scope and complexity.</li>
+                <li>Additional revisions may incur extra charges, which will be discussed prior to implementation.</li>
+              </ul>
+
+              <h4>Communication</h4>
+              <ul>
+                <li>All communication and project updates will be conducted via email to ensure clear and traceable correspondence.</li>
+                <li>Clients are encouraged to respond promptly to maintain project timelines.</li>
+              </ul>
+
+              <h4>European Consumer Compliance</h4>
+              <ul>
+                <li>All transactions comply with EU consumer protection laws, including transparency in pricing, digital service delivery, and refund eligibility.</li>
+                <li>Once a design is approved and production has begun, refunds may not be available due to the custom nature of the service.</li>
+              </ul>
+            </div>
+          </details>
           <p>Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong></p>
           
           <form id="request-form">
@@ -165,10 +202,24 @@
               <textarea id="instructions" name="instructions" rows="5" placeholder="Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references."></textarea>
             </div>
 
+             <div class="form-group-inline">
+            <label>
+              <input type="checkbox" id="terms-agree">
+              I agree to the Terms and Conditions
+              </label>
+              </div>  
+            
             <div class="form-group-inline">
               <input type="checkbox" id="showcase" name="showcase" value="true">
               <label for="showcase">I agree to allow WhazorzDesigns to showcase the final work in their portfolio.</label>
             </div>
+
+                  <div class="form-group-inline">
+            <label>
+              <input type="checkbox" id="email-agree" name="email_agree" value="true">
+              I agree to recieve future emails.
+              </label>
+              </div>  
 
             <button type="submit" id="submit-btn">Submit Request</button>
             <div id="form-status"></div>
@@ -181,13 +232,11 @@
 
   <footer>Copyright © WHAZORZ 2025</footer>
 
-  <!-- Lightbox -->
   <div id="lightbox-overlay" class="lightbox-overlay">
     <span id="lightbox-close" class="lightbox-close">&times;</span>
     <img id="lightbox-image" class="lightbox-image" src="" alt="Enlarged portfolio item">
   </div>
 
-  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>

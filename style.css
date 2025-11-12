@@ -14,7 +14,7 @@
 body {
   background: rgb(221, 221, 221);
   font-family: "Montserrat", sans-serif;
-  font-weight: 400;
+  font-weight: 250;
   font-style: normal;
   scroll-behavior: smooth;
 }
@@ -42,6 +42,21 @@ nav {
   font-weight: lighter;
   color: var(--text-light);
   text-align: center;
+  animation: flicker 2s infinite;
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 5px var(--text-light),
+      0 0 10px var(--text-light),
+      0 0 20px var(--text-light);
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
 }
 
 #slogan {
@@ -76,12 +91,23 @@ footer {
   margin-bottom: 10px;
 }
 
+/* basic 1px red border with glow */
+.terms-and-conditions {
+  background: #1e1e1e;
+  color: #ffffff;
+  padding: 40px;
+  border-radius: 6px;
+}
+
+
+
 #head {
-  background: var(--content-bg);
-  color: var(--text-dark);
+  background: var(--sidebar-bg);
+  color: var(--text-light);
   min-height: 150px;
   font-size: 48px;
   text-align: center;
+  font-weight: lighter;
   padding: 10vh 40px;
   display: flex;
   align-items: center;
@@ -131,6 +157,7 @@ footer {
   overflow: hidden;
   padding: 40px;
   margin-top: 80px;
+  font-weight: 250;
 }
 
 .content-padding {
@@ -226,6 +253,9 @@ hr {
   object-fit: cover;
   transition: transform 0.3s ease;
   cursor: pointer;
+  /* --- NEW: Prevent drag/select --- */
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .gallery-item:hover img {
@@ -279,13 +309,12 @@ hr {
 .form-group, .form-group-inline {
   display: flex;
   flex-direction: column;
-  gap: 8px;
 }
 
 .form-group-inline {
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  gap: 5px;
 }
 
 #request-form label {
