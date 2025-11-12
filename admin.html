@@ -4,49 +4,141 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
+  <link rel="icon" href="w.png" type="image/png">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Inline Admin-specific Styles -->
   <style>
-    /* Admin-specific styles */
-    body { background: #f0f0f0; }
+    /* ===== Body & Layout ===== */
+    body {
+      background: #f0f0f0;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .scroll-box {       /* width of the box */
+  height: 400px;      /* height of the box */
+  border: 1px solid #333; /* optional, just to see the box */
+  padding: 10px;
+  overflow-y: auto;   /* enables vertical scrolling if content is too tall */
+  overflow-x: hidden; /* hides horizontal scroll */
+  box-sizing: border-box; /* includes padding/border in width/height */
+}
+
     .admin-container {
       max-width: 1200px;
       margin: 20px auto;
       padding: 20px;
       background: #fff;
       border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-    #admin-login, #admin-dashboard { padding: 20px; }
-    #admin-dashboard { display: none; }
+
+    h2, h3 {
+      margin-top: 0;
+    }
+
+    hr {
+      margin: 20px 0;
+      border: none;
+      border-top: 1px solid #ddd;
+    }
+
+    /* ===== Forms ===== */
+    form {
+      margin-bottom: 20px;
+    }
+
     .form-group {
-      display: flex; flex-direction: column; margin-bottom: 15px;
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 15px;
     }
+
     input, select, textarea, button {
-      padding: 10px; font-size: 1rem; margin-top: 5px;
+      padding: 10px;
+      font-size: 1rem;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
-    button { cursor: pointer; }
+
+    button {
+      cursor: pointer;
+    }
+
     #logout-btn {
-      background: #d9534f; color: white; border: none;
+      background: #d9534f;
+      color: white;
+      border: none;
+      float: right;
+      margin-bottom: 10px;
     }
-    .request-list, .gallery-list {
+
+    /* ===== Hidden Sections ===== */
+    #admin-dashboard {
+      display: none;
+    }
+
+    /* ===== Scrollable Form ===== */
+    #gallery-form {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+
+    /* ===== Tables ===== */
+    table {
+      width: 100%;
+      border-collapse: collapse;
       margin-top: 20px;
-      border-collapse: collapse; width: 100%;
     }
-    .request-list th, .request-list td,
-    .gallery-list th, .gallery-list td {
-      border: 1px solid #ddd; padding: 8px; text-align: left;
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
     }
-    .request-list th { background-color: #f2f2f2; }
-    .request-details { font-size: 0.9em; white-space: pre-wrap; }
-    .btn-action { margin-right: 5px; padding: 5px 8px; }
-    .btn-approve { background: #5cb85c; color: white; border: none;}
-    .btn-decline { background: #f0ad4e; color: white; border: none;}
-    .btn-delete { background: #d9534f; color: white; border: none;}
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    .request-details {
+      font-size: 0.9em;
+      white-space: pre-wrap;
+    }
+
+    /* ===== Action Buttons ===== */
+    .btn-action {
+      margin-right: 5px;
+      padding: 5px 8px;
+      border: none;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .btn-approve { background: #5cb85c; }
+    .btn-decline { background: #f0ad4e; }
+    .btn-delete  { background: #d9534f; }
+
+    /* ===== Responsive Adjustments ===== */
+    @media (max-width: 768px) {
+      .admin-container {
+        padding: 10px;
+      }
+      input, select, textarea, button {
+        font-size: 0.9rem;
+      }
+    }
   </style>
 </head>
+
 <body>
 
   <div class="admin-container">
-    
+
+    <!-- ===== Admin Login ===== -->
     <div id="admin-login">
       <h2>Admin Login</h2>
       <form id="login-form">
@@ -63,14 +155,17 @@
       </form>
     </div>
 
+    <!-- ===== Admin Dashboard ===== -->
     <div id="admin-dashboard">
-      <button id="logout-btn" style="float: right;">Logout</button>
+      <button id="logout-btn">Logout</button>
       <h2>Admin Dashboard</h2>
-      
+
       <hr>
-      
+
+      <!-- Gallery Management -->
       <h3>Manage Portfolio Gallery</h3>
       <form id="gallery-form">
+        
         <div class="form-group">
           <label for="gallery-url">Image URL</label>
           <input type="url" id="gallery-url" placeholder="https://..." required>
@@ -86,7 +181,7 @@
         </div>
         <button type="submit">Add Gallery Item</button>
       </form>
-      
+<div class="scroll-box">
       <table class="gallery-list">
         <thead>
           <tr>
@@ -95,12 +190,16 @@
             <th>Action</th>
           </tr>
         </thead>
-        <tbody id="gallery-items-list">
-          </tbody>
+        
+        <tbody id="gallery-items-list"></tbody>
+        
       </table>
-      
+      </div>
+
       <hr>
 
+      <div class="scroll-box">
+      <!-- Requests Management -->
       <h3>View Requests</h3>
       <table class="request-list">
         <thead>
@@ -114,18 +213,18 @@
             <th>Actions</th>
           </tr>
         </thead>
-        <tbody id="request-items-list">
-          </tbody>
+        <tbody id="request-items-list"></tbody>
       </table>
+      </div>
 
     </div>
-
   </div>
+  
 
+  <!-- ===== Firebase & Admin Script ===== -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-  
   <script src="admin.js"></script>
 
 </body>
