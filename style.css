@@ -1,7 +1,7 @@
 /* ---------- CSS Variables ---------- */
 :root {
   --sidebar-width: 250px;
-  --sidebar-padding: 2rem; /* Was 4vh, which can be unpredictable */
+  --sidebar-padding: 2rem;
   --sidebar-bg: #222;
   --main-bg: rgb(168, 168, 168);
   --content-bg: white;
@@ -17,7 +17,6 @@ body {
   font-weight: 400;
   font-style: normal;
   scroll-behavior: smooth;
-  /* text-align: justify; removed for better readability */
 }
 
 /* ---------- Sidebar navigation ---------- */
@@ -35,7 +34,7 @@ nav {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  overflow-y: auto; /* Allow scrolling if nav links overflow */
+  overflow-y: auto;
 }
 
 #logo {
@@ -67,33 +66,32 @@ nav a:hover {
 }
 
 /* ---------- Main Content Area (Header, Content, Footer) ---------- */
-/* This is the robust replacement for the 330px/78% layout */
 #head,
 .content-container,
 footer {
   margin-left: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
-  box-sizing: border-box; /* Include padding in the width calculation */
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  box-sizing: border-box;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
 #head {
   background: var(--content-bg);
   color: var(--text-dark);
-  min-height: 150px; /* Use min-height for flexibility */
+  min-height: 150px;
   font-size: 48px;
   text-align: center;
-  padding: 10vh 40px; /* Reduced padding from 20vh */
+  padding: 10vh 40px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .content-container {
-  position: relative; /* Important for the active/inactive sections */
-  min-height: 70vh; /* Adjust as needed */
-  padding-bottom: 100px; /* Space for the footer */
+  position: relative;
+  min-height: 70vh;
+  padding-bottom: 100px;
 }
 
 footer {
@@ -108,22 +106,20 @@ footer {
 
 /* ---------- Content Switching ---------- */
 .content {
-  /* Sections are hidden by default */
   opacity: 0;
   pointer-events: none;
-  position: absolute; /* Stack sections on top of each other */
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   transition: opacity 0.5s ease;
-  margin-top: 0; /* Removed margin-top: 80px */
+  margin-top: 0;
 }
 
 .content.active {
-  /* The active section is made visible */
   opacity: 1;
   pointer-events: all;
-  position: relative; /* Let the active section take up space */
+  position: relative;
 }
 
 /* ---------- Home Page Content Styling ---------- */
@@ -137,28 +133,25 @@ footer {
   margin-top: 80px;
 }
 
-/* Replaced duplicate ID #size-4-container */
 .content-padding {
   padding: 20px;
 }
 
-/* New Flexbox container for the info boxes */
 .info-boxes {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap; /* Allows boxes to stack on smaller screens */
+  flex-wrap: wrap;
 }
 
 .box {
-  /* Removed float and display:inline-block */
-  flex: 1; /* Makes boxes share space equally */
-  min-width: 250px; /* Ensures boxes don't get too squished */
+  flex: 1;
+  min-width: 250px;
   position: relative;
   background: var(--sidebar-bg);
   color: var(--text-light);
   padding: 20px;
   box-sizing: border-box;
-  border-radius: 8px; /* Added for a softer look */
+  border-radius: 8px;
 }
 
 .box h3 {
@@ -168,12 +161,12 @@ footer {
 }
 
 table {
-  width: 100%; /* Makes table fill the box */
-  border-collapse: collapse; /* Cleans up table borders */
+  width: 100%;
+  border-collapse: collapse;
 }
 
 table, th, td {
-  border: 1px solid #555; /* Fixed: Was white-on-white */
+  border: 1px solid #555;
   padding: 15px;
   overflow: hidden;
   font-size: 14px;
@@ -181,49 +174,64 @@ table, th, td {
 }
 
 tr:nth-child(even) {
-  background-color: #333; /* Adds some row contrast */
+  background-color: #333;
 }
 
 hr {
   border: 0;
-  border-top: 1px solid #ccc; /* Cleaner horizontal rule */
+  border-top: 1px solid #ccc;
   margin-top: 40px;
   margin-bottom: 40px;
 }
 
-/* ---------- Gallery & Filter Styles ---------- */
+/* --- NEW: View All Portfolio Link Style --- */
+.view-all-portfolio {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s, border-bottom-color 0.3s;
+}
 
+.view-all-portfolio:hover {
+  color: #555;
+  border-bottom-color: #555;
+}
+
+/* ---------- Gallery & Filter Styles ---------- */
 .gallery-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
+  column-count: 3;
+  column-gap: 20px;
 }
 
 .gallery-item {
   width: 100%;
-  aspect-ratio: 4 / 3; /* Creates a 4:3 ratio box */
   overflow: hidden;
   border-radius: 8px;
   background-color: #333;
   transition: transform 0.3s ease, opacity 0.3s ease;
+  margin-bottom: 20px;
+  break-inside: avoid;
 }
 
 .gallery-item img {
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* Ensures image fills the box */
+  height: auto;
+  object-fit: cover;
   transition: transform 0.3s ease;
+  cursor: pointer;
 }
 
 .gallery-item:hover img {
   transform: scale(1.05);
 }
 
-/* Used by JS to hide filtered-out items */
 .gallery-item.hidden {
   transform: scale(0.8);
   opacity: 0;
-  display: none; /* We also use display:none for layout reflow */
+  display: none;
 }
 
 .filter-controls {
@@ -255,9 +263,7 @@ hr {
   color: var(--text-light);
 }
 
-
 /* ---------- Request Form Styles ---------- */
-
 #request-form {
   display: flex;
   flex-direction: column;
@@ -293,7 +299,7 @@ hr {
   font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 4px;
-  box-sizing: border-box; /* Important for 100% width */
+  box-sizing: border-box;
 }
 
 #request-form input[type="checkbox"] {
@@ -310,9 +316,8 @@ hr {
   font-weight: bold;
 }
 
-/* Conditional form fields */
 .conditional-details {
-  display: none; /* Hidden by default */
+  display: none;
   flex-direction: column;
   gap: 10px;
   padding: 15px;
@@ -322,7 +327,7 @@ hr {
 }
 
 .conditional-details.visible {
-  display: flex; /* Made visible by JS */
+  display: flex;
 }
 
 #request-form button[type="submit"] {
@@ -367,4 +372,95 @@ hr {
 .disclaimer-box {
   padding: 20px;
   font-size: 16px;
+}
+
+/* ---------- Lightbox Popup Styles ---------- */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.lightbox-overlay.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 4px;
+  cursor: default;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.lightbox-close:hover {
+  color: #ccc;
+}
+
+/* ---------- RESPONSIVENESS (TABLET & MOBILE) ---------- */
+@media (max-width: 1024px) {
+  .gallery-container {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 1rem;
+  }
+
+  #logo {
+    font-size: 48px;
+  }
+
+  #head,
+  .content-container,
+  footer {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .home-content-wrapper {
+    margin-top: 20px;
+    padding: 20px;
+  }
+
+  #head {
+    padding: 5vh 20px;
+    font-size: 32px;
+  }
+
+  .info-boxes {
+    flex-direction: column;
+  }
+
+  .gallery-container {
+    column-count: 1;
+  }
 }

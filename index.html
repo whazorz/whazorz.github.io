@@ -7,10 +7,11 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
@@ -31,6 +32,7 @@
 
   <div class="content-container">
     
+    <!-- HOME SECTION -->
     <section id="home" class="content active">
       <div class="home-content-wrapper">
         <div class="content-padding">
@@ -38,6 +40,15 @@
           <p>Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of digital art and design with me.</p>
         </div>
         <hr>
+
+        <div class="content-padding">
+          <h3>Latest Work</h3>
+          <div class="gallery-container" id="latest-work-gallery"></div>
+          <a href="#" data-target="Portfolio" class="view-all-portfolio">View Full Portfolio &rarr;</a>
+        </div>
+
+        <hr>
+
         <div class="content-padding">
           <h3>REQUESTING INFO.</h3>
           <div class="info-boxes">
@@ -51,42 +62,28 @@
             
             <div class="box">
               <table>
-                <tr>
-                  <td>Logo </td>
-                  <td>50 Eur</td>
-                </tr>
-                 <tr>
-                  <td>A4 poster / promo</td>
-                  <td>30 Eur</td>
-                </tr>
-                <tr>
-                  <td>Banner / Header / promo</td>
-                  <td>20 Eur</td>
-                </tr>
-                <tr>
-                  <td>Profile / promo</td>
-                  <td>10 Eur</td>
-                </tr>
-                <tr>
-                  <td>Promo Bundle [Logo/Profile/Banner]</td>
-                  <td>80 Eur</td>
-                </tr>
+                <tr><td>Logo</td><td>50 Eur</td></tr>
+                <tr><td>A4 poster / promo</td><td>30 Eur</td></tr>
+                <tr><td>Banner / Header / promo</td><td>20 Eur</td></tr>
+                <tr><td>Profile / promo</td><td>10 Eur</td></tr>
+                <tr><td>Promo Bundle [Logo/Profile/Banner]</td><td>80 Eur</td></tr>
               </table>
               <br>
-              <p>73 % discount for regular clients.</p>
+              <p>73% discount for regular clients.</p>
             </div>
           </div>
         </div>
+
         <hr>
-        
       </div>
     </section>
 
+    <!-- PORTFOLIO SECTION -->
     <section id="Portfolio" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
           <h2>Portfolio</h2>
-          
+
           <div class="filter-controls">
             <button class="filter-btn active" data-filter="all">All</button>
             <button class="filter-btn" data-filter="logo">Logos</button>
@@ -95,12 +92,12 @@
             <button class="filter-btn" data-filter="profile">Profile</button>
           </div>
 
-          <div class="gallery-container" id="portfolio-gallery">
-             </div>
+          <div class="gallery-container" id="portfolio-gallery"></div>
         </div>
       </div>
     </section>
 
+    <!-- REQUEST SECTION -->
     <section id="Request" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
@@ -113,7 +110,7 @@
             <p><strong>Communication:</strong> All future communication will be conducted via email.</p>
           </div>
           
-          <p>Please fill out the form below to start your request. **All future communication will be conducted via email.**</p>
+          <p>Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong></p>
           
           <form id="request-form">
             <div class="form-group">
@@ -159,6 +156,7 @@
               <input type="text" name="profile_username" placeholder="Username or Text for profile pic">
               <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas."></textarea>
             </div>
+
             <div class="form-group">
               <label for="instructions">General Instructions / Project Brief</label>
               <textarea id="instructions" name="instructions" rows="5" placeholder="Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references."></textarea>
@@ -171,7 +169,6 @@
 
             <button type="submit" id="submit-btn">Submit Request</button>
             <div id="form-status"></div>
-
           </form>
         </div>
       </div>
@@ -179,8 +176,15 @@
 
   </div>
 
-  <footer>Copyright @ WHAZORZ 2025</footer>
+  <footer>Copyright © WHAZORZ 2025</footer>
 
+  <!-- Lightbox -->
+  <div id="lightbox-overlay" class="lightbox-overlay">
+    <span id="lightbox-close" class="lightbox-close">&times;</span>
+    <img id="lightbox-image" class="lightbox-image" src="" alt="Enlarged portfolio item">
+  </div>
+
+  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
