@@ -21,8 +21,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setupRequestForm(db);
     loadPortfolio(db);
     loadLatestWork(db);
+    loadStore(db); // <-- NEW
     setupLightbox();
     setupHomePageLinks();
+    setupStoreModal(db); // <-- NEW
 
   } catch (e) {
     console.error("❌ Error initializing Firebase:", e);
@@ -80,7 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!gallery) return;
 
     try {
-      const snapshot = await db.collection("portfolioItems").get();
+      // Order by timestamp, descending
+      const snapshot = await db.collection("portfolioItems").orderBy("timestamp", "desc").get();
 
       gallery.innerHTML = "";
       snapshot.forEach(doc => {
@@ -103,7 +106,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!gallery) return;
 
     try {
-      const snapshot = await db.collection("portfolioItems").limit(3).get();
+      // Order by timestamp, descending, limit to 3
+      const snapshot = await db.collection("portfolioItems").orderBy("timestamp", "desc").limit(3).get();
 
       gallery.innerHTML = "";
       snapshot.forEach(doc => {
@@ -254,6 +258,152 @@ document.addEventListener("DOMContentLoaded", () => {
         formStatus.className = "error";
       } finally {
         submitBtn.disabled = false;
+      }
+    });
+  }
+
+  // --- 9. NEW: Load Store Items ---
+  async function loadStore(db) {
+    const gallery = document.getElementById("store-gallery");
+    if (!gallery) return;
+
+    try {
+      const snapshot = await db.collection("storeItems").orderBy("timestamp", "desc").get();
+      
+      if (snapshot.empty) {
+        gallery.innerHTML = "<p>Store is empty right now.</p>";
+        return;
+      }
+
+      gallery.innerHTML = ""; // Clear loading state
+      snapshot.forEach(doc => {
+        const item = doc.data();
+        const itemEl = document.createElement("div");
+        itemEl.className = "store-item";
+        
+        // Format price
+        const price = item.price ? item.price.toFixed(2) : "0.00";
+
+        itemEl.innerHTML = `
+          <div class="store-item-image">
+            <img src="${item.imageUrl}" alt="${item.name}">
+          </div>
+          <div class="store-item-content">
+            <h4>${item.name}</h4>
+            <p>${item.description}</p>
+            <button class="store-buy-btn" 
+              data-id="${doc.id}" 
+              data-name="${item.name}" 
+              data-price="${item.price}" 
+              data-payment-url="${item.paymentUrl}">
+              Buy - ${price} Eur
+            </button>
+          </div>
+        `;
+        gallery.appendChild(itemEl);
+      });
+
+    } catch (e) {
+      console.error("Error loading store items:", e);
+      gallery.innerHTML = "<p>Error loading store.</p>";
+    }
+  }
+
+  // --- 10. NEW: Setup Store Modal ---
+  function setupStoreModal(db) {
+    const overlay = document.getElementById("store-checkout-overlay");
+    const modal = document.querySelector(".store-modal-content");
+    const closeBtn = document.getElementById("store-modal-close");
+    const gallery = document.getElementById("store-gallery");
+    const form = document.getElementById("store-checkout-form");
+    const step1 = document.getElementById("store-modal-step-1");
+    const step2 = document.getElementById("store-modal-step-2");
+    const emailInput = document.getElementById("store-email");
+    const submitBtn = document.getElementById("store-submit-btn");
+
+    if (!overlay || !gallery || !form) {
+      console.warn("Store modal elements not found. Skipping setup.");
+      return;
+    }
+
+    // Store product data on the modal itself
+    let currentProduct = {};
+
+    function openModal(productData) {
+      currentProduct = productData;
+      // Reset modal to step 1
+      step1.style.display = "block";
+      step2.style.display = "none";
+      emailInput.value = "";
+      submitBtn.disabled = false;
+      overlay.classList.add("visible");
+    }
+
+    function closeModal() {
+      overlay.classList.remove("visible");
+      currentProduct = {}; // Clear data
+    }
+
+    // Open modal when a buy button is clicked
+    gallery.addEventListener("click", (e) => {
+      if (e.target.classList.contains("store-buy-btn")) {
+        const btn = e.target;
+        openModal({
+          id: btn.dataset.id,
+          name: btn.dataset.name,
+          price: parseFloat(btn.dataset.price),
+          paymentUrl: btn.dataset.paymentUrl
+        });
+      }
+    });
+
+    // Close modal listeners
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        closeModal();
+      }
+    });
+
+    // Handle form submission
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!currentProduct.id) return; // No product selected
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Saving...";
+
+      try {
+        // Save order to Firestore
+        await db.collection("storeOrders").add({
+          email: emailInput.value,
+          productId: currentProduct.id,
+          productName: currentProduct.name,
+          price: currentProduct.price,
+          paymentUrl: currentProduct.paymentUrl,
+          status: "pending",
+          timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        
+        console.log("✅ Store order saved");
+
+        // Show step 2
+        step1.style.display = "none";
+        step2.style.display = "block";
+
+        // Redirect to payment after a short delay
+        setTimeout(() => {
+          window.location.href = currentProduct.paymentUrl;
+          // After redirecting, reset modal for next time
+          closeModal();
+          submitBtn.textContent = "Continue to Payment";
+        }, 3000); // 3-second delay
+
+      } catch (err) {
+        console.error("❌ Error saving store order:", err);
+        alert("An error occurred. Please try again.");
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Continue to Payment";
       }
     });
   }
