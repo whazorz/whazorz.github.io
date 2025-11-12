@@ -1,329 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WDESIGN</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <link rel="stylesheet" href="style.css">
-    
-    <script src="https://www.paypal.com/sdk/js?client-id=AZqTbz5nRPWu2TEZhLsJKFlKuC6MneW3Xwj9XeACCZ1QM1CXVJ4mNIt4RIh1_JoG-yQypUnzDQKz4Jtc&currency=EUR&disable-funding=credit,card&locale=en_US"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wdesign Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
 
-    <div id="main-wrapper">
-        
-        <div id="menu-column">
-            <h1>WDESIGN
-                <h2>Whazorz Designs</h2>
-            </h1>
-            
-            <nav id="auth-nav-menu" class="hidden">
-                <button id="auth-nav-gallery" class="auth-nav-btn active">
-                    <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
-                    <span>Home&nbsp;</span>
-                </button>
-                <button id="auth-nav-login" class="auth-nav-btn">
-                    <img src="images/icons/icon-signin.jpg" alt="Sign In" class="wow-icon">
-                    <span>Login&nbsp;</span>
-                </button>
-            </nav>
+  <nav>
+    <div id="logo">W</div>
+    <div id="slogan">#Wdesign</div>
+    <a href="#" data-target="home" class="active">Home</a>
+    <a href="#" data-target="Portfolio">Portfolio</a>
+    <a href="#" data-target="Request">Request</a>
+  </nav>
 
-            <nav id="app-nav-menu" class="hidden">
-                <button id="nav-gallery" class="nav-btn">
-                    <img src="images/icons/icon-profile.jpg" alt="Home" class="wow-icon">
-                    <span>Home</span>
-                </button>
-                <button id="nav-profile" class="nav-btn">
-                    <img src="images/icons/icon-gallery.jpg" alt="Profile" class="wow-icon">
-                    <span>Profile</span>
-                </button>
-                <button id="nav-request" class="nav-btn">
-                    <img src="images/icons/icon-request.jpg" alt="Request" class="wow-icon">
-                    <span>Request</span>
-                </button>
-                <button id="nav-orders" class="nav-btn">
-                    <img src="images/icons/icon-orders.jpg" alt="Orders" class="wow-icon">
-                    <span>Orders</span>
-                </button>
-                <button id="nav-admin" class="nav-btn hidden">
-                    <img src="images/icons/icon-admin.jpg" alt="Admin" class="wow-icon">
-                    <span>Admin</span>
-                </button>
-                <button id="logout-button" class="nav-btn">
-                    <img src="images/icons/icon-signout.jpg" alt="Sign Out" class="wow-icon">
-                    <span>Sign Out</span>
-                </button>
-            </nav>
+  <div id="head">
+    /// Whazorz Designs
+    <br>
+  </div>
 
-            <div class="flex-grow"></div> 
-            
-            <p class="footer-text">
-                Secure login system Powered by Firebase.
-            </p>
-        </div>
-
-        <div id="content-column">
-            <div id="app-content">
-
-                <div id="loading-container">
-                    <h2>Loading...</h2>
-                </div>
-                
-                <div id="logged-out-container" class="hidden">
-                    
-                    <div id="auth-container" class="auth-view view-hidden">
-                        <div class="auth-header">
-                            <h2 id="form-title">Sign in to your account</h2>
-                            <p>
-                                Or
-                                <button id="toggle-form">
-                                    create a new account
-                                </button>
-                            </p>
-                        </div>
-
-                        <form id="auth-form">
-                            <div class="form-input-group">
-                                <div>
-                                    <label for="email" class="sr-only">Email address</label>
-                                    <input id="email" name="email" type="email" autocomplete="email" required>
-                                </div>
-                                <div id="password-field">
-                                    <label for="password" class="sr-only">Password</label>
-                                    <input id="password" name="password" type="password" autocomplete="current-password" required minlength="6">
-                                </div>
-                            </div>
-
-                            <div class="form-options">
-                                <button type="button" id="forgot-password-btn">
-                                    Forgot your password?
-                                </button>
-                            </div>
-
-                            <div>
-                                <button type="submit" id="submit-button">
-                                    Sign In
-                                </button>
-                            </div>
-                        </form>
-                    
-                        <div id="message-box" class="hidden"></div>
-                    </div>
-
-                    <div id="gallery-view-auth" class="auth-view">
-                        <div class="welcome-banner">
-                            <h2>Welcome to Wdesign.</h2>
-                            <p>
-                                Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
-                            </p>
-                            <blockquote>
-                                <p class="powered-by">
-                                Powered by Firebase & GitHub.
-                            </p>
-                            </blockquote>
-                        </div>
-                        <h3> <strong>Hall of Fame Designs.</strong>&nbsp;</h3>
-                        <div id="gallery-grid-container">
-                            <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="gallery-item">
-                                <img src="images/my-logo.jpg" alt="Watch me live doing designs.">
-                                <p>Watch me live doing designs.</p>
-                            </a>
-                            </div>
-                    </div>
-                </div>
-
-                <div id="app-container" class="hidden">
-
-                    <div id="gallery-view-app" class="app-view">
-                        <div class="welcome-banner">
-                            <h2>Welcome to Wdesign.</h2>
-                            <p>
-                                Wdesign is a platform created by Whazorz, specializing in open World of Warcraft digital graphic commissions.
-                            </p>
-                            <p class="powered-by">
-                                Powered by Firebase & GitHub.
-                            </p>
-                        </div>
-                        <h3> <strong>Hall of Fame Designs.</strong>&nbsp;</h3>
-                        <div id="gallery-grid-container-app">
-                            <a href="images/my-logo.jpg" target="_blank" rel="noopener noreferrer" class="gallery-item">
-                                <img src="images/my-logo.jpg" alt="Watch me live doing designs.">
-                                <p>Watch me live doing designs.</p>
-                            </a>
-                            </div>
-                    </div>
-                            
-                    <div id="profile-view" class="app-view view-hidden">
-                        <h2>Your Profile</h2>
-                        <div>
-                            <p class="label">Email</p>
-                            <p id="profile-email"></p>
-                        </div>
-                        <div>
-                            <p class="label">User ID</p>
-                            <p id="profile-uid"></p>
-                        </div>
-                        <div>
-                            <p class="label">Your Coins</p>
-                            <p class="coin-balance">
-                                <img src="images/icons/icon-coin.jpg" alt="Coins" class="wow-icon">
-                                <span id="profile-coins">--</span>
-                            </p>
-                        </div>
-                        
-                        <div class="buy-coins-section">
-                            <h3>Buy Coins</h3>
-                            <p class="coin-price">15 Coins = 5,00 EUR</p>
-                            <div id="paypal-button-container"></div>
-                            <div id="buy-coins-message-box" class="hidden"></div>
-                        </div>
-                    </div>
-
-                    <div id="request-view" class="app-view view-hidden">
-                        <h2>Request a WoW Banner</h2>
-                        <p class="cost-notice">This request will cost <span class="coin-text">10 coins</span>. Your current balance is <span id="request-coin-balance" class="coin-text">--</span>.</p>
-                        
-                        <form id="request-form">
-                            
-                            <div class="form-grid">
-                                <div>
-                                    <label for="request-character-name">Character Name</label>
-                                    <input type="text" id="request-character-name" required>
-                                </div>
-                                <div>
-                                    <label for="request-server-region">Server & Region</label>
-                                    <input type="text" id="request-server-region" required placeholder="e.g., Stormrage - NA">
-                                </div>
-                            </div>
-
-                            <div class="form-grid">
-                                <div>
-                                    <label for="request-race">Race</label>
-                                    <select id="request-race" required>
-                                        <option value="">Select a race...</option>
-                                        <optgroup label="Alliance">
-                                            <option value="Human">Human</option>
-                                            <option value="Dwarf">Dwarf</option>
-                                            <option value="Night Elf">Night Elf</option>
-                                            <option value="Gnome">Gnome</option>
-                                            <option value="Draenei">Draenei</option>
-                                            <option value="Worgen">Worgen</option>
-                                        </optgroup>
-                                        <optgroup label="Horde">
-                                            <option value="Orc">Orc</option>
-                                            <option value="Undead">Undead</option>
-                                            <option value="Tauren">Tauren</option>
-                                            <option value="Troll">Troll</option>
-                                            <option value="Blood Elf">Blood Elf</option>
-                                            <option value="Goblin">Goblin</option>
-                                        </optgroup>
-                                        <optgroup label="Neutral">
-                                            <option value="Pandaren">Pandaren</option>
-                                            <option value="Dracthyr">Dracthyr</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="request-class">Class</label>
-                                    <select id="request-class" required>
-                                        <option value="">Select a class...</option>
-                                        <option value="Warrior">Warrior</option>
-                                        <option value="Paladin">Paladin</option>
-                                        <option value="Hunter">Hunter</option>
-                                        <option value="Rogue">Rogue</option>
-                                        <option value="Priest">Priest</option>
-                                        <option value="Death Knight">Death Knight</option>
-                                        <option value="Shaman">Shaman</option>
-                                        <option value="Mage">Mage</option>
-                                        <option value="Warlock">Warlock</option>
-                                        <option value="Monk">Monk</option>
-                                        <option value="Druid">Druid</option>
-                                        <option value="Demon Hunter">Demon Hunter</option>
-                                        <option value="Evoker">Evoker</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div>
-                                <label for="request-gear-set">Gear Set / Transmog</label>
-                                <input type="text" id="request-gear-set" required placeholder="e.g., Judgement Armor (Recolor), Shadowlands Gladiator">
-                            </div>
-
-                            <div>
-                                <label for="request-background">Background Description</label>
-                                <textarea id="request-background" name="background" rows="3" required placeholder="e.g., Standing at the gates of Stormwind, a dark forest, top of Icecrown Citadel..."></textarea>
-                            </div>
-                            
-                            <div>
-                                <label for="request-extra-details">Extra Details (Optional)</label>
-                                <textarea id="request-extra-details" name="extra-details" rows="2" placeholder="Specific pose? Weapon effects glowing? Any pets?"></textarea>
-                            </div>
-                            
-                            <button type="submit" id="submit-request-button">
-                          
-                                Submit Request (10 Coins)
-                            </button>
-                        </form>
-                        <div id="request-message-box" class="hidden"></div>
-                    </div>
-
-                    <div id="orders-view" class="app-view view-hidden">
-                        <h2>Your Orders</h2>
-                        <div id="orders-list-container">
-                            <p id="no-orders-message">You haven't requested any orders yet.</p>
-                        </div>
-                    </div>
-
-                    <div id="admin-view" class="app-view view-hidden">
-                        <h2>Admin Panel</h2>
-                        
-                        <div class="admin-section">
-                            <h3>Manage Coins</h3>
-                            <input id="admin-user-id" type="text" placeholder="User ID">
-                            <input id="admin-coin-amount" type="number" placeholder="Amount to Add (e.g., 50 or -10)">
-                            <button id="admin-add-coins-btn">
-                                Add Coins
-                            </button>
-                        </div>
-
-                        <div class="admin-section">
-                            <h3>All Pending Orders</h3>
-                            <div id="admin-orders-list" class="admin-list-box">
-                                <p id="admin-no-orders">No pending orders found.</p>
-                            </div>
-                        </div>
-                        
-                        <div class="admin-section">
-                            <h3>Recently Completed Orders (for Editing)</h3>
-                            <div id="admin-completed-orders-list" class="admin-list-box">
-                                <p id="admin-no-completed-orders">No completed orders found.</p>
-                            </div>
-                        </div>
-
-                        <div class="admin-section">
-                            <h3>All Users</h3>
-                            <div id="admin-users-list" class="admin-list-box">
-                                <p id="admin-no-users">Loading users...</p>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="lightbox" class="lightbox hidden">
-      <button id="lightbox-close" class="lightbox-close">&times;</button>
-      <img id="lightbox-image" class="lightbox-image" src="" alt="Lightbox image view">
-    </div>
-
-    <script type="module" src="app.js"></script>
+  <div class="content-container">
     
+    <section id="home" class="content active">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2>About</h2>
+          <p>Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of digital art and design with me.</p>
+        </div>
+        <hr>
+        <div class="content-padding">
+          <h3>REQUESTING INFO.</h3>
+          <div class="info-boxes">
+            <div class="box">
+              <p>Delivery timeframe for order mostly takes 2-3 days, can take longer if it is a complex task.</p>
+              <br>
+              <p>Revisions up to 2 depends on complexity.</p>
+              <hr>
+              <p>Contacts: whazorz.design@gmail.com</p>
+            </div>
+            
+            <div class="box">
+              <table>
+                <tr>
+                  <td>Logo </td>
+                  <td>50 Eur</td>
+                </tr>
+                 <tr>
+                  <td>A4 poster / promo</td>
+                  <td>30 Eur</td>
+                </tr>
+                <tr>
+                  <td>Banner / Header / promo</td>
+                  <td>20 Eur</td>
+                </tr>
+                <tr>
+                  <td>Profile / promo</td>
+                  <td>10 Eur</td>
+                </tr>
+                <tr>
+                  <td>Promo Bundle [Logo/Profile/Banner]</td>
+                  <td>80 Eur</td>
+                </tr>
+              </table>
+              <br>
+              <p>73 % discount for regular clients.</p>
+            </div>
+          </div>
+        </div>
+        <hr>
+        
+      </div>
+    </section>
+
+    <section id="Portfolio" class="content">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2>Portfolio</h2>
+          
+          <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="logo">Logos</button>
+            <button class="filter-btn" data-filter="poster">A4 Posters</button>
+            <button class="filter-btn" data-filter="banner">Banners</button>
+            <button class="filter-btn" data-filter="profile">Profile</button>
+          </div>
+
+          <div class="gallery-container" id="portfolio-gallery">
+             </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="Request" class="content">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2>Request a Design</h2>
+
+          <div class="disclaimer-box">
+            <h3>Important Request Information</h3>
+            <p><strong>Timeframe:</strong> Delivery timeframe for orders mostly takes 2-3 days, but can take longer for complex tasks.</p>
+            <p><strong>Revisions:</strong> You receive up to 2 revisions, depending on project complexity.</p>
+            <p><strong>Communication:</strong> All future communication will be conducted via email.</p>
+          </div>
+          
+          <p>Please fill out the form below to start your request. **All future communication will be conducted via email.**</p>
+          
+          <form id="request-form">
+            <div class="form-group">
+              <label for="email">Your Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+
+            <div class="form-group">
+              <label for="product-type">Select Product Type</label>
+              <select id="product-type" name="product_type">
+                <option value="profile">Profile / promo (10 Eur)</option>
+                <option value="banner">Banner / Header / promo (20 Eur)</option>
+                <option value="poster">A4 poster / promo (30 Eur)</option>
+                <option value="logo">Logo (50 Eur)</option>
+                <option value="bundle">Promo Bundle [Logo/Profile/Banner] (80 Eur)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="budget">Starting Budget (EUR)</label>
+              <input type="text" id="budget" name="budget" value="10" readonly>
+            </div>
+
+            <div class="form-group conditional-details" id="logo-details">
+              <label>Logo Details</label>
+              <input type="text" name="logo_brand_name" placeholder="Brand Name">
+              <textarea name="logo_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences."></textarea>
+            </div>
+            
+            <div class="form-group conditional-details" id="poster-details">
+              <label>A4 Poster / Promo Details</label>
+              <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?"></textarea>
+            </div>
+
+            <div class="form-group conditional-details" id="banner-details">
+              <label>Banner / Header Details</label>
+              <input type="text" name="banner_platform" placeholder="Platform (e.g., YouTube, Twitter, Website)">
+              <textarea name="banner_text" placeholder="What text or @usernames should be on the banner?"></textarea>
+            </div>
+
+            <div class="form-group conditional-details visible" id="profile-details">
+              <label>Profile / Promo Details</label>
+              <input type="text" name="profile_username" placeholder="Username or Text for profile pic">
+              <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas."></textarea>
+            </div>
+            <div class="form-group">
+              <label for="instructions">General Instructions / Project Brief</label>
+              <textarea id="instructions" name="instructions" rows="5" placeholder="Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references."></textarea>
+            </div>
+
+            <div class="form-group-inline">
+              <input type="checkbox" id="showcase" name="showcase" value="true">
+              <label for="showcase">I agree to allow WhazorzDesigns to showcase the final work in their portfolio.</label>
+            </div>
+
+            <button type="submit" id="submit-btn">Submit Request</button>
+            <div id="form-status"></div>
+
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer>Copyright @ WHAZORZ 2025</footer>
+
+  <script src="script.js"></script>
 </body>
 </html>

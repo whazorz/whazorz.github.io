@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Admin-specific styles */
+    body { background: #f0f0f0; }
+    .admin-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 8px;
+    }
+    #admin-login, #admin-dashboard { padding: 20px; }
+    #admin-dashboard { display: none; }
+    .form-group {
+      display: flex; flex-direction: column; margin-bottom: 15px;
+    }
+    input, select, textarea, button {
+      padding: 10px; font-size: 1rem; margin-top: 5px;
+    }
+    button { cursor: pointer; }
+    #logout-btn {
+      background: #d9534f; color: white; border: none;
+    }
+    .request-list, .gallery-list {
+      margin-top: 20px;
+      border-collapse: collapse; width: 100%;
+    }
+    .request-list th, .request-list td,
+    .gallery-list th, .gallery-list td {
+      border: 1px solid #ddd; padding: 8px; text-align: left;
+    }
+    .request-list th { background-color: #f2f2f2; }
+    .request-details { font-size: 0.9em; white-space: pre-wrap; }
+    .btn-action { margin-right: 5px; padding: 5px 8px; }
+    .btn-approve { background: #5cb85c; color: white; border: none;}
+    .btn-decline { background: #f0ad4e; color: white; border: none;}
+    .btn-delete { background: #d9534f; color: white; border: none;}
+  </style>
+</head>
+<body>
+
+  <div class="admin-container">
+    
+    <div id="admin-login">
+      <h2>Admin Login</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="admin-email">Email</label>
+          <input type="email" id="admin-email" required>
+        </div>
+        <div class="form-group">
+          <label for="admin-password">Password</label>
+          <input type="password" id="admin-password" required>
+        </div>
+        <button type="submit">Login</button>
+        <div id="login-error" style="color: red; margin-top: 10px;"></div>
+      </form>
+    </div>
+
+    <div id="admin-dashboard">
+      <button id="logout-btn" style="float: right;">Logout</button>
+      <h2>Admin Dashboard</h2>
+      
+      <hr>
+      
+      <h3>Manage Portfolio Gallery</h3>
+      <form id="gallery-form">
+        <div class="form-group">
+          <label for="gallery-url">Image URL</label>
+          <input type="url" id="gallery-url" placeholder="https://..." required>
+        </div>
+        <div class="form-group">
+          <label for="gallery-type">Filter Type</label>
+          <select id="gallery-type">
+            <option value="logo">Logo</option>
+            <option value="poster">A4 Poster</option>
+            <option value="banner">Banner</option>
+            <option value="profile">Profile</option>
+          </select>
+        </div>
+        <button type="submit">Add Gallery Item</button>
+      </form>
+      
+      <table class="gallery-list">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Type</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="gallery-items-list">
+          </tbody>
+      </table>
+      
+      <hr>
+
+      <h3>View Requests</h3>
+      <table class="request-list">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Email</th>
+            <th>Product</th>
+            <th>Budget</th>
+            <th>Status</th>
+            <th>Details</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="request-items-list">
+          </tbody>
+      </table>
+
+    </div>
+
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  
+  <script src="admin.js"></script>
+
+</body>
+</html>

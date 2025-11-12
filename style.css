@@ -1,1048 +1,370 @@
-/* --- 0. GLOBAL RESET & FONT --- */
-
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* ---------- CSS Variables ---------- */
+:root {
+  --sidebar-width: 250px;
+  --sidebar-padding: 2rem; /* Was 4vh, which can be unpredictable */
+  --sidebar-bg: #222;
+  --main-bg: rgb(168, 168, 168);
+  --content-bg: white;
+  --text-light: white;
+  --text-dark: black;
+  --text-muted: #888;
 }
 
-html {
-    height: 100%;
-}
-
+/* ---------- Base styles ---------- */
 body {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start; /* Aligns to top on mobile */
-    min-height: 100vh;
-    padding: 0; /* No padding on body for mobile */
-    font-family: 'Inter', sans-serif;
-    
-    background-color: #F9FAFB; 
-    color: #111827;
+  background: rgb(221, 221, 221);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+  scroll-behavior: smooth;
+  /* text-align: justify; removed for better readability */
 }
 
-/* --- 1. UTILITY CLASSES (FOR JAVASCRIPT) --- */
-
-/* Critical: This class is added/removed by app.js to show/hide elements. */
-/* DO NOT CHANGE - used for message boxes, buttons, etc. */
-.hidden {
-    display: none !important;
+/* ---------- Sidebar navigation ---------- */
+nav {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  height: 100vh;
+  position: fixed;
+  padding: var(--sidebar-padding);
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  overflow-y: auto; /* Allow scrolling if nav links overflow */
 }
 
-/* NEW: View Transition Classes 
-  These are used by showAppView() and showLoggedOutView() for smooth fades.
-*/
-.app-view,
-.auth-view {
-    /* Base state for all views */
-    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
-    opacity: 1;
-    transform: translateY(0);
+#logo {
+  font-size: 72px;
+  font-weight: bold;
+  color: var(--text-light);
+  text-align: center;
 }
 
-.view-hidden {
-    /* Transition-friendly hidden state */
-    opacity: 0;
-    transform: translateY(10px);
-    /* Hides from flow and interaction */
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    pointer-events: none;
+#slogan {
+  font-size: 18px;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 1rem;
 }
 
-
-/* A simple fade-in animation for views and messages */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  font-size: 1.1rem;
+  padding: 0.5rem;
 }
 
-.fade-in {
-    animation: fadeIn 0.3s ease-out;
+nav a.active,
+nav a:hover {
+  color: var(--text-light);
 }
 
-/* Hide scrollbars for a cleaner look */
-.no-scrollbar::-webkit-scrollbar,
-#content-column::-webkit-scrollbar,
-.admin-list-box::-webkit-scrollbar {
-    display: none;
-}
-.no-scrollbar,
-#content-column,
-.admin-list-box {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
-
-
-/* --- 2. MAIN LAYOUT (MOBILE-FIRST) --- */
-
-#main-wrapper {
-    width: 100%;
-    max-width: 1280px; /* Was 960pt */
-    min-height: 100vh; /* Full height on mobile */
-    display: flex;
-    flex-direction: column; /* Stacks menu on top of content */
-    background-color: #FFFFFF;
-    
-    /* Removed for mobile */
-    /* border-radius: 1rem; */
-    /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
-    /* overflow: hidden; */
+/* ---------- Main Content Area (Header, Content, Footer) ---------- */
+/* This is the robust replacement for the 330px/78% layout */
+#head,
+.content-container,
+footer {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  box-sizing: border-box; /* Include padding in the width calculation */
+  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-y: hidden;
 }
 
-#menu-column {
-    width: 100%; /* Full width on mobile */
-    padding: 1.5rem;
-    background-color: #F3F4F6;
-    
-    display: flex;
-    flex-direction: column;
-    
-    flex-shrink: 0; /* Prevents shrinking */
+#head {
+  background: var(--content-bg);
+  color: var(--text-dark);
+  min-height: 150px; /* Use min-height for flexibility */
+  font-size: 48px;
+  text-align: center;
+  padding: 10vh 40px; /* Reduced padding from 20vh */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-#menu-column > *:not(:first-child) {
-    margin-top: 1.5rem;
+.content-container {
+  position: relative; /* Important for the active/inactive sections */
+  min-height: 70vh; /* Adjust as needed */
+  padding-bottom: 100px; /* Space for the footer */
 }
 
-#menu-column h1 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #4F46E5;
+footer {
+  background: var(--content-bg);
+  color: var(--text-dark);
+  height: 50px;
+  font-size: 12px;
+  padding: 50px;
+  margin-top: 20px;
+  text-align: center;
 }
 
-#menu-column h2 {
-    font-size: 10px;
-    font-weight: 300;
+/* ---------- Content Switching ---------- */
+.content {
+  /* Sections are hidden by default */
+  opacity: 0;
+  pointer-events: none;
+  position: absolute; /* Stack sections on top of each other */
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.5s ease;
+  margin-top: 0; /* Removed margin-top: 80px */
 }
 
-.flex-grow {
-    flex-grow: 1;
+.content.active {
+  /* The active section is made visible */
+  opacity: 1;
+  pointer-events: all;
+  position: relative; /* Let the active section take up space */
 }
 
-.footer-text {
-    font-size: 0.75rem;
-    color: #6B7280;
+/* ---------- Home Page Content Styling ---------- */
+.home-content-wrapper {
+  background: var(--content-bg);
+  color: var(--text-dark);
+  font-size: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 40px;
+  margin-top: 80px;
 }
 
-#content-column {
-    flex-grow: 1;
-    padding: 1.5rem; /* Reduced padding for mobile */
-    overflow-y: auto;
-    position: relative; /* CRITICAL: For view transitions */
+/* Replaced duplicate ID #size-4-container */
+.content-padding {
+  padding: 20px;
 }
 
-/* --- 3. REUSABLE COMPONENTS --- */
-
-button {
-    cursor: pointer;
-    background: none;
-    border: none;
-    font-family: inherit;
-    color: inherit;
+/* New Flexbox container for the info boxes */
+.info-boxes {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* Allows boxes to stack on smaller screens */
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="number"],
-select,
-textarea {
-    display: block;
-    width: 100%; /* Was max-width: 40% */
-    padding: 0.5rem 0.75rem;
-    border: 1px solid #D1D5DB;
-    border-radius: 0.375rem;
-    background-color: #FFFFFF;
-    color: #111827;
-    transition: all 0.2s ease-in-out;
-    /* max-width: 40%; REMOVED */
+.box {
+  /* Removed float and display:inline-block */
+  flex: 1; /* Makes boxes share space equally */
+  min-width: 250px; /* Ensures boxes don't get too squished */
+  position: relative;
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 8px; /* Added for a softer look */
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="number"]:focus,
-select:focus,
-textarea:focus {
-    outline: 2px solid transparent;
-    outline-offset: 2px;
-    border-color: #4F46E5;
-    box-shadow: 0 0 0 2px #4F46E5;
+.box h3 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--text-muted);
+  padding-bottom: 10px;
 }
 
-#message-box,
-#buy-coins-message-box,
-#request-message-box {
-    width: 100%; /* Was max-width: 20% */
-    /* min-width: 20%; REMOVED */
-    padding: 1rem;
-    border-radius: 0.375rem;
-    font-size: 0.875rem;
-    margin-top: 1rem; /* Added for spacing */
+table {
+  width: 100%; /* Makes table fill the box */
+  border-collapse: collapse; /* Cleans up table borders */
 }
 
-.bg-red-100 { 
-    background-color: #FEE2E2; 
-    color: #991B1B;
-}
-.bg-green-100 { 
-    background-color: #D1FAE5; 
-    color: #047857;
-}
-
-.wow-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    border: 1px solid #4a4a4a;
-    flex-shrink: 0;
+table, th, td {
+  border: 1px solid #555; /* Fixed: Was white-on-white */
+  padding: 15px;
+  overflow: hidden;
+  font-size: 14px;
+  text-align: left;
 }
 
-/* --- 4. NAVIGATION BUTTONS --- */
-
-.auth-nav-btn,
-.nav-btn {
-    width: 100%; /* Was 80% */
-    text-align: left;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    color: #374151;
-    
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    
-    transition: all 0.2s ease-in-out;
+tr:nth-child(even) {
+  background-color: #333; /* Adds some row contrast */
 }
 
-.auth-nav-btn:hover,
-.nav-btn:hover {
-    background-color: #E5E7EB;
+hr {
+  border: 0;
+  border-top: 1px solid #ccc; /* Cleaner horizontal rule */
+  margin-top: 40px;
+  margin-bottom: 40px;
 }
 
-.auth-nav-btn.active,
-.nav-btn.active {
-    background-color: #4338CA;
-    color: #FFFFFF;
-}
+/* ---------- Gallery & Filter Styles ---------- */
 
-#nav-admin {
-    color: #CA8A04;
-}
-#nav-admin:hover {
-    background-color: #FEF9C3;
-}
-#nav-admin.active {
-    background-color: #CA8A04;
-    color: #FFFFFF;
-}
-
-#logout-button {
-    color: #DC2626;
-}
-#logout-button:hover {
-    background-color: #FEE2E2;
-}
-
-
-/* --- 5. AUTH FORM (#auth-container) --- */
-
-#auth-container {
-    /* Style moved to desktop media query */
-    /* background-color: #FFFFFF; */
-    /* box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); */
-    /* border-radius: 1rem; */
-    /* padding: 2.5rem; */
-    
-    /* NEW: Constrains form on mobile/desktop */
-    max-width: 420px;
-    margin: 0 auto;
-}
-
-.auth-header {
-    text-align: left;
-}
-
-#form-title {
-    font-size: 1.875rem;
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    color: #111827;
-}
-
-.auth-header p {
-    margin-top: 0.5rem;
-    font-size: 0.875rem;
-    color: #4B5563;
-}
-
-#toggle-form,
-#forgot-password-btn {
-    font-weight: 500;
-    color: #4F46E5;
-    transition: color 0.2s;
-}
-#toggle-form:hover,
-#forgot-password-btn:hover {
-    color: #6366F1;
-}
-
-#auth-form {
-    margin-top: 2rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* POLISHED: Replaced "connected inputs" with modern, separate inputs */
-.form-input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem; /* Spacing between inputs */
-}
-
-#auth-form label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #374151;
-}
-
-/* REMOVED: "connected inputs" styles */
-/* #auth-form #email, #auth-form #password { ... } */
-
-.form-options {
-    display: flex;
-    float: left;
-    font-size: 0.875rem;
-}
-
-#submit-button {
-    width: 100%; /* Was max-width: 20% */
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    color: #FFFFFF;
-    background-color: #4F46E5;
-    border: 1px solid transparent;
-    border-radius: 0.375rem;
-    transition: background-color 0.2s;
-    /* max-width: 20%; REMOVED */
-    /* min-width: 20%; REMOVED */
-}
-#submit-button:hover {
-    background-color: #4338CA;
-}
-
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-}
-
-
-/* --- 6. GALLERY & WELCOME BANNER --- */
-
-.welcome-banner {
-    margin-bottom: 2rem;
-    padding: 1.5rem;
-    background-color: #FFFFFF;
-    border-radius: 0.5rem;
-}
-.welcome-banner h2 {
-    font-size: 1.875rem;
-    font-weight: 800;
-    letter-spacing: -0.025em;
-    color: #4F46E5;
-}
-.welcome-banner p {
-    margin-top: 0.5rem;
-    font-size: 1.125rem;
-    color: #374151;
-}
-.welcome-banner .powered-by {
-    margin-top: 0.25rem;
-    font-size: 0.875rem;
-    color: #6B7280;
-}
-
-#gallery-view-auth h3,
-#gallery-view-app h3 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #111827;
-    margin-bottom: 1.5rem;
-}
-
-#gallery-grid-container,
-#gallery-grid-container-app {
-    display: grid;
-    grid-template-columns: 1fr; /* 1 column on mobile */
-    gap: 1rem;
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
 }
 
 .gallery-item {
-    display: block;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    overflow: hidden;
-    background-color: #FFFFFF;
-    transition: all 0.3s ease-in-out;
-    cursor: pointer; /* NEW: Indicates it's clickable */
-}
-.gallery-item:hover {
-    transform: scale(1.02); /* More subtle hover */
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* shadow-lg */
+  width: 100%;
+  aspect-ratio: 4 / 3; /* Creates a 4:3 ratio box */
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #333;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .gallery-item img {
-    width: 100%;
-    height: 16rem;
-    object-fit: cover;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures image fills the box */
+  transition: transform 0.3s ease;
 }
 
-.gallery-item p {
-    padding: 0.75rem;
-    font-size: 0.875rem;
-    color: #374151;
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+/* Used by JS to hide filtered-out items */
+.gallery-item.hidden {
+  transform: scale(0.8);
+  opacity: 0;
+  display: none; /* We also use display:none for layout reflow */
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  background: #eee;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.filter-btn:hover {
+  background: #ddd;
+}
+
+.filter-btn.active {
+  background: var(--sidebar-bg);
+  color: var(--text-light);
 }
 
 
-/* --- 7. PROFILE VIEW (#profile-view) --- */
+/* ---------- Request Form Styles ---------- */
 
-#profile-view {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-#profile-view h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-    color: #111827;
-}
-#profile-view .label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #6B7280;
-}
-#profile-email {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: #4F46E5;
-    word-break: break-all;
-}
-#profile-uid {
-    font-size: 0.75rem;
-    font-family: monospace;
-    color: #374151;
-    background-color: #F3F4F6;
-    padding: 0.5rem;
-    border-radius: 0.25rem;
-    word-break: break-all;
-}
-.coin-balance {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-#profile-coins {
-    font-size: 1.875rem;
-    font-weight: 800;
-    color: #16A34A;
-}
-.buy-coins-section {
-    padding-top: 1rem;
-    border-top: 1px solid #E5E7EB;
-}
-.buy-coins-section h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-.coin-price {
-    font-size: 1rem;
-    font-weight: 600;
-    color: #1F2937;
-}
-#paypal-button-container {
-    margin-top: 1rem;
-    max-width: 400px; /* Constrain PayPal buttons */
-}
-
-/* --- 8. REQUEST VIEW (#request-view) --- */
-
-#request-view {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-#request-view h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-.cost-notice {
-    font-size: 0.875rem;
-    color: #4B5563;
-}
-.coin-text {
-    font-weight: 800;
-    font-size: 1.125rem;
-    color: #16A34A;
-}
 #request-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  margin: 20px auto;
 }
-.form-grid {
-    display: grid;
-    grid-template-columns: 1fr; /* 1 column mobile */
-    gap: 1rem;
+
+.form-group, .form-group-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+
+.form-group-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
 #request-form label {
-    display: block;
-    margin-bottom: 0.25rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: #374151;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
+
+#request-form input[type="text"],
+#request-form input[type="email"],
+#request-form select,
 #request-form textarea {
-    font-family: inherit;
-}
-#submit-request-button {
-    width: 100%; /* Was 20% */
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    font-size: 0.875rem;
-    color: #FFFFFF;
-    background-color: #4F46E5;
-    border: 1px solid transparent;
-    border-radius: 0.375rem;
-    transition: background-color 0.2s;
-}
-#submit-request-button:hover {
-    background-color: #4338CA;
-}
-#submit-request-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+  width: 100%;
+  padding: 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box; /* Important for 100% width */
 }
 
-/* --- 9. ORDERS & ADMIN VIEW --- */
-
-#orders-view, #admin-view {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-#orders-view h2, #admin-view h2 {
-    font-size: 1.5rem;
-    font-weight: 800;
-}
-#orders-list-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    max-height: 36rem;
-    overflow-y: auto;
-    padding-right: 0.5rem;
-}
-#no-orders-message {
-    color: #6B7280;
+#request-form input[type="checkbox"] {
+  width: auto;
 }
 
-/* Admin Sections */
-.admin-section {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-#admin-view h3 {
-    font-size: 1.125rem;
-    font-weight: 600;
-}
-#admin-add-coins-btn {
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    color: #FFFFFF;
-    background-color: #16A34A;
-    transition: background-color 0.2s;
-    width: 100%; /* Was max-width: 20% */
-    /* min-width: 20%; REMOVED */
-}
-#admin-add-coins-btn:hover {
-    background-color: #15803D;
-}
-#admin-add-coins-btn:disabled {
-    opacity: 0.5;
+#request-form textarea {
+  resize: vertical;
+  min-height: 100px;
 }
 
-.admin-list-box {
-    max-height: 24rem;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    padding-right: 0.5rem;
+#request-form input[readonly] {
+  background: #eee;
+  font-weight: bold;
 }
 
-/* Styles for the JS-generated order/user elements */
-.order-element, .user-element {
-    padding: 0.75rem;
-    background-color: #F9FAFB;
-    border-radius: 0.5rem;
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-}
-.user-element .email {
-    font-weight: 800;
-    color: #4F46E5;
-}
-.user-element .email.admin {
-    color: #EAB308;
-}
-.user-element .meta, .order-element .meta {
-    font-size: 0.875rem;
-    color: #374151;
-}
-.user-element .uid {
-    font-size: 0.75rem;
-    font-family: monospace;
-    color: #6B7280;
-    word-break: break-all; /* Fix for long UIDs */
-}
-.order-element .type {
-    font-weight: 800;
-    font-size: 1.125rem;
-    color: #4F46E5;
-}
-.order-element .details {
-    font-weight: 500;
-    color: #111827;
-    white-space: pre-wrap;
-    margin-top: 0.5rem;
-}
-.order-element .status-box {
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid #E5E7EB;
-}
-.order-element .status-label {
-    font-weight: 800;
-    font-size: 1.125rem;
-}
-.order-element .status-completed {
-    color: #16A34A;
-}
-.order-element .status-pending {
-    color: #D97706;
-}
-.order-element .image-link {
-    display: block;
-    font-size: 0.875rem;
-    color: #4F46E5;
-    text-decoration: underline;
-    margin-top: 0.25rem;
-}
-.order-element .image-preview {
-    margin-top: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 24rem;
-    object-fit: cover;
-}
-.order-element .admin-user-info {
-    font-size: 0.75rem;
-    font-family: monospace;
-    background-color: #E5E7EB;
-    padding: 0.25rem;
-    border-radius: 0.25rem;
-    margin-top: 0.5rem;
-    word-break: break-all;
-}
-.order-element .admin-actions {
-    margin-top: 0.5rem;
-    padding-top: 0.5rem;
-    border-top: 1px solid #D1D5DB;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-.order-element .admin-actions button {
-    width: 100%;
-    padding: 0.25rem 0.75rem;
-    color: #FFFFFF;
-    font-size: 0.75rem;
-    font-weight: 500;
-    border-radius: 0.25rem;
-    transition: background-color 0.2s;
-}
-.order-element .admin-actions .complete-btn {
-    background-color: #16A34A;
-}
-.order-element .admin-actions .complete-btn:hover {
-    background-color: #15803D;
-}
-.order-element .admin-actions .update-btn {
-    background-color: #2563EB;
-}
-.order-element .admin-actions .update-btn:hover {
-    background-color: #1D4ED8;
-}
-.order-element .admin-actions .delete-btn {
-    background-color: #DC2626;
-}
-.order-element .admin-actions .delete-btn:hover {
-    background-color: #B91C1C;
+/* Conditional form fields */
+.conditional-details {
+  display: none; /* Hidden by default */
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  border: 1px solid #eee;
 }
 
-
-/* --- 10. NEW: LIGHTBOX STYLES --- */
-
-.lightbox {
-    position: fixed;
-    /* Inset is shorthand for top, right, bottom, left */
-    inset: 0; 
-    background-color: rgba(0, 0, 0, 0.85);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    padding: 1rem;
+.conditional-details.visible {
+  display: flex; /* Made visible by JS */
 }
 
-/* This is the "active" state */
-.lightbox:not(.hidden) {
-    opacity: 1;
+#request-form button[type="submit"] {
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  background: var(--sidebar-bg);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.3s;
 }
 
-.lightbox-image {
-    max-width: 90vw;
-    max-height: 85vh;
-    object-fit: contain;
-    border-radius: 8px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    /* Animation for popping in */
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-}
-.lightbox:not(.hidden) .lightbox-image {
-    transform: scale(1);
+#request-form button[type="submit"]:hover {
+  opacity: 0.8;
 }
 
-.lightbox-close {
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    font-size: 3rem;
-    font-weight: 200;
-    color: white;
-    background: none;
-    border: none;
-    cursor: pointer;
-    line-height: 1;
-    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+#request-form button[type="submit"]:disabled {
+  background: #999;
+  cursor: not-allowed;
 }
 
-
-/* --- 11. RESPONSIVE DESIGN (DESKTOP) --- */
-
-/* For tablets (small) - 640px and up */
-@media (min-width: 640px) {
-    #gallery-grid-container,
-    #gallery-grid-container-app {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    }
-
-    #content-column {
-        padding: 2.5rem; /* Restore padding */
-    }
-
-    /* Make buttons on forms a reasonable size */
-    #submit-button,
-    #admin-add-coins-btn {
-        width: auto;
-        min-width: 150px;
-    }
-    #submit-request-button {
-        width: auto;
-    }
-    #message-box,
-    #buy-coins-message-box,
-    #request-message-box {
-        width: auto;
-        max-width: 420px;
-    }
+#form-status {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: 500;
+  text-align: center;
 }
 
-/* For tablets (medium) & desktops - 768px and up */
-@media (min-width: 768px) {
-    #gallery-grid-container,
-    #gallery-grid-container-app {
-        grid-template-columns: repeat(3, 1fr); /* 3 columns */
-    }
-
-    #request-form .form-grid {
-        grid-template-columns: repeat(2, 1fr); /* 2 columns */
-    }
+#form-status.success {
+  background: #d4edda;
+  color: #155724;
 }
 
-/* For desktops (large) - 1024px and up */
-@media (min-width: 1024px) {
-    body {
-        padding: 1rem; /* Add padding back to body */
-        justify-content: center; /* Center the card */
-    }
-
-    #main-wrapper {
-        flex-direction: row; /* Side-by-side layout */
-        min-height: 560px; /* Was 420pt */
-        height: auto;
-        border-radius: 1rem;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-        overflow: hidden;
-    }
-
-    #menu-column {
-        width: 14rem; /* Restore fixed-width menu */
-        flex-shrink: 0;
-    }
-    
-    #content-column {
-        /* This is where the auth-view/app-view elements live */
-        /* It must be relative for their absolute positioning */
-        position: relative;
-    }
-
-    /* Restore absolute positioning for transitions on desktop */
-    .view-hidden {
-        top: 2.5rem;
-        left: 2.5rem;
-        right: 2.5rem;
-    }
+#form-status.error {
+  background: #f8d7da;
+  color: #721c24;
 }
 
-
-/* --- 12. DARK MODE --- */
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #111827;
-        color: #F9FAFB;
-    }
-
-    #main-wrapper {
-        background-color: #1F2937;
-    }
-
-    #menu-column {
-        background-color: #111827;
-    }
-
-    #menu-column h1 {
-        color: #818CF8;
-    }
-
-    .footer-text {
-        color: #9CA3AF;
-    }
-
-    /* Nav buttons dark */
-    .auth-nav-btn,
-    .nav-btn {
-        color: #D1D5DB;
-    }
-    .auth-nav-btn:hover,
-    .nav-btn:hover {
-        background-color: #374151;
-    }
-    .auth-nav-btn.active,
-    .nav-btn.active {
-        background-color: #4338CA;
-        color: #FFFFFF;
-    }
-    #nav-admin {
-        color: #FACC15;
-    }
-    #nav-admin:hover {
-        background-color: #374151;
-    }
-    #logout-button {
-        color: #F87171;
-    }
-    #logout-button:hover {
-        background-color: #374151;
-    }
-
-    /* Auth Form dark */
-    #auth-container {
-        background-color: #1F2937;
-    }
-    #form-title {
-        color: #FFFFFF;
-        text-align: left;
-    }
-    .auth-header p {
-        color: #9CA3AF;
-    }
-    #toggle-form,
-    #forgot-password-btn {
-        color: #818CF8;
-    }
-    
-    #auth-form label {
-        color: #D1D5DB; /* NEW: Label color */
-    }
-
-    /* Inputs dark */
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    input[type="number"],
-    select,
-    textarea {
-        background-color: #374151;
-        border-color: #4B5563;
-        color: #FFFFFF;
-    }
-    input::placeholder,
-    textarea::placeholder {
-        color: #9CA3AF;
-    }
-    
-    /* Message box dark */
-    .bg-red-100 { 
-        background-color: #7f1d1d;
-        color: #FEE2E2;
-    }
-    .bg-green-100 { 
-        background-color: #064e3b;
-        color: #D1FAE5;
-    }
-
-    /* Gallery/Welcome dark */
-    .welcome-banner {
-        background-color: #1F2937;
-    }
-    .welcome-banner h2 {
-        color: #818CF8;
-    }
-    .welcome-banner p {
-        color: #D1D5DB;
-    }
-    .welcome-banner .powered-by {
-        color: #6B7280;
-    }
-    #gallery-view-auth h3,
-    #gallery-view-app h3 {
-        color: #FFFFFF;
-    }
-    .gallery-item {
-        background-color: #1F2937;
-    }
-    .gallery-item p {
-        color: #D1D5DB;
-    }
-
-    /* Profile dark */
-    #profile-view h2 {
-        color: #FFFFFF;
-    }
-    #profile-view .label {
-        color: #9CA3AF;
-    }
-    #profile-email {
-        color: #818CF8;
-    }
-    #profile-uid {
-        color: #D1D5DB;
-        background-color: #374151;
-    }
-    #profile-coins {
-        color: #4ADE80;
-    }
-    .buy-coins-section {
-        border-top-color: #374151;
-    }
-    .buy-coins-section h3 {
-        color: #FFFFFF;
-    }
-    .coin-price {
-        color: #E5E7EB;
-    }
-
-    /* Request dark */
-    #request-view h2 {
-        color: #FFFFFF;
-    }
-    .cost-notice {
-        color: #9CA3AF;
-    }
-    .coin-text {
-        color: #4ADE80;
-    }
-    #request-form label {
-        color: #D1D5DB;
-    }
-
-    /* Orders/Admin dark */
-    #orders-view h2, #admin-view h2 {
-        color: #FFFFFF;
-    }
-    #no-orders-message {
-        color: #9CA3AF;
-    }
-    #admin-view h3 {
-        color: #FFFFFF;
-    }
-    .order-element, .user-element {
-        background-color: #374151;
-    }
-    .user-element .email {
-        color: #818CF8;
-    }
-    .user-element .meta, .order-element .meta {
-        color: #D1D5DB;
-    }
-    .user-element .uid {
-        color: #9CA3AF;
-    }
-    .order-element .type {
-        color: #818CF8;
-    }
-    .order-element .details {
-        color: #FFFFFF;
-    }
-    .order-element .status-box {
-        border-top-color: #4B5563;
-    }
-    .order-element .status-completed {
-        color: #4ADE80;
-    }
-    .order-element .status-pending {
-        color: #FBBF24;
-    }
-    .order-element .image-link {
-        color: #818CF8;
-    }
-    .order-element .admin-user-info {
-        background-color: #1F2937;
-    }
-    .order-element .admin-actions {
-        border-top-color: #4B5563;
-    }
+.disclaimer-box {
+  padding: 20px;
+  font-size: 16px;
 }
