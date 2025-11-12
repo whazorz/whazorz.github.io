@@ -367,11 +367,15 @@ hr {
 #form-status.error {
   background: #f8d7da;
   color: #721c24;
+  padding: 20px;
+  
 }
 
 .disclaimer-box {
   padding: 20px;
-  font-size: 16px;
+  font-size: 14px;
+  background: rgb(255, 219, 219);
+  border-radius: 12px; /* adjust value for more or less rounding */
 }
 
 /* ---------- Lightbox Popup Styles ---------- */
