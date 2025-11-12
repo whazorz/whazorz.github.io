@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admin Dashboard</title>
   <link rel="icon" href="w.png" type="image/png">
+  <link rel="stylesheet" href="style.css">
 
+  <!-- Inline Admin-specific Styles -->
   <style>
     /* ===== Body & Layout ===== */
     body {
@@ -16,13 +18,13 @@
     }
 
     .scroll-box {       /* width of the box */
-      height: 400px;      /* height of the box */
-      border: 1px solid #333; /* optional, just to see the box */
-      padding: 10px;
-      overflow-y: auto;   /* enables vertical scrolling if content is too tall */
-      overflow-x: hidden; /* hides horizontal scroll */
-      box-sizing: border-box; /* includes padding/border in width/height */
-    }
+  height: 400px;      /* height of the box */
+  border: 1px solid #333; /* optional, just to see the box */
+  padding: 10px;
+  overflow-y: auto;   /* enables vertical scrolling if content is too tall */
+  overflow-x: hidden; /* hides horizontal scroll */
+  box-sizing: border-box; /* includes padding/border in width/height */
+}
 
     .admin-container {
       max-width: 1200px;
@@ -61,11 +63,6 @@
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
 
     button {
       cursor: pointer;
@@ -101,7 +98,6 @@
       border: 1px solid #ddd;
       padding: 8px;
       text-align: left;
-      vertical-align: top;
     }
 
     th {
@@ -142,6 +138,7 @@
 
   <div class="admin-container">
 
+    <!-- ===== Admin Login ===== -->
     <div id="admin-login">
       <h2>Admin Login</h2>
       <form id="login-form">
@@ -158,54 +155,14 @@
       </form>
     </div>
 
+    <!-- ===== Admin Dashboard ===== -->
     <div id="admin-dashboard">
       <button id="logout-btn">Logout</button>
       <h2>Admin Dashboard</h2>
 
       <hr>
 
-      <h3>Manage Store</h3>
-      <form id="store-form">
-        <div class="form-group">
-          <label for="store-name">Product Name</label>
-          <input type="text" id="store-name" placeholder="e.g., 'Cyberpunk LUTS Pack'" required>
-        </div>
-        <div class="form-group">
-          <label for="store-image-url">Image URL</label>
-          <input type="url" id="store-image-url" placeholder="https://..." required>
-        </div>
-        <div class="form-group">
-          <label for="store-description">Description</label>
-          <textarea id="store-description" placeholder="Short description..."></textarea>
-        </div>
-        <div class="form-group">
-          <label for="store-price">Price (EUR)</label>
-          <input type="number" id="store-price" placeholder="e.g., 10" required min="0" step="0.01">
-        </div>
-        <div class="form-group">
-          <label for="store-payment-url">Payment URL</label>
-          <input type="url" id="store-payment-url" placeholder="https://buy.stripe.com/..." required>
-          <small>Note: Create a Payment Link in Stripe or PayPal and paste the URL here.</small>
-        </div>
-        <button type="submit">Add Store Item</button>
-      </form>
-
-      <div class="scroll-box">
-        <table class="store-list">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Name</th>
-              <th>Price</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="store-items-list"></tbody>
-        </table>
-      </div>
-
-      <hr>
-
+      <!-- Gallery Management -->
       <h3>Manage Portfolio Gallery</h3>
       <form id="gallery-form">
         
@@ -224,63 +181,47 @@
         </div>
         <button type="submit">Add Gallery Item</button>
       </form>
-      
-      <div class="scroll-box">
-        <table class="gallery-list">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Type</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="gallery-items-list"></tbody>
-        </table>
+<div class="scroll-box">
+      <table class="gallery-list">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Type</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        
+        <tbody id="gallery-items-list"></tbody>
+        
+      </table>
       </div>
 
       <hr>
 
+      <div class="scroll-box">
+      <!-- Requests Management -->
       <h3>View Requests</h3>
-      <div class="scroll-box">
-        <table class="request-list">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Email</th>
-              <th>Product</th>
-              <th>Budget</th>
-              <th>Status</th>
-              <th>Details</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="request-items-list"></tbody>
-        </table>
-      </div>
-      
-      <hr>
-
-      <h3>View Store Orders</h3>
-      <div class="scroll-box">
-        <table class="store-orders-list">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Email</th>
-              <th>Product</th>
-              <th>Price</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="store-orders-list"></tbody>
-        </table>
+      <table class="request-list">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Email</th>
+            <th>Product</th>
+            <th>Budget</th>
+            <th>Status</th>
+            <th>Details</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="request-items-list"></tbody>
+      </table>
       </div>
 
     </div>
   </div>
   
 
+  <!-- ===== Firebase & Admin Script ===== -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>

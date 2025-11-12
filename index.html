@@ -12,6 +12,7 @@
 
   <link rel="stylesheet" href="style.css">
 
+  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
@@ -21,10 +22,8 @@
     <div id="logo">W</div>
     <div id="slogan">#Wdesign</div>
     <a href="#" data-target="home" class="active">Home</a>
-    <a href="#" data-target="Store">Store</a>
-    <a href="#" data-target="Request">Request</a>
     <a href="#" data-target="Portfolio">Portfolio</a>
-    
+    <a href="#" data-target="Request">Request</a>
   </nav>
 
   <div id="head">
@@ -34,6 +33,7 @@
 
   <div class="content-container">
     
+    <!-- HOME SECTION -->
     <section id="home" class="content active">
       <div class="home-content-wrapper">
         <div class="content-padding">
@@ -70,7 +70,7 @@
                 <tr><td>Promo Bundle [Logo/Profile/Banner]</td><td>80 Eur</td></tr>
               </table>
               <br>
-              <p>Discount discussion for regular clients.</p>
+              <p>73% discount for regular clients.</p>
             </div>
           </div>
         </div>
@@ -79,23 +79,7 @@
       </div>
     </section>
 
-
-    <section id="Store" class="content">
-      <div class="home-content-wrapper">
-        <div class="content-padding">
-          <h2>Store</h2>
-          <p>Purchase digital assets. After providing your email, you will be redirected to payment.<br>
-             <strong>Files are delivered manually via email</strong> after payment is confirmed.
-          </p>
-          
-          <div class="store-container" id="store-gallery">
-            </div>
-
-        </div>
-      </div>
-    </section>
-
-
+    <!-- PORTFOLIO SECTION -->
     <section id="Portfolio" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
@@ -114,19 +98,18 @@
       </div>
     </section>
 
+    <!-- REQUEST SECTION -->
     <section id="Request" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
           <h2>Request a Design</h2>
-          
-<div class="disclaimer-box">
-  <h3>Important Design Request Information</h3>
-  <p><strong>Approval:</strong> Your design request will only proceed if it meets the designer’s requirements and is approved for production. The designer reserves the right to decline requests that do not fit the project criteria.</p>
-  <p><strong>Payment:</strong> Payment will only be processed after the client approves and is satisfied with the proposed design. Once approved, the total cost may vary depending on complexity and can exceed your initial budget.</p>
-  <p><strong>Timeframe:</strong> Typical delivery time is 2–3 days, but may extend for more complex designs.</p>
-  <p><strong>Revisions:</strong> Up to 2 revisions are included, depending on the project’s scope and complexity.</p>
-  <p><strong>Communication:</strong> All future communication will be conducted via email.</p>
-</div>
+
+          <div class="disclaimer-box">
+            <h3>Important Request Information</h3>
+            <p><strong>Timeframe:</strong> Delivery timeframe for orders mostly takes 2-3 days, but can take longer for complex tasks.</p>
+            <p><strong>Revisions:</strong> You receive up to 2 revisions, depending on project complexity.</p>
+            <p><strong>Communication:</strong> All future communication will be conducted via email.</p>
+          </div>
           
           <p>Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong></p>
           
@@ -196,38 +179,13 @@
 
   <footer>Copyright © WHAZORZ 2025</footer>
 
+  <!-- Lightbox -->
   <div id="lightbox-overlay" class="lightbox-overlay">
     <span id="lightbox-close" class="lightbox-close">&times;</span>
     <img id="lightbox-image" class="lightbox-image" src="" alt="Enlarged portfolio item">
   </div>
 
-  <div id="store-checkout-overlay" class="store-modal-overlay">
-    <div class="store-modal-content">
-      <span id="store-modal-close" class="store-modal-close">&times;</span>
-      <h3 id="store-modal-title">Complete Your Purchase</h3>
-      
-      <div id="store-modal-step-1">
-        <p>To receive your file, please enter your email. You will be redirected to payment.</p>
-        <p><strong>Note:</strong> Your file will be emailed to you manually after payment is confirmed.</p>
-        <form id="store-checkout-form">
-          <div class="form-group">
-            <label for="store-email">Your Email Address</label>
-            <input type="email" id="store-email" required placeholder="your.email@example.com">
-          </div>
-          <button type="submit" id="store-submit-btn">Continue to Payment</button>
-        </form>
-      </div>
-
-      <div id="store-modal-step-2" style="display: none;">
-        <h4>Thank You!</h4>
-        <p>Your order has been logged. You are now being redirected to our secure payment processor.</p>
-        <p>Please check your email for the file after payment is complete.</p>
-      </div>
-
-    </div>
-  </div>
-
-
+  <!-- Main Script -->
   <script src="script.js"></script>
 </body>
 </html>
