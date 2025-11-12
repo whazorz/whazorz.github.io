@@ -72,6 +72,8 @@ footer {
   box-sizing: border-box;
   overflow-x: hidden;
   overflow-y: hidden;
+  bottom: 0;
+  margin-bottom: 10px;
 }
 
 #head {
@@ -93,8 +95,8 @@ footer {
 }
 
 footer {
-  background: var(--content-bg);
-  color: var(--text-dark);
+  background: #2e2e2e;
+  color: white;
   height: 50px;
   font-size: 12px;
   padding: 50px;
@@ -132,7 +134,10 @@ footer {
 }
 
 .content-padding {
-  padding: 20px;
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
 }
 
 .info-boxes {
@@ -145,11 +150,12 @@ footer {
   flex: 1;
   min-width: 250px;
   position: relative;
-  background: var(--sidebar-bg);
+  background: #2e2e2e;
   color: var(--text-light);
-  padding: 20px;
+  padding: 60px;
   box-sizing: border-box;
   border-radius: 8px;
+  
 }
 
 .box h3 {
@@ -445,7 +451,7 @@ hr {
   }
 
   .home-content-wrapper {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 20px;
   }
 
