@@ -4,11 +4,13 @@
   <meta charset="UTF-8" />
   <link rel="icon" href="w.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wdesign</title>
+  <title>WDESIGN</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <link rel="stylesheet" href="style.css">
 
@@ -19,7 +21,7 @@
 
   <nav>
     <div id="logo">W</div>
-    <div id="slogan">#Wdesign</div>
+    <div id="slogan">WDESIGN</div>
     
     <div id="lang-switcher">
       <button data-lang="en" class="lang-btn active">EN</button>
@@ -28,18 +30,18 @@
 
     <a href="#" data-target="home" class="active" data-key="navHome">Home</a>
     <a href="#" data-target="Portfolio" data-key="navPortfolio">Portfolio</a>
+    <a href="#" data-target="Downloads" data-key="navDownloads">Downloads</a>
     <a href="#" data-target="Request" data-key="navRequest">Request</a>
-
-
-
-
-
-
   </nav>
 
-  <div id="head" data-key="headerTitle">
-    /// Whazorz Designs
-    <br>
+  <div id="head">
+    <span data-key="headerTitle">/// Whazorz Designs</span>
+    <div class="header-social-links">
+      <a href="mailto:whazorz.design@gmail.com" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
+      <a href="https://twitch.tv/whazorz" title="Twitch" target="_blank"><i class="fab fa-twitch"></i></a>
+      <a href="https://www.youtube.com/@whazorz.design" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.paypal.com/donate?business=whazorz.design@gmail.com&item_name=Donation+to+Whazorz+Designs&currency_code=EUR" title="Donate" target="_blank"><i class="fab fa-paypal"></i></a>
+    </div>
   </div>
 
   <div class="content-container">
@@ -72,6 +74,8 @@
               <p data-key="homeTermsComm"><strong>Communication:</strong> All project communication will be via email.</p>
               <hr>
               <p data-key="homeTermsContact">Contacts: whazorz.design@gmail.com</p>
+
+
             </div>
             
             <div class="box">
@@ -86,6 +90,20 @@
               <p data-key="priceNote1"><strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.</p>
               <p data-key="priceNote2">Discount for regular client discussable.</p>
             </div>
+          </div>
+          
+        </div>
+
+        <div class="content-padding">
+          <div class="donation-box">
+            <h3 data-key="homeDonateTitle">Support My Work</h3>
+            <p data-key="homeDonateText">“Buy me a coffee ☕🎨”</p>
+            <form action="https://www.paypal.com/donate" method="post" target="_blank">
+              <input type="hidden" name="business" value="whazorz.design@gmail.com">
+              <input type="hidden" name="item_name" value="Donation to Whazorz Designs">
+              <input type="hidden" name="currency_code" value="EUR">
+              <button type="submit" class="donate-btn" data-key="homeDonateButton">Donate with PayPal</button>
+            </form>
           </div>
         </div>
 
@@ -107,6 +125,17 @@
           </div>
 
           <div class="gallery-container" id="portfolio-gallery"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="Downloads" class="content">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2 data-key="downloadsTitle">Downloads</h2>
+          <p data-key="downloadsIntro">Here you can find various design assets and resources I've created over time.</p>
+          <div id="downloads-container">
+            </div>
         </div>
       </div>
     </section>

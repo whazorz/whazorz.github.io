@@ -3,135 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard</title>
+  <title>WDESIGN - Admin Dashboard</title>
   <link rel="icon" href="w.png" type="image/png">
   <link rel="stylesheet" href="style.css">
-
-  <style>
-    /* ===== Body & Layout ===== */
-    body {
-      background: #f0f0f0;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-
-    .scroll-box {       /* width of the box */
-  height: 400px;      /* height of the box */
-  border: 1px solid #333; /* optional, just to see the box */
-  padding: 10px;
-  overflow-y: auto;   /* enables vertical scrolling if content is too tall */
-  overflow-x: hidden; /* hides horizontal scroll */
-  box-sizing: border-box; /* includes padding/border in width/height */
-}
-
-    .admin-container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2, h3 {
-      margin-top: 0;
-    }
-
-    hr {
-      margin: 20px 0;
-      border: none;
-      border-top: 1px solid #ddd;
-    }
-
-    /* ===== Forms ===== */
-    form {
-      margin-bottom: 20px;
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 15px;
-    }
-
-    input, select, textarea, button {
-      padding: 10px;
-      font-size: 1rem;
-      margin-top: 5px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    button {
-      cursor: pointer;
-    }
-
-    #logout-btn {
-      background: #d9534f;
-      color: white;
-      border: none;
-      float: right;
-      margin-bottom: 10px;
-    }
-
-    /* ===== Hidden Sections ===== */
-    #admin-dashboard {
-      display: none;
-    }
-
-    /* ===== Scrollable Form ===== */
-    #gallery-form {
-      max-height: 400px;
-      overflow-y: auto;
-    }
-
-    /* ===== Tables ===== */
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 20px;
-    }
-
-    th, td {
-      border: 1px solid #ddd;
-      padding: 8px;
-      text-align: left;
-    }
-
-    th {
-      background-color: #f2f2f2;
-    }
-
-    .request-details {
-      font-size: 0.9em;
-      white-space: pre-wrap;
-    }
-
-    /* ===== Action Buttons ===== */
-    .btn-action {
-      margin-right: 5px;
-      padding: 5px 8px;
-      border: none;
-      border-radius: 4px;
-      color: white;
-    }
-
-    .btn-approve { background: #5cb85c; }
-    .btn-decline { background: #f0ad4e; }
-    .btn-delete  { background: #d9534f; }
-
-    /* ===== Responsive Adjustments ===== */
-    @media (max-width: 768px) {
-      .admin-container {
-        padding: 10px;
-      }
-      input, select, textarea, button {
-        font-size: 0.9rem;
-      }
-    }
-  </style>
-</head>
+  <link rel="stylesheet" href="adminstyle.css"> </head>
 
 <body>
 
@@ -158,10 +33,45 @@
       <h2>Admin Dashboard</h2>
 
       <hr>
+      
+      <h3>Manage Downloads</h3>
+      <form id="downloads-form">
+        <div class="form-group">
+          <label for="download-title">Title</label>
+          <input type="text" id="download-title" required>
+        </div>
+        <div class="form-group">
+          <label for="download-image-url">Image URL</label>
+          <input type="url" id="download-image-url" placeholder="https://..." required>
+        </div>
+        <div class="form-group">
+          <label for="download-description">Description</label>
+          <textarea id="download-description" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="download-file-url">Download File URL</label>
+          <input type="url" id="download-file-url" placeholder="https://..." required>
+        </div>
+        <button type="submit">Add Download Item</button>
+      </form>
+
+      <div class="scroll-box">
+        <table class="downloads-list">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Title</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="downloads-items-list"></tbody>
+        </table>
+      </div>
+      <hr>
 
       <h3>Manage Portfolio Gallery</h3>
       <form id="gallery-form">
-        
         <div class="form-group">
           <label for="gallery-url">Image URL</label>
           <input type="url" id="gallery-url" placeholder="https://..." required>
@@ -177,41 +87,40 @@
         </div>
         <button type="submit">Add Gallery Item</button>
       </form>
-<div class="scroll-box">
-      <table class="gallery-list">
-        <thead>
-          <tr>
-            <th>Image</th>
-            <th>Type</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        
-        <tbody id="gallery-items-list"></tbody>
-        
-      </table>
+      
+      <div class="scroll-box">
+        <table class="gallery-list">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Type</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="gallery-items-list"></tbody>
+        </table>
       </div>
 
       <hr>
 
       <div class="scroll-box">
-      <h3>View Requests</h3>
-      <table class="request-list">
-        <thead>
-          <tr>
-            <th>Date</th>
-            <th>Email</th>
-            <th>Product</th>
-            <th>Budget</th>
-            <th>Status</th>
-            <th>Showcase</th>
-            <th>Emails</th>
-            <th>Details</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="request-items-list"></tbody>
-      </table>
+        <h3>View Requests</h3>
+        <table class="request-list">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Email</th>
+              <th>Product</th>
+              <th>Budget</th>
+              <th>Status</th>
+              <th>Showcase</th>
+              <th>Emails</th>
+              <th>Details</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="request-items-list"></tbody>
+        </table>
       </div>
 
     </div>

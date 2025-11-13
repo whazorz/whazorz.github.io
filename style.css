@@ -60,13 +60,13 @@ nav {
 }
 
 #slogan {
-  font-size: 18px;
+  font-size: 14px;
   color: var(--text-light);
   text-align: center;
   margin-bottom: 1rem;
 }
 
-/* --- NEW: Language Switcher Styles --- */
+/* --- Language Switcher Styles --- */
 #lang-switcher {
   display: flex;
   gap: 0.5rem;
@@ -96,7 +96,6 @@ nav {
   background: var(--text-light);
   color: var(--sidebar-bg);
 }
-/* --- END: Language Switcher Styles --- */
 
 
 nav a {
@@ -124,7 +123,6 @@ footer {
   margin-bottom: 10px;
 }
 
-/* basic 1px red border with glow */
 .terms-and-conditions {
   background: #1e1e1e;
   color: #ffffff;
@@ -145,7 +143,30 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
+  /* NEW: Flex properties for multiple items */
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
 }
+
+/* NEW: Header Social Links */
+.header-social-links {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.5rem; /* Adjust icon size */
+}
+
+.header-social-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.header-social-links a:hover {
+  color: var(--text-light);
+  transform: scale(1.1);
+}
+/* END: Header Social Links */
+
 
 .content-container {
   position: relative;
@@ -229,7 +250,8 @@ table {
   border-collapse: collapse;
 }
 
-table, th, td {
+/* This rule only applies to tables inside the .box (homepage price list) */
+.box table, .box th, .box td {
   border: 1px solid #555;
   padding: 15px;
   overflow: hidden;
@@ -237,7 +259,8 @@ table, th, td {
   text-align: left;
 }
 
-tr:nth-child(even) {
+/* This rule only applies to tables inside the .box (homepage price list) */
+.box table tr:nth-child(even) {
   background-color: #333;
 }
 
@@ -248,7 +271,48 @@ hr {
   margin-bottom: 40px;
 }
 
-/* --- NEW: View All Portfolio Link Style --- */
+/* NEW: Donation Box Styles */
+.donation-box {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+.donation-box h3 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.donation-box p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.donate-btn {
+  background-color: #ffffff; /* PayPal blue */
+  color: rgb(0, 0, 0);
+  border: solid 1px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.donate-btn:hover {
+  background-color: #000000;
+  color: white;
+  border-color: #000;
+}
+/* END: Donation Box Styles */
+
+
+/* --- View All Portfolio Link Style --- */
 .view-all-portfolio {
   display: inline-block;
   margin-top: 20px;
@@ -286,7 +350,6 @@ hr {
   object-fit: cover;
   transition: transform 0.3s ease;
   cursor: pointer;
-  /* --- NEW: Prevent drag/select --- */
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -330,13 +393,76 @@ hr {
   color: var(--text-light);
 }
 
+/* ---------- NEW: Downloads Page Styles ---------- */
+#downloads-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.download-item {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.download-item-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background-color: #e0e0e0;
+}
+
+.download-item-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.download-item-content h4 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.download-item-content p {
+  font-size: 0.9rem;
+  color: #555;
+  flex-grow: 1;
+  margin-bottom: 20px;
+}
+
+.download-btn {
+  display: block;
+  text-align: center;
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  padding: 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.3s;
+}
+
+.download-btn:hover {
+  opacity: 0.8;
+}
+/* END: Downloads Page Styles */
+
+
 /* ---------- Request Form Styles ---------- */
 #request-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   max-width: 800px;
-  margin: 20px auto;
+  /* UPDATED: Removed auto-centering */
+  margin: 20px 0;
 }
 
 .form-group, .form-group-inline {
@@ -355,7 +481,6 @@ hr {
   font-size: 0.9rem;
 }
 
-/* Target the text span inside the label specifically */
 .form-group-inline label span {
   font-weight: normal; 
 }
@@ -549,6 +674,12 @@ hr {
   #head {
     padding: 5vh 20px;
     font-size: 32px;
+    /* NEW: Stack title and links vertically */
+    flex-direction: column;
+  }
+
+  .header-social-links {
+    font-size: 1.25rem; /* Smaller icons on mobile */
   }
 
   .info-boxes {
@@ -557,6 +688,10 @@ hr {
 
   .gallery-container {
     column-count: 1;
+  }
+  
+  #downloads-container {
+    grid-template-columns: 1fr; /* Stack download items on mobile */
   }
 
 }

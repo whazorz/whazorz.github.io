@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Nav
       navHome: "Home",
       navPortfolio: "Portfolio",
+      navDownloads: "Downloads", // NEW
       navRequest: "Request",
       // Header
       headerTitle: "/// Whazorz Designs",
@@ -29,6 +30,9 @@ document.addEventListener("DOMContentLoaded", () => {
       priceBundle: "Promo Bundle [Logo/Profile/Banner]",
       priceNote1: "<strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.",
       priceNote2: "Discount for regular client discussable.",
+      homeDonateTitle: "Support My Work", // NEW
+      homeDonateText: "“Buy me a coffee ☕🎨”", // NEW
+      homeDonateButton: "Donate with PayPal", // NEW
       // Portfolio Page
       portfolioTitle: "Portfolio",
       filterAll: "All",
@@ -36,6 +40,11 @@ document.addEventListener("DOMContentLoaded", () => {
       filterPosters: "A4 Posters",
       filterBanners: "Banners",
       filterProfile: "Profile",
+      // NEW: Downloads Page
+      downloadsTitle: "Downloads",
+      downloadsIntro: "Here you can find various design assets and resources I've created over time.",
+      downloadButton: "Download",
+      downloadsError: "<p>Error loading downloads.</p>",
       // Request Page
       requestTitle: "Request a Design",
       requestTermsSummary: "Please read the full Commission Terms & Conditions before proceeding.",
@@ -102,6 +111,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Nav
       navHome: "Sākums",
       navPortfolio: "Portfolio",
+      navDownloads: "Lejupielādes", // NEW
       navRequest: "Pieprasījums",
       // Header
       headerTitle: "/// Whazorz Designs",
@@ -125,6 +135,9 @@ document.addEventListener("DOMContentLoaded", () => {
       priceBundle: "Promo komplekts [Logo/Profils/Baneris]",
       priceNote1: "<strong>Piezīme:</strong> Cenas ir sākuma cenas. Gala izmaksas var atšķirties atkarībā no sarežģītības.",
       priceNote2: "Atlaides pastāvīgiem klientiem ir apspriežamas.",
+      homeDonateTitle: "Atbalsti manu darbu", // NEW
+      homeDonateText: "“Uzsauc man kafiju ☕🎨”", // NEW
+      homeDonateButton: "Ziedot ar PayPal", // NEW
       // Portfolio Page
       portfolioTitle: "Portfolio",
       filterAll: "Visi",
@@ -132,6 +145,11 @@ document.addEventListener("DOMContentLoaded", () => {
       filterPosters: "A4 Plakāti",
       filterBanners: "Baneri",
       filterProfile: "Profili",
+      // NEW: Downloads Page
+      downloadsTitle: "Lejupielādes",
+      downloadsIntro: "Šeit Jūs varat atrast dažādus dizaina resursus, ko esmu laika gaitā izveidojis.",
+      downloadButton: "Lejupielādēt",
+      downloadsError: "<p>Kļūda, ielādējot lejupielādes.</p>",
       // Request Page
       requestTitle: "Pieprasīt dizainu",
       requestTermsSummary: "Lūdzu, izlasiet visus Pasūtījuma noteikumus un nosacījumus pirms turpināt.",
@@ -212,8 +230,8 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelectorAll('[data-key]').forEach(el => {
       const key = el.getAttribute('data-key');
       if (translations[lang][key]) {
-        // Use innerHTML for keys that contain <strong> or &rarr;
-        if (key.includes('homeTerms') || key === 'homeViewAll' || key === 'requestFormIntro' || key === 'priceNote1') {
+        // --- THIS IS THE CORRECTED LINE ---
+        if (key.includes('homeTerms') || key === 'homeViewAll' || key === 'requestFormIntro' || key.includes('priceNote1')) {
           el.innerHTML = translations[lang][key];
         } else {
           el.innerText = translations[lang][key];
@@ -243,6 +261,11 @@ document.addEventListener("DOMContentLoaded", () => {
       if (translations[lang][key]) {
         el.innerText = translations[lang][key];
       }
+    });
+
+    // NEW: Re-translate dynamic download buttons
+    document.querySelectorAll('.download-btn').forEach(btn => {
+        btn.innerText = translations[lang].downloadButton;
     });
   }
 
@@ -279,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupRequestForm(db, translations, () => currentLang);
     loadPortfolio(db, translations, () => currentLang);
     loadLatestWork(db, translations, () => currentLang);
+    loadDownloads(db, translations, () => currentLang); // NEW
     setupLightbox();
     setupHomePageLinks();
     setupImageProtection();
@@ -287,7 +311,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("❌ Error initializing Firebase:", e);
     const formStatus = document.getElementById("form-status");
     if (formStatus) {
-      // Use translations for the error message
       formStatus.textContent = translations[currentLang].firebaseError;
       formStatus.className = "error";
     }
@@ -335,7 +358,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 6. Load Portfolio ---
-  // Modified to accept translations
   async function loadPortfolio(db, translations, getCurrentLang) {
     const gallery = document.getElementById("portfolio-gallery");
     if (!gallery) return;
@@ -359,7 +381,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 7. Load Latest Work ---
-  // Modified to accept translations
   async function loadLatestWork(db, translations, getCurrentLang) {
     const gallery = document.getElementById("latest-work-gallery");
     if (!gallery) return;
@@ -394,7 +415,47 @@ document.addEventListener("DOMContentLoaded", () => {
     return galleryItem;
   }
 
-  // --- 9. Lightbox Setup ---
+  // --- 9. NEW: Load Downloads ---
+  async function loadDownloads(db, translations, getCurrentLang) {
+    const container = document.getElementById("downloads-container");
+    if (!container) return;
+
+    try {
+      // Assuming you create a "downloads" collection in Firestore
+      const snapshot = await db.collection("downloads").orderBy("title").get(); 
+      
+      container.innerHTML = ""; // Clear existing
+      
+      if (snapshot.empty) {
+          container.innerHTML = `<p>${translations[getCurrentLang()].downloadsIntro}</p>`; // Show intro if empty
+          return;
+      }
+
+      snapshot.forEach(doc => {
+        const item = doc.data();
+        const lang = getCurrentLang();
+        
+        const downloadItem = document.createElement("div");
+        downloadItem.className = "download-item";
+        
+        downloadItem.innerHTML = `
+          <img src="${item.imageUrl}" alt="${item.title}" class="download-item-image">
+          <div class="download-item-content">
+            <h4>${item.title}</h4>
+            <p>${item.description}</p>
+            <a href="${item.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">${translations[lang].downloadButton}</a>
+          </div>
+        `;
+        
+        container.appendChild(downloadItem);
+      });
+    } catch (e) {
+      console.error("Error loading downloads:", e);
+      container.innerHTML = translations[getCurrentLang()].downloadsError;
+    }
+  }
+
+  // --- 10. Lightbox Setup ---
   function setupLightbox() {
     const overlay = document.getElementById("lightbox-overlay");
     const lightboxImg = document.getElementById("lightbox-image");
@@ -424,7 +485,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 10. Home Page "View Full Portfolio" Link ---
+  // --- 11. Home Page "View Full Portfolio" Link ---
   function setupHomePageLinks() {
     const viewAllLink = document.querySelector(".view-all-portfolio");
     if (!viewAllLink) return;
@@ -444,8 +505,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 11. Request Form ---
-  // Modified to accept translations and getCurrentLang function
+  // --- 12. Request Form ---
   function setupRequestForm(db, translations, getCurrentLang) {
     const form = document.getElementById("request-form");
     if (!form) return;
@@ -456,10 +516,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const submitBtn = document.getElementById("submit-btn");
     const termsCheckbox = document.getElementById("terms-agree");
 
-    // Disable button by default
     submitBtn.disabled = true;
-
-    // Add event listener to the terms checkbox
     termsCheckbox.addEventListener("change", () => {
       submitBtn.disabled = !termsCheckbox.checked;
     });
@@ -503,7 +560,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       submitBtn.disabled = true; 
       
-      const lang = getCurrentLang(); // Get current language for messages
+      const lang = getCurrentLang();
       formStatus.textContent = translations[lang].formSubmitting;
       formStatus.className = "";
 
@@ -543,7 +600,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 12. Image Right-Click Protection ---
+  // --- 13. Image Right-Click Protection ---
   function setupImageProtection() {
     document.addEventListener('contextmenu', event => {
       if (event.target.tagName === 'IMG' && event.target.closest('.gallery-container')) {
