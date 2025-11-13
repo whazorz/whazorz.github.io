@@ -66,6 +66,40 @@ nav {
   margin-bottom: 1rem;
 }
 
+/* --- NEW: Language Switcher Styles --- */
+#lang-switcher {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--text-muted);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.lang-btn:hover {
+  color: var(--text-light);
+}
+
+.lang-btn.active {
+  background: var(--text-light);
+  color: var(--sidebar-bg);
+}
+/* --- END: Language Switcher Styles --- */
+
+
 nav a {
   color: var(--text-muted);
   text-decoration: none;
@@ -322,6 +356,11 @@ hr {
   font-size: 0.9rem;
 }
 
+/* Target the text span inside the label specifically */
+.form-group-inline label span {
+  font-weight: normal; 
+}
+
 #request-form input[type="text"],
 #request-form input[type="email"],
 #request-form select,
@@ -466,10 +505,34 @@ hr {
     height: auto;
     min-height: 0;
     padding: 1rem;
+    flex-direction: row; /* Make nav horizontal */
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center; /* Center items */
+    gap: 0.5rem 1rem; /* Adjust gaps */
   }
-
+  
   #logo {
     font-size: 48px;
+    width: 100%; /* Make logo take full width */
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  #slogan {
+     width: 100%; /* Make slogan take full width */
+     text-align: center;
+     margin-bottom: 0.5rem;
+     margin-top: -1rem; /* Pull it closer to logo */
+  }
+  
+  #lang-switcher {
+    order: 3; /* Change order */
+    margin-bottom: 0;
+  }
+  
+  nav a {
+    order: 4; /* Change order */
+    padding: 0.5rem;
   }
 
   #head,
@@ -496,8 +559,5 @@ hr {
   .gallery-container {
     column-count: 1;
   }
-
-  
-
 
 }

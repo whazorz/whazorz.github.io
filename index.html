@@ -20,12 +20,24 @@
   <nav>
     <div id="logo">W</div>
     <div id="slogan">#Wdesign</div>
-    <a href="#" data-target="home" class="active">Home</a>
-    <a href="#" data-target="Portfolio">Portfolio</a>
-    <a href="#" data-target="Request">Request</a>
+    
+
+
+    <a href="#" data-target="home" class="active" data-key="navHome">Home</a>
+    <a href="#" data-target="Portfolio" data-key="navPortfolio">Portfolio</a>
+    <a href="#" data-target="Request" data-key="navRequest">Request</a>
+
+
+    <div id="lang-switcher">
+      <button data-lang="en" class="lang-btn active">EN</button>
+      <button data-lang="lv" class="lang-btn">LV</button>
+    </div>
+
+
+
   </nav>
 
-  <div id="head">
+  <div id="head" data-key="headerTitle">
     /// Whazorz Designs
     <br>
   </div>
@@ -35,44 +47,44 @@
     <section id="home" class="content active">
       <div class="home-content-wrapper">
         <div class="content-padding">
-          <h2>About</h2>
-          <p>Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of digital art and design with me.</p>
+          <h2 data-key="homeAboutTitle">About</h2>
+          <p data-key="homeAboutText">Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of digital art and design with me.</p>
         </div>
         <hr>
 
         <div class="content-padding">
-          <h3>Latest Work</h3>
+          <h3 data-key="homeLatestWorkTitle">Latest Work</h3>
           <div class="gallery-container" id="latest-work-gallery"></div>
-          <a href="#" data-target="Portfolio" class="view-all-portfolio">View Full Portfolio &rarr;</a>
+          <a href="#" data-target="Portfolio" class="view-all-portfolio" data-key="homeViewAll">View Full Portfolio &rarr;</a>
         </div>
 
         <hr>
 
         <div class="content-padding">
-          <h3>REQUESTING INFO.</h3>
+          <h3 data-key="homeRequestInfoTitle">REQUESTING INFO.</h3>
           <div class="info-boxes">
             <div class="box">
-              <h3>Key Terms</h3>
-              <p><strong>Approval:</strong> All requests are subject to review. Projects begin only after designer approval.</p>
-              <p><strong>Timeframe:</strong> Standard delivery is 2-3 business days, but complex projects may take longer.</p>
-              <p><strong>Revisions:</strong> Up to two revisions are included. Additional revisions may incur extra charges.</p>
-              <p><strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.</p>
-              <p><strong>Communication:</strong> All project communication will be via email.</p>
+              <h3 data-key="homeTermsTitle">Key Terms</h3>
+              <p data-key="homeTermsApproval"><strong>Approval:</strong> All requests are subject to review. Projects begin only after designer approval.</p>
+              <p data-key="homeTermsTimeframe"><strong>Timeframe:</strong> Standard delivery is 2-3 business days, but complex projects may take longer.</p>
+              <p data-key="homeTermsRevisions"><strong>Revisions:</strong> Up to two revisions are included. Additional revisions may incur extra charges.</p>
+              <p data-key="homeTermsPayment"><strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.</p>
+              <p data-key="homeTermsComm"><strong>Communication:</strong> All project communication will be via email.</p>
               <hr>
-              <p>Contacts: whazorz.design@gmail.com</p>
+              <p data-key="homeTermsContact">Contacts: whazorz.design@gmail.com</p>
             </div>
             
             <div class="box">
               <table>
-                <tr><td>Logo</td><td>50 Eur</td></tr>
-                <tr><td>A4 poster / promo</td><td>30 Eur</td></tr>
-                <tr><td>Banner / Header / promo</td><td>20 Eur</td></tr>
-                <tr><td>Profile / promo</td><td>10 Eur</td></tr>
-                <tr><td>Promo Bundle [Logo/Profile/Banner]</td><td>80 Eur</td></tr>
+                <tr><td data-key="priceLogo">Logo</td><td>50 Eur</td></tr>
+                <tr><td data-key="pricePoster">A4 poster / promo</td><td>30 Eur</td></tr>
+                <tr><td data-key="priceBanner">Banner / Header / promo</td><td>20 Eur</td></tr>
+                <tr><td data-key="priceProfile">Profile / promo</td><td>10 Eur</td></tr>
+                <tr><td data-key="priceBundle">Promo Bundle [Logo/Profile/Banner]</td><td>80 Eur</td></tr>
               </table>
               <br>
-              <p><strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.</p>
-              <p>Discount for regular client discussable.</p>
+              <p data-key="priceNote1"><strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.</p>
+              <p data-key="priceNote2">Discount for regular client discussable.</p>
             </div>
           </div>
         </div>
@@ -84,14 +96,14 @@
     <section id="Portfolio" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
-          <h2>Portfolio</h2>
+          <h2 data-key="portfolioTitle">Portfolio</h2>
 
           <div class="filter-controls">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="logo">Logos</button>
-            <button class="filter-btn" data-filter="poster">A4 Posters</button>
-            <button class="filter-btn" data-filter="banner">Banners</button>
-            <button class="filter-btn" data-filter="profile">Profile</button>
+            <button class="filter-btn active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-btn" data-filter="logo" data-key="filterLogos">Logos</button>
+            <button class="filter-btn" data-filter="poster" data-key="filterPosters">A4 Posters</button>
+            <button class="filter-btn" data-filter="banner" data-key="filterBanners">Banners</button>
+            <button class="filter-btn" data-filter="profile" data-key="filterProfile">Profile</button>
           </div>
 
           <div class="gallery-container" id="portfolio-gallery"></div>
@@ -102,126 +114,126 @@
     <section id="Request" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
-          <h2>Request a Design</h2>
+          <h2 data-key="requestTitle">Request a Design</h2>
 
           <details class="terms-and-conditions">
-            <summary>Please read the full Commission Terms & Conditions before proceeding.</summary>
+            <summary data-key="requestTermsSummary">Please read the full Commission Terms & Conditions before proceeding.</summary>
             
             <div class="terms-content">
-              <h3>Commission Terms & Conditions</h3>
+              <h3 data-key="requestTermsTitle">Commission Terms & Conditions</h3>
               
-              <h4>Approval</h4>
+              <h4 data-key="requestTermsApprovalTitle">Approval</h4>
               <ul>
-                <li>All design requests are subject to review and approval by the designer.</li>
-                <li>Projects will only proceed if they meet the designer’s creative and technical requirements.</li>
-                <li>The designer reserves the right to decline any request that does not align with the project criteria or ethical guidelines.</li>
+                <li data-key="requestTermsApproval1">All design requests are subject to review and approval by the designer.</li>
+                <li data-key="requestTermsApproval2">Projects will only proceed if they meet the designer’s creative and technical requirements.</li>
+                <li data-key="requestTermsApproval3">The designer reserves the right to decline any request that does not align with the project criteria or ethical guidelines.</li>
               </ul>
 
-              <h4>Payment</h4>
+              <h4 data-key="requestTermsPaymentTitle">Payment</h4>
               <ul>
-                <li>Payment will be processed only after the client has reviewed and approved the proposed design.</li>
-                <li>Please note that final pricing may vary depending on the project’s complexity and may exceed the initial estimate.</li>
-                <li>Clients will be notified and must approve any cost adjustments before further work continues.</li>
+                <li data-key="requestTermsPayment1">Payment will be processed only after the client has reviewed and approved the proposed design.</li>
+                <li data-key="requestTermsPayment2">Please note that final pricing may vary depending on the project’s complexity and may exceed the initial estimate.</li>
+                <li data-key="requestTermsPayment3">Clients will be notified and must approve any cost adjustments before further work continues.</li>
               </ul>
 
-              <h4>Timeframe</h4>
+              <h4 data-key="requestTermsTimeframeTitle">Timeframe</h4>
               <ul>
-                <li>The standard delivery timeframe is 2–3 business days.</li>
-                <li>However, more complex or customized projects may require additional time.</li>
-                <li>Clients will be informed of any expected delays in advance.</li>
+                <li data-key="requestTermsTimeframe1">The standard delivery timeframe is 2–3 business days.</li>
+                <li data-key="requestTermsTimeframe2">However, more complex or customized projects may require additional time.</li>
+                <li data-key="requestTermsTimeframe3">Clients will be informed of any expected delays in advance.</li>
               </ul>
 
-              <h4>Revisions</h4>
+              <h4 data-key="requestTermsRevisionsTitle">Revisions</h4>
               <ul>
-                <li>Each project includes up to two (2) revisions, depending on the scope and complexity.</li>
-                <li>Additional revisions may incur extra charges, which will be discussed prior to implementation.</li>
+                <li data-key="requestTermsRevisions1">Each project includes up to two (2) revisions, depending on the scope and complexity.</li>
+                <li data-key="requestTermsRevisions2">Additional revisions may incur extra charges, which will be discussed prior to implementation.</li>
               </ul>
 
-              <h4>Communication</h4>
+              <h4 data-key="requestTermsCommTitle">Communication</h4>
               <ul>
-                <li>All communication and project updates will be conducted via email to ensure clear and traceable correspondence.</li>
-                <li>Clients are encouraged to respond promptly to maintain project timelines.</li>
+                <li data-key="requestTermsComm1">All communication and project updates will be conducted via email to ensure clear and traceable correspondence.</li>
+                <li data-key="requestTermsComm2">Clients are encouraged to respond promptly to maintain project timelines.</li>
               </ul>
 
-              <h4>European Consumer Compliance</h4>
+              <h4 data-key="requestTermsEuTitle">European Consumer Compliance</h4>
               <ul>
-                <li>All transactions comply with EU consumer protection laws, including transparency in pricing, digital service delivery, and refund eligibility.</li>
-                <li>Once a design is approved and production has begun, refunds may not be available due to the custom nature of the service.</li>
+                <li data-key="requestTermsEu1">All transactions comply with EU consumer protection laws, including transparency in pricing, digital service delivery, and refund eligibility.</li>
+                <li data-key="requestTermsEu2">Once a design is approved and production has begun, refunds may not be available due to the custom nature of the service.</li>
               </ul>
             </div>
           </details>
-          <p>Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong></p>
+          <p data-key="requestFormIntro">Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong></p>
           
           <form id="request-form">
             <div class="form-group">
-              <label for="email">Your Email Address</label>
-              <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+              <label for="email" data-key="formEmail">Your Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="your.email@example.com" data-key-placeholder="formEmailPlaceholder">
             </div>
 
             <div class="form-group">
-              <label for="product-type">Select Product Type</label>
+              <label for="product-type" data-key="formProduct">Select Product Type</label>
               <select id="product-type" name="product_type">
-                <option value="profile">Profile / promo (10 Eur)</option>
-                <option value="banner">Banner / Header / promo (20 Eur)</option>
-                <option value="poster">A4 poster / promo (30 Eur)</option>
-                <option value="logo">Logo (50 Eur)</option>
-                <option value="bundle">Promo Bundle [Logo/Profile/Banner] (80 Eur)</option>
+                <option value="profile" data-key="formOptionProfile">Profile / promo (10 Eur)</option>
+                <option value="banner" data-key="formOptionBanner">Banner / Header / promo (20 Eur)</option>
+                <option value="poster" data-key="formOptionPoster">A4 poster / promo (30 Eur)</option>
+                <option value="logo" data-key="formOptionLogo">Logo (50 Eur)</option>
+                <option value="bundle" data-key="formOptionBundle">Promo Bundle [Logo/Profile/Banner] (80 Eur)</option>
               </select>
             </div>
 
             <div class="form-group">
-              <label for="budget">Starting Budget (EUR)</label>
+              <label for="budget" data-key="formBudget">Starting Budget (EUR)</label>
               <input type="text" id="budget" name="budget" value="10" readonly>
             </div>
 
             <div class="form-group conditional-details" id="logo-details">
-              <label>Logo Details</label>
-              <input type="text" name="logo_brand_name" placeholder="Brand Name">
-              <textarea name="logo_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences."></textarea>
+              <label data-key="formLogoDetails">Logo Details</label>
+              <input type="text" name="logo_brand_name" placeholder="Brand Name" data-key-placeholder="formLogoPlaceholder1">
+              <textarea name="logo_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences." data-key-placeholder="formLogoPlaceholder2"></textarea>
             </div>
             
             <div class="form-group conditional-details" id="poster-details">
-              <label>A4 Poster / Promo Details</label>
-              <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?"></textarea>
+              <label data-key="formPosterDetails">A4 Poster / Promo Details</label>
+              <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?" data-key-placeholder="formPosterPlaceholder"></textarea>
             </div>
 
             <div class="form-group conditional-details" id="banner-details">
-              <label>Banner / Header Details</label>
-              <input type="text" name="banner_platform" placeholder="Platform (e.g., YouTube, Twitter, Website)">
-              <textarea name="banner_text" placeholder="What text or @usernames should be on the banner?"></textarea>
+              <label data-key="formBannerDetails">Banner / Header Details</label>
+              <input type="text" name="banner_platform" placeholder="Platform (e.g., YouTube, Twitter, Website)" data-key-placeholder="formBannerPlaceholder1">
+              <textarea name="banner_text" placeholder="What text or @usernames should be on the banner?" data-key-placeholder="formBannerPlaceholder2"></textarea>
             </div>
 
             <div class="form-group conditional-details visible" id="profile-details">
-              <label>Profile / Promo Details</label>
-              <input type="text" name="profile_username" placeholder="Username or Text for profile pic">
-              <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas."></textarea>
+              <label data-key="formProfileDetails">Profile / Promo Details</label>
+              <input type="text" name="profile_username" placeholder="Username or Text for profile pic" data-key-placeholder="formProfilePlaceholder1">
+              <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas." data-key-placeholder="formProfilePlaceholder2"></textarea>
             </div>
 
             <div class="form-group">
-              <label for="instructions">General Instructions / Project Brief</label>
-              <textarea id="instructions" name="instructions" rows="5" placeholder="Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references."></textarea>
+              <label for="instructions" data-key="formInstructions">General Instructions / Project Brief</label>
+              <textarea id="instructions" name="instructions" rows="5" placeholder="Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references." data-key-placeholder="formInstructionsPlaceholder"></textarea>
             </div>
 
              <div class="form-group-inline">
             <label>
               <input type="checkbox" id="terms-agree">
-              I agree to the Terms and Conditions
+              <span data-key="formAgreeTerms">I agree to the Terms and Conditions</span>
               </label>
               </div>  
             
             <div class="form-group-inline">
               <input type="checkbox" id="showcase" name="showcase" value="true">
-              <label for="showcase">I agree to allow WhazorzDesigns to showcase the final work in their portfolio.</label>
+              <label for="showcase" data-key="formAgreeShowcase">I agree to allow WhazorzDesigns to showcase the final work in their portfolio.</label>
             </div>
 
                   <div class="form-group-inline">
             <label>
               <input type="checkbox" id="email-agree" name="email_agree" value="true">
-              I agree to recieve future emails.
+              <span data-key="formAgreeEmail">I agree to recieve future emails.</span>
               </label>
               </div>  
 
-            <button type="submit" id="submit-btn">Submit Request</button>
+            <button type="submit" id="submit-btn" data-key="formSubmitButton">Submit Request</button>
             <div id="form-status"></div>
           </form>
         </div>
@@ -230,7 +242,7 @@
 
   </div>
 
-  <footer>Copyright © WHAZORZ 2025</footer>
+  <footer data-key="footerCopyright">Copyright © WHAZORZ 2025</footer>
 
   <div id="lightbox-overlay" class="lightbox-overlay">
     <span id="lightbox-close" class="lightbox-close">&times;</span>

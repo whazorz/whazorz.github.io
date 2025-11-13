@@ -1,6 +1,263 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  // --- Firebase Setup ---
+  // --- 1. Translation Setup ---
+  const translations = {
+    en: {
+      // Nav
+      navHome: "Home",
+      navPortfolio: "Portfolio",
+      navRequest: "Request",
+      // Header
+      headerTitle: "/// Whazorz Designs",
+      // Home Page
+      homeAboutTitle: "About",
+      homeAboutText: "Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of digital art and design with me.",
+      homeLatestWorkTitle: "Latest Work",
+      homeViewAll: "View Full Portfolio &rarr;",
+      homeRequestInfoTitle: "REQUESTING INFO.",
+      homeTermsTitle: "Key Terms",
+      homeTermsApproval: "<strong>Approval:</strong> All requests are subject to review. Projects begin only after designer approval.",
+      homeTermsTimeframe: "<strong>Timeframe:</strong> Standard delivery is 2-3 business days, but complex projects may take longer.",
+      homeTermsRevisions: "<strong>Revisions:</strong> Up to two revisions are included. Additional revisions may incur extra charges.",
+      homeTermsPayment: "<strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.",
+      homeTermsComm: "<strong>Communication:</strong> All project communication will be via email.",
+      homeTermsContact: "Contacts: whazorz.design@gmail.com",
+      priceLogo: "Logo",
+      pricePoster: "A4 poster / promo",
+      priceBanner: "Banner / Header / promo",
+      priceProfile: "Profile / promo",
+      priceBundle: "Promo Bundle [Logo/Profile/Banner]",
+      priceNote1: "<strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.",
+      priceNote2: "Discount for regular client discussable.",
+      // Portfolio Page
+      portfolioTitle: "Portfolio",
+      filterAll: "All",
+      filterLogos: "Logos",
+      filterPosters: "A4 Posters",
+      filterBanners: "Banners",
+      filterProfile: "Profile",
+      // Request Page
+      requestTitle: "Request a Design",
+      requestTermsSummary: "Please read the full Commission Terms & Conditions before proceeding.",
+      requestTermsTitle: "Commission Terms & Conditions",
+      requestTermsApprovalTitle: "Approval",
+      requestTermsApproval1: "All design requests are subject to review and approval by the designer.",
+      requestTermsApproval2: "Projects will only proceed if they meet the designer’s creative and technical requirements.",
+      requestTermsApproval3: "The designer reserves the right to decline any request that does not align with the project criteria or ethical guidelines.",
+      requestTermsPaymentTitle: "Payment",
+      requestTermsPayment1: "Payment will be processed only after the client has reviewed and approved the proposed design.",
+      requestTermsPayment2: "Please note that final pricing may vary depending on the project’s complexity and may exceed the initial estimate.",
+      requestTermsPayment3: "Clients will be notified and must approve any cost adjustments before further work continues.",
+      requestTermsTimeframeTitle: "Timeframe",
+      requestTermsTimeframe1: "The standard delivery timeframe is 2–3 business days.",
+      requestTermsTimeframe2: "However, more complex or customized projects may require additional time.",
+      requestTermsTimeframe3: "Clients will be informed of any expected delays in advance.",
+      requestTermsRevisionsTitle: "Revisions",
+      requestTermsRevisions1: "Each project includes up to two (2) revisions, depending on the scope and complexity.",
+      requestTermsRevisions2: "Additional revisions may incur extra charges, which will be discussed prior to implementation.",
+      requestTermsCommTitle: "Communication",
+      requestTermsComm1: "All communication and project updates will be conducted via email to ensure clear and traceable correspondence.",
+      requestTermsComm2: "Clients are encouraged to respond promptly to maintain project timelines.",
+      requestTermsEuTitle: "European Consumer Compliance",
+      requestTermsEu1: "All transactions comply with EU consumer protection laws, including transparency in pricing, digital service delivery, and refund eligibility.",
+      requestTermsEu2: "Once a design is approved and production has begun, refunds may not be available due to the custom nature of the service.",
+      requestFormIntro: "Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong>",
+      formEmail: "Your Email Address",
+      formEmailPlaceholder: "your.email@example.com",
+      formProduct: "Select Product Type",
+      formOptionProfile: "Profile / promo (10 Eur)",
+      formOptionBanner: "Banner / Header / promo (20 Eur)",
+      formOptionPoster: "A4 poster / promo (30 Eur)",
+      formOptionLogo: "Logo (50 Eur)",
+      formOptionBundle: "Promo Bundle [Logo/Profile/Banner] (80 Eur)",
+      formBudget: "Starting Budget (EUR)",
+      formLogoDetails: "Logo Details",
+      formLogoPlaceholder1: "Brand Name",
+      formLogoPlaceholder2: "Describe the style (e.g., modern, minimalist, retro) and any color preferences.",
+      formPosterDetails: "A4 Poster / Promo Details",
+      formPosterPlaceholder: "What text, dates, and information must be on the poster?",
+      formBannerDetails: "Banner / Header Details",
+      formBannerPlaceholder1: "Platform (e.g., YouTube, Twitter, Website)",
+      formBannerPlaceholder2: "What text or @usernames should be on the banner?",
+      formProfileDetails: "Profile / Promo Details",
+      formProfilePlaceholder1: "Username or Text for profile pic",
+      formProfilePlaceholder2: "Color scheme, style, or any specific ideas.",
+      formInstructions: "General Instructions / Project Brief",
+      formInstructionsPlaceholder: "Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references.",
+      formAgreeTerms: "I agree to the Terms and Conditions",
+      formAgreeShowcase: "I agree to allow WhazorzDesigns to showcase the final work in their portfolio.",
+      formAgreeEmail: "I agree to recieve future emails.",
+      formSubmitButton: "Submit Request",
+      // Footer
+      footerCopyright: "Copyright © WHAZORZ 2025",
+      // Dynamic JS Messages
+      firebaseError: "Error: Could not connect to submission service. Check API key.",
+      portfolioError: "<p>Error loading portfolio.</p>",
+      latestWorkError: "<p>Error loading latest work.</p>",
+      formSubmitting: "Submitting...",
+      formSuccess: "Success! You can send another request in 30 seconds.",
+      formError: "An error occurred. Please try again or contact us directly."
+    },
+    lv: {
+      // Nav
+      navHome: "Sākums",
+      navPortfolio: "Portfolio",
+      navRequest: "Pieprasījums",
+      // Header
+      headerTitle: "/// Whazorz Designs",
+      // Home Page
+      homeAboutTitle: "Par mani",
+      homeAboutText: "Sveiki, es esmu Whazorz — mākslinieks, kuru dziļi iedvesmo radošums visās tā formās. Mans ceļojums sākās 2012. gadā, kad sāku karjeru tehniskajās jomās un pakāpeniski pievērsos grafiskajam dizainam. Gadu gaitā esmu dalījies ar savu radošo procesu un idejām tiešraidēs, aicinot citus kopā ar mani izpētīt digitālās mākslas un dizaina pasauli.",
+      homeLatestWorkTitle: "Jaunākie darbi",
+      homeViewAll: "Skatīt pilnu portfolio &rarr;",
+      homeRequestInfoTitle: "INFORMĀCIJA PAR PASŪTĪJUMU",
+      homeTermsTitle: "Galvenie noteikumi",
+      homeTermsApproval: "<strong>Apstiprināšana:</strong> Visi pieprasījumi tiek pārskatīti. Projekti sākas tikai pēc dizainera apstiprinājuma.",
+      homeTermsTimeframe: "<strong>Izpildes laiks:</strong> Standarta piegāde ir 2-3 darba dienas, bet sarežģītāki projekti var aizņemt vairāk laika.",
+      homeTermsRevisions: "<strong>Labojumi:</strong> Iekļautas līdz divām labojumu kārtām. Papildu labojumi var radīt papildu maksu.",
+      homeTermsPayment: "<strong>Apmaksa:</strong> Apmaksa tiek veikta *pēc* tam, kad esat apstiprinājis dizainu. Norādītās cenas ir aptuvenas un var mainīties.",
+      homeTermsComm: "<strong>Komunikācija:</strong> Visa projekta komunikācija notiks pa e-pastu.",
+      homeTermsContact: "Kontakti: whazorz.design@gmail.com",
+      priceLogo: "Logo",
+      pricePoster: "A4 plakāts / promo",
+      priceBanner: "Baneris / Galvene / promo",
+      priceProfile: "Profils / promo",
+      priceBundle: "Promo komplekts [Logo/Profils/Baneris]",
+      priceNote1: "<strong>Piezīme:</strong> Cenas ir sākuma cenas. Gala izmaksas var atšķirties atkarībā no sarežģītības.",
+      priceNote2: "Atlaides pastāvīgiem klientiem ir apspriežamas.",
+      // Portfolio Page
+      portfolioTitle: "Portfolio",
+      filterAll: "Visi",
+      filterLogos: "Logo",
+      filterPosters: "A4 Plakāti",
+      filterBanners: "Baneri",
+      filterProfile: "Profili",
+      // Request Page
+      requestTitle: "Pieprasīt dizainu",
+      requestTermsSummary: "Lūdzu, izlasiet visus Pasūtījuma noteikumus un nosacījumus pirms turpināt.",
+      requestTermsTitle: "Pasūtījuma noteikumi un nosacījumi",
+      requestTermsApprovalTitle: "Apstiprināšana",
+      requestTermsApproval1: "Visi dizaina pieprasījumi tiek pārskatīti un apstiprināti no dizainera puses.",
+      requestTermsApproval2: "Projekti tiks turpināti tikai tad, ja tie atbilst dizainera radošajām un tehniskajām prasībām.",
+      requestTermsApproval3: "Dizaineris patur tiesības atteikt jebkuru pieprasījumu, kas neatbilst projekta kritērijiem vai ētikas vadlīnijām.",
+      requestTermsPaymentTitle: "Apmaksa",
+      requestTermsPayment1: "Apmaksa tiks apstrādāta tikai pēc tam, kad klients ir pārskatījis un apstiprinājis piedāvāto dizainu.",
+      requestTermsPayment2: "Lūdzu, ņemiet vērā, ka galīgā cena var atšķirties atkarībā no projekta sarežģītības un var pārsniegt sākotnējo tāmi.",
+      requestTermsPayment3: "Klienti tiks informēti un viņiem būs jāapstiprina jebkādas izmaksu korekcijas pirms darba turpināšanas.",
+      requestTermsTimeframeTitle: "Izpildes laiks",
+      requestTermsTimeframe1: "Standarta piegādes laiks ir 2–3 darba dienas.",
+      requestTermsTimeframe2: "Tomēr sarežģītāki vai pielāgoti projekti var prasīt papildu laiku.",
+      requestTermsTimeframe3: "Klienti tiks iepriekš informēti par jebkādiem sagaidāmiem kavējumiem.",
+      requestTermsRevisionsTitle: "Labojumi",
+      requestTermsRevisions1: "Katrs projekts ietver līdz diviem (2) labojumiem, atkarībā no apjoma un sarežģītības.",
+      requestTermsRevisions2: "Papildu labojumi var radīt papildu maksu, kas tiks apspriesta pirms to ieviešanas.",
+      requestTermsCommTitle: "Komunikācija",
+      requestTermsComm1: "Visa saziņa un projekta atjauninājumi tiks veikti pa e-pastu, lai nodrošinātu skaidru un izsekojamu saraksti.",
+      requestTermsComm2: "Klienti tiek aicināti laikus atbildēt, lai ievērotu projekta termiņus.",
+      requestTermsEuTitle: "Eiropas Patērētāju Atbilstība",
+      requestTermsEu1: "Visi darījumi atbilst ES patērētāju aizsardzības tiesību aktiem, ieskaitot cenu pārredzamību, digitālo pakalpojumu sniegšanu un atmaksas tiesības.",
+      requestTermsEu2: "Tiklīdz dizains ir apstiprināts un ražošana ir sākusies, atmaksa var nebūt pieejama pakalpojuma pielāgotā rakstura dēļ.",
+      requestFormIntro: "Lūdzu, aizpildiet zemāk esošo veidlapu, lai sāktu pieprasījumu. <strong>Visa turpmākā saziņa notiks pa e-pastu.</strong>",
+      formEmail: "Jūsu e-pasta adrese",
+      formEmailPlaceholder: "jusu.epasts@piemers.com",
+      formProduct: "Izvēlieties produkta veidu",
+      formOptionProfile: "Profils / promo (10 Eur)",
+      formOptionBanner: "Baneris / Galvene / promo (20 Eur)",
+      formOptionPoster: "A4 plakāts / promo (30 Eur)",
+      formOptionLogo: "Logo (50 Eur)",
+      formOptionBundle: "Promo komplekts [Logo/Profils/Baneris] (80 Eur)",
+      formBudget: "Sākuma budžets (EUR)",
+      formLogoDetails: "Logo detaļas",
+      formLogoPlaceholder1: "Zīmola nosaukums",
+      formLogoPlaceholder2: "Aprakstiet stilu (piemēram, moderns, minimālistisks, retro) un krāsu vēlmes.",
+      formPosterDetails: "A4 Plakāta / Promo detaļas",
+      formPosterPlaceholder: "Kāds teksts, datumi un informācija jāiekļauj plakātā?",
+      formBannerDetails: "Banera / Galvenes detaļas",
+      formBannerPlaceholder1: "Platforma (piem., YouTube, Twitter, Mājaslapa)",
+      formBannerPlaceholder2: "Kāds teksts vai @lietotājvārdi jāiekļauj banerī?",
+      formProfileDetails: "Profila / Promo detaļas",
+      formProfilePlaceholder1: "Lietotājvārds vai teksts profila bildei",
+      formProfilePlaceholder2: "Krāsu shēma, stils vai citas konkrētas idejas.",
+      formInstructions: "Vispārīgas instrukcijas / Projekta apraksts",
+      formInstructionsPlaceholder: "Lūdzu, sniedziet skaidru un detalizētu savu prasību aprakstu. Iekļaujiet saites uz iedvesmas avotiem vai atsaucēm.",
+      formAgreeTerms: "Es piekrītu Noteikumiem un Nosacījumiem",
+      formAgreeShowcase: "Es piekrītu atļaut WhazorzDesigns demonstrēt gala darbu savā portfolio.",
+      formAgreeEmail: "Es piekrītu saņemt turpmākus e-pastus.",
+      formSubmitButton: "Iesniegt pieprasījumu",
+      // Footer
+      footerCopyright: "Autortiesības © WHAZORZ 2025",
+      // Dynamic JS Messages
+      firebaseError: "Kļūda: Nevar izveidot savienojumu ar iesniegšanas pakalpojumu. Pārbaudiet API atslēgu.",
+      portfolioError: "<p>Kļūda, ielādējot portfolio.</p>",
+      latestWorkError: "<p>Kļūda, ielādējot jaunākos darbus.</p>",
+      formSubmitting: "Iesniedz...",
+      formSuccess: "Veiksmīgi! Jūs varat nosūtīt nākamo pieprasījumu pēc 30 sekundēm.",
+      formError: "Radās kļūda. Lūdzu, mēģiniet vēlreiz vai sazinieties ar mums tieši."
+    }
+  };
+
+  let currentLang = localStorage.getItem('lang') || 'en';
+
+  function translatePage(lang) {
+    if (!translations[lang]) lang = 'en'; // Fallback to English
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+
+    // Update lang button active state
+    document.querySelectorAll('#lang-switcher .lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    // Translate all elements with data-key
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (translations[lang][key]) {
+        // Use innerHTML for keys that contain <strong> or &rarr;
+        if (key.includes('homeTerms') || key === 'homeViewAll' || key === 'requestFormIntro' || key === 'priceNote1') {
+          el.innerHTML = translations[lang][key];
+        } else {
+          el.innerText = translations[lang][key];
+        }
+      }
+    });
+
+    // Translate all placeholders
+    document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+      const key = el.getAttribute('data-key-placeholder');
+      if (translations[lang][key]) {
+        el.placeholder = translations[lang][key];
+      }
+    });
+
+    // Translate <summary> tags
+    document.querySelectorAll('summary[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (translations[lang][key]) {
+        el.innerText = translations[lang][key];
+      }
+    });
+
+    // Translate <option> tags in select
+    document.querySelectorAll('#product-type option[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (translations[lang][key]) {
+        el.innerText = translations[lang][key];
+      }
+    });
+  }
+
+  // --- 2. Language Switcher Event Listeners ---
+  document.querySelectorAll('#lang-switcher .lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const lang = btn.getAttribute('data-lang');
+      translatePage(lang);
+    });
+  });
+
+  // --- Initial Page Translation ---
+  translatePage(currentLang);
+
+  // --- 3. Firebase Setup ---
   const firebaseConfig = {
     apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ",
     authDomain: "whazorzdesign-1ebbe.firebaseapp.com",
@@ -18,23 +275,25 @@ document.addEventListener("DOMContentLoaded", () => {
     console.log("✅ Firebase initialized successfully");
 
     // Setup all page functions that need the database
-    setupRequestForm(db);
-    loadPortfolio(db);
-    loadLatestWork(db);
+    // Pass translations and a function to get the current language
+    setupRequestForm(db, translations, () => currentLang);
+    loadPortfolio(db, translations, () => currentLang);
+    loadLatestWork(db, translations, () => currentLang);
     setupLightbox();
     setupHomePageLinks();
-    setupImageProtection(); // --- NEW: Call image protection function
+    setupImageProtection();
 
   } catch (e) {
     console.error("❌ Error initializing Firebase:", e);
     const formStatus = document.getElementById("form-status");
     if (formStatus) {
-      formStatus.textContent = "Error: Could not connect to submission service. Check API key.";
+      // Use translations for the error message
+      formStatus.textContent = translations[currentLang].firebaseError;
       formStatus.className = "error";
     }
   }
 
-  // --- 1. Page Navigation ---
+  // --- 4. Page Navigation ---
   const links = document.querySelectorAll("nav a");
   const sections = document.querySelectorAll(".content");
 
@@ -49,11 +308,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // --- BROKEN CODE REMOVED ---
-  // The broken checkbox code that was here has been removed.
-  // The correct logic is now inside setupRequestForm.
-
-  // --- 2. Portfolio Filter ---
+  // --- 5. Portfolio Filter ---
   function setupPortfolioFilter() {
     const filterButtons = document.querySelectorAll(".filter-btn");
     const galleryItems = document.querySelectorAll("#portfolio-gallery .gallery-item");
@@ -79,8 +334,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- 3. Load Portfolio ---
-  async function loadPortfolio(db) {
+  // --- 6. Load Portfolio ---
+  // Modified to accept translations
+  async function loadPortfolio(db, translations, getCurrentLang) {
     const gallery = document.getElementById("portfolio-gallery");
     if (!gallery) return;
 
@@ -98,12 +354,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     } catch (e) {
       console.error("Error loading portfolio:", e);
-      gallery.innerHTML = "<p>Error loading portfolio.</p>";
+      gallery.innerHTML = translations[getCurrentLang()].portfolioError;
     }
   }
 
-  // --- 4. Load Latest Work ---
-  async function loadLatestWork(db) {
+  // --- 7. Load Latest Work ---
+  // Modified to accept translations
+  async function loadLatestWork(db, translations, getCurrentLang) {
     const gallery = document.getElementById("latest-work-gallery");
     if (!gallery) return;
 
@@ -118,11 +375,11 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     } catch (e) {
       console.error("Error loading latest work:", e);
-      gallery.innerHTML = "<p>Error loading latest work.</p>";
+      gallery.innerHTML = translations[getCurrentLang()].latestWorkError;
     }
   }
 
-  // --- 5. Create Gallery Item Helper ---
+  // --- 8. Create Gallery Item Helper ---
   function createGalleryItem(item) {
     const galleryItem = document.createElement("div");
     galleryItem.className = "gallery-item";
@@ -137,7 +394,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return galleryItem;
   }
 
-  // --- 6. Lightbox Setup ---
+  // --- 9. Lightbox Setup ---
   function setupLightbox() {
     const overlay = document.getElementById("lightbox-overlay");
     const lightboxImg = document.getElementById("lightbox-image");
@@ -167,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 7. Home Page "View Full Portfolio" Link ---
+  // --- 10. Home Page "View Full Portfolio" Link ---
   function setupHomePageLinks() {
     const viewAllLink = document.querySelector(".view-all-portfolio");
     if (!viewAllLink) return;
@@ -187,8 +444,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 8. Request Form ---
-  function setupRequestForm(db) {
+  // --- 11. Request Form ---
+  // Modified to accept translations and getCurrentLang function
+  function setupRequestForm(db, translations, getCurrentLang) {
     const form = document.getElementById("request-form");
     if (!form) return;
 
@@ -196,18 +454,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const budgetInput = document.getElementById("budget");
     const formStatus = document.getElementById("form-status");
     const submitBtn = document.getElementById("submit-btn");
-
-    // --- NEW CHECKBOX LOGIC ---
     const termsCheckbox = document.getElementById("terms-agree");
 
     // Disable button by default
-    submitBtn.disabled = true; 
+    submitBtn.disabled = true;
 
     // Add event listener to the terms checkbox
     termsCheckbox.addEventListener("change", () => {
       submitBtn.disabled = !termsCheckbox.checked;
     });
-    // --- END NEW CHECKBOX LOGIC ---
 
     const prices = {
       profile: 10,
@@ -246,8 +501,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async e => {
       e.preventDefault();
-      submitBtn.disabled = true; // Disable on submit
-      formStatus.textContent = "Submitting...";
+      submitBtn.disabled = true; 
+      
+      const lang = getCurrentLang(); // Get current language for messages
+      formStatus.textContent = translations[lang].formSubmitting;
       formStatus.className = "";
 
       const formData = new FormData(form);
@@ -257,45 +514,38 @@ document.addEventListener("DOMContentLoaded", () => {
       requestData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
       requestData.status = "pending";
       
-      // Correctly handle boolean conversion for checkboxes
       requestData.showcase = requestData.showcase === "true";
-      // --- NEW LINE TO CAPTURE EMAIL PREFERENCE ---
       requestData.email_agree = requestData.email_agree === "true";
 
       try {
         const docRef = await db.collection("requests").add(requestData);
         console.log("✅ Request added with ID:", docRef.id);
-        // --- MODIFIED FOR ANTI-SPAM ---
-        formStatus.textContent = "Success! You can send another request in 30 seconds.";
+        
+        formStatus.textContent = translations[lang].formSuccess;
         formStatus.className = "success";
         form.reset();
         updateForm();
         
-        // Keep button disabled for 30 seconds
-        submitBtn.disabled = true; 
+        submitBtn.disabled = true;
         termsCheckbox.checked = false;
 
         setTimeout(() => {
-          // Re-enable button *only if* checkbox is checked again later
           submitBtn.disabled = !termsCheckbox.checked;
-          formStatus.textContent = ""; // Clear status message
-        }, 30000); // 30-second delay
-        // --- END ANTI-SPAM MOD ---
+          formStatus.textContent = ""; 
+        }, 30000); 
 
       } catch (error) {
         console.error("❌ Error adding document:", error);
-        formStatus.textContent = "An error occurred. Please try again or contact us directly.";
+        formStatus.textContent = translations[lang].formError;
         formStatus.className = "error";
-        // Re-enable button on error so user can try again
-        submitBtn.disabled = !termsCheckbox.checked; 
+        submitBtn.disabled = !termsCheckbox.checked;
       }
     });
   }
 
-  // --- 9. Image Right-Click Protection ---
+  // --- 12. Image Right-Click Protection ---
   function setupImageProtection() {
     document.addEventListener('contextmenu', event => {
-      // Check if the target is an image inside a gallery-container
       if (event.target.tagName === 'IMG' && event.target.closest('.gallery-container')) {
         event.preventDefault();
       }
