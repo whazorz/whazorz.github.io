@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.firestore();
   const auth = firebase.auth();
 
-  // Get DOM Elements
+  // Get DOM Elements (These variables no longer return null)
   const loginView = document.getElementById("admin-login");
   const dashboardView = document.getElementById("admin-dashboard");
   const loginForm = document.getElementById("login-form");
@@ -23,19 +23,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logout-btn");
   
   const requestList = document.getElementById("request-items-list");
-  const completedRequestList = document.getElementById("completed-request-items-list"); // NEW (Now exists in HTML)
+  const completedRequestList = document.getElementById("completed-request-items-list");
   
   const galleryList = document.getElementById("gallery-items-list");
   const galleryForm = document.getElementById("gallery-form");
-  const galleryEditId = document.getElementById("gallery-edit-id"); // NEW (Now exists in HTML)
-  const gallerySubmitBtn = document.getElementById("gallery-submit-btn"); // NEW (Now exists in HTML)
-  const galleryCancelBtn = document.getElementById("gallery-cancel-btn"); // NEW (Now exists in HTML)
+  const galleryEditId = document.getElementById("gallery-edit-id");
+  const gallerySubmitBtn = document.getElementById("gallery-submit-btn");
+  const galleryCancelBtn = document.getElementById("gallery-cancel-btn");
   
   const downloadsList = document.getElementById("downloads-items-list");
   const downloadsForm = document.getElementById("downloads-form");
-  const downloadEditId = document.getElementById("download-edit-id"); // NEW (Now exists in HTML)
-  const downloadSubmitBtn = document.getElementById("download-submit-btn"); // NEW (Now exists in HTML)
-  const downloadCancelBtn = document.getElementById("download-cancel-btn"); // NEW (Now exists in HTML)
+  const downloadEditId = document.getElementById("download-edit-id");
+  const downloadSubmitBtn = document.getElementById("download-submit-btn");
+  const downloadCancelBtn = document.getElementById("download-cancel-btn");
 
 
   // --- Authentication ---
@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
       loginView.style.display = "none";
       dashboardView.style.display = "block";
       loadRequests();
-      loadCompletedRequests(); // NEW
+      loadCompletedRequests();
       loadGalleryItems();
       loadAdminDownloads();
     } else {

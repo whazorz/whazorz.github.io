@@ -1,12 +1,3 @@
-Here is the full fix for your HTML and JavaScript files to resolve the three TypeError issues and preemptively fix the similar issues in the Download Management section.
-
-The core fix involves adding the missing id attributes to your HTML elements, specifically for the editing functionality that was newly introduced in your JavaScript.
-
-🛠️ Updated HTML (index.html or equivalent)
-You need to add a dedicated section for "Completed Requests" and insert hidden inputs and new buttons into the "Manage Gallery" and "Manage Downloads" forms.
-
-HTML
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,8 +12,22 @@ HTML
 <body>
 
     <div class="admin-container">
+
         <div id="admin-login">
-            </div>
+            <h2>Admin Login</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="admin-email">Email</label>
+                    <input type="email" id="admin-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" required>
+                </div>
+                <button type="submit">Login</button>
+                <div id="login-error" style="color: red; margin-top: 10px;"></div>
+            </form>
+        </div>
 
         <div id="admin-dashboard">
             <button id="logout-btn">Logout</button>
@@ -48,7 +53,6 @@ HTML
                     <label for="download-file-url">Download File URL</label>
                     <input type="url" id="download-file-url" placeholder="https://..." required>
                 </div>
-
                 <input type="hidden" id="download-edit-id">
                 <button type="submit" id="download-submit-btn">Add Download Item</button>
                 <button type="button" id="download-cancel-btn" style="display: none;">Cancel Edit</button>
@@ -56,6 +60,14 @@ HTML
 
             <div class="scroll-box">
                 <table class="downloads-list">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
                     <tbody id="downloads-items-list"></tbody>
                 </table>
             </div>
@@ -76,7 +88,6 @@ HTML
                         <option value="profile">Profile</option>
                     </select>
                 </div>
-
                 <input type="hidden" id="gallery-edit-id">
                 <button type="submit" id="gallery-submit-btn">Add Gallery Item</button>
                 <button type="button" id="gallery-cancel-btn" style="display: none;">Cancel Edit</button>
@@ -84,6 +95,13 @@ HTML
 
             <div class="scroll-box">
                 <table class="gallery-list">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Type</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
                     <tbody id="gallery-items-list"></tbody>
                 </table>
             </div>
@@ -91,8 +109,21 @@ HTML
             <hr>
 
             <div class="scroll-box">
-                <h3>View Requests</h3>
+                <h3>View Requests (Pending)</h3>
                 <table class="request-list">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Email</th>
+                            <th>Product</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Showcase</th>
+                            <th>Emails</th>
+                            <th>Details</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
                     <tbody id="request-items-list"></tbody>
                 </table>
             </div>
@@ -120,6 +151,8 @@ HTML
 
         </div>
     </div>
+
+
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
