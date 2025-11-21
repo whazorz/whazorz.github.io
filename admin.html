@@ -1,136 +1,129 @@
+Here is the full fix for your HTML and JavaScript files to resolve the three TypeError issues and preemptively fix the similar issues in the Download Management section.
+
+The core fix involves adding the missing id attributes to your HTML elements, specifically for the editing functionality that was newly introduced in your JavaScript.
+
+🛠️ Updated HTML (index.html or equivalent)
+You need to add a dedicated section for "Completed Requests" and insert hidden inputs and new buttons into the "Manage Gallery" and "Manage Downloads" forms.
+
+HTML
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WDESIGN - Admin Dashboard</title>
-  <link rel="icon" href="w.png" type="image/png">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="adminstyle.css"> </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WDESIGN - Admin Dashboard</title>
+    <link rel="icon" href="w.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="adminstyle.css">
+</head>
 
 <body>
 
-  <div class="admin-container">
+    <div class="admin-container">
+        <div id="admin-login">
+            </div>
 
-    <div id="admin-login">
-      <h2>Admin Login</h2>
-      <form id="login-form">
-        <div class="form-group">
-          <label for="admin-email">Email</label>
-          <input type="email" id="admin-email" required>
+        <div id="admin-dashboard">
+            <button id="logout-btn">Logout</button>
+            <h2>Admin Dashboard</h2>
+
+            <hr>
+
+            <h3>Manage Downloads</h3>
+            <form id="downloads-form">
+                <div class="form-group">
+                    <label for="download-title">Title</label>
+                    <input type="text" id="download-title" required>
+                </div>
+                <div class="form-group">
+                    <label for="download-image-url">Image URL</label>
+                    <input type="url" id="download-image-url" placeholder="https://..." required>
+                </div>
+                <div class="form-group">
+                    <label for="download-description">Description</label>
+                    <textarea id="download-description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="download-file-url">Download File URL</label>
+                    <input type="url" id="download-file-url" placeholder="https://..." required>
+                </div>
+
+                <input type="hidden" id="download-edit-id">
+                <button type="submit" id="download-submit-btn">Add Download Item</button>
+                <button type="button" id="download-cancel-btn" style="display: none;">Cancel Edit</button>
+            </form>
+
+            <div class="scroll-box">
+                <table class="downloads-list">
+                    <tbody id="downloads-items-list"></tbody>
+                </table>
+            </div>
+            <hr>
+
+            <h3>Manage Portfolio Gallery</h3>
+            <form id="gallery-form">
+                <div class="form-group">
+                    <label for="gallery-url">Image URL</label>
+                    <input type="url" id="gallery-url" placeholder="https://..." required>
+                </div>
+                <div class="form-group">
+                    <label for="gallery-type">Filter Type</label>
+                    <select id="gallery-type">
+                        <option value="logo">Logo</option>
+                        <option value="poster">A4 Poster</option>
+                        <option value="banner">Banner</option>
+                        <option value="profile">Profile</option>
+                    </select>
+                </div>
+
+                <input type="hidden" id="gallery-edit-id">
+                <button type="submit" id="gallery-submit-btn">Add Gallery Item</button>
+                <button type="button" id="gallery-cancel-btn" style="display: none;">Cancel Edit</button>
+            </form>
+
+            <div class="scroll-box">
+                <table class="gallery-list">
+                    <tbody id="gallery-items-list"></tbody>
+                </table>
+            </div>
+
+            <hr>
+
+            <div class="scroll-box">
+                <h3>View Requests</h3>
+                <table class="request-list">
+                    <tbody id="request-items-list"></tbody>
+                </table>
+            </div>
+
+            <hr>
+
+            <div class="scroll-box">
+                <h3>Completed Requests Log (Approved)</h3>
+                <table class="request-list">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Email</th>
+                            <th>Product</th>
+                            <th>Budget</th>
+                            <th>Status</th>
+                            <th>Showcase</th>
+                            <th>Emails</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="completed-request-items-list"></tbody>
+                </table>
+            </div>
+
         </div>
-        <div class="form-group">
-          <label for="admin-password">Password</label>
-          <input type="password" id="admin-password" required>
-        </div>
-        <button type="submit">Login</button>
-        <div id="login-error" style="color: red; margin-top: 10px;"></div>
-      </form>
     </div>
-
-    <div id="admin-dashboard">
-      <button id="logout-btn">Logout</button>
-      <h2>Admin Dashboard</h2>
-
-      <hr>
-      
-      <h3>Manage Downloads</h3>
-      <form id="downloads-form">
-        <div class="form-group">
-          <label for="download-title">Title</label>
-          <input type="text" id="download-title" required>
-        </div>
-        <div class="form-group">
-          <label for="download-image-url">Image URL</label>
-          <input type="url" id="download-image-url" placeholder="https://..." required>
-        </div>
-        <div class="form-group">
-          <label for="download-description">Description</label>
-          <textarea id="download-description" required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="download-file-url">Download File URL</label>
-          <input type="url" id="download-file-url" placeholder="https://..." required>
-        </div>
-        <button type="submit">Add Download Item</button>
-      </form>
-
-      <div class="scroll-box">
-        <table class="downloads-list">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Title</th>
-              <th>Description</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="downloads-items-list"></tbody>
-        </table>
-      </div>
-      <hr>
-
-      <h3>Manage Portfolio Gallery</h3>
-      <form id="gallery-form">
-        <div class="form-group">
-          <label for="gallery-url">Image URL</label>
-          <input type="url" id="gallery-url" placeholder="https://..." required>
-        </div>
-        <div class="form-group">
-          <label for="gallery-type">Filter Type</label>
-          <select id="gallery-type">
-            <option value="logo">Logo</option>
-            <option value="poster">A4 Poster</option>
-            <option value="banner">Banner</option>
-            <option value="profile">Profile</option>
-          </select>
-        </div>
-        <button type="submit">Add Gallery Item</button>
-      </form>
-      
-      <div class="scroll-box">
-        <table class="gallery-list">
-          <thead>
-            <tr>
-              <th>Image</th>
-              <th>Type</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody id="gallery-items-list"></tbody>
-        </table>
-      </div>
-
-      <hr>
-
-      <div class="scroll-box">
-        <h3>View Requests</h3>
-        <table class="request-list">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Email</th>
-              <th>Product</th>
-              <th>Budget</th>
-              <th>Status</th>
-              <th>Showcase</th>
-              <th>Emails</th>
-              <th>Details</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="request-items-list"></tbody>
-        </table>
-      </div>
-
-    </div>
-  </div>
-  
-
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-  <script src="admin.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="admin.js"></script>
 
 </body>
 </html>
