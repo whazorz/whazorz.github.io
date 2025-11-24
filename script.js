@@ -350,7 +350,9 @@ document.addEventListener("DOMContentLoaded", () => {
     loadGFX(db, translations, translatePage, () => currentLang);
     setupLightbox();
     setupHomePageLinks();
-    setupImageProtection();
+    
+    // NOTE: setupImageProtection is REMOVED to allow right-click
+    // setupImageProtection(); 
 
   } catch (e) {
     console.error("❌ Error initializing Firebase:", e);
@@ -514,13 +516,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const imageUrl = `/gfx/${item.imageUrl}`; // Path to local folder
 
-            // Download button removed as requested
+            // REMOVED: Title/Description container and Download button
+            // The image remains clickable (due to .gfx-copy-image class) but the actual copy logic is removed below.
             gfxItem.innerHTML = `
-              <img src="${imageUrl}" alt="${item.title}" class="download-item-image gfx-copy-image" data-image-url="${imageUrl}">
-              <div class="download-item-content">
-                <h4>${item.title}</h4>
-                <p>${item.description}</p>
-              </div>
+              <img src="${imageUrl}" alt="${item.title}" class="download-item-image" data-image-url="${imageUrl}">
             `;
             container.appendChild(gfxItem);
         });
@@ -528,45 +527,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // 2. Setup GFX Filter Listener
         setupGfxFilter();
 
-        // 3. Setup Image Copy Feature (FIXED for JPG/JPEG)
-        container.querySelectorAll('.gfx-copy-image').forEach(img => {
-            img.addEventListener('click', async (e) => {
-                e.preventDefault();
-                const src = e.target.getAttribute('data-image-url');
-                
-                // Determine MIME type based on file extension
-                const extension = src.split('.').pop().toLowerCase();
-                let mimeType = 'image/png'; // Default
-                if (extension === 'jpg' || extension === 'jpeg') {
-                    mimeType = 'image/jpeg';
-                }
-                // Handle potential path errors gracefully
-                if (!src.startsWith('/')) {
-                    console.error("Image source path seems incorrect:", src);
-                    alert('Error copying image: Invalid path format.');
-                    return;
-                }
-
-                try {
-                    const response = await fetch(src);
-                    const blob = await response.blob();
-                    
-                    if (window.ClipboardItem) {
-                        await navigator.clipboard.write([
-                            new ClipboardItem({
-                                [mimeType]: blob
-                            })
-                        ]);
-                        alert(`Image "${e.target.alt}" copied to clipboard!`);
-                    } else {
-                        alert('Your browser does not fully support direct image copying. Please right-click and copy the image.');
-                    }
-                } catch (err) {
-                    console.error('Failed to copy image to clipboard: ', err);
-                    alert('An error occurred. Please right-click and copy the image.');
-                }
-            });
-        });
+        // 3. REMOVED: Image Copy Feature. 
+        // We ensure the image tag no longer has the gfx-copy-image class
+        // and we delete the click listener to allow default behavior.
 
     } catch (e) {
         console.error("Error loading GFX:", e);
@@ -729,13 +692,6 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 13. Image Right-Click Protection ---
-  function setupImageProtection() {
-    document.addEventListener('contextmenu', event => {
-      if (event.target.tagName === 'IMG' && 
-          (event.target.closest('.gallery-container') || event.target.closest('#gfx-container'))) {
-        event.preventDefault();
-      }
-    });
-  }
-
+  // REMOVED function body as requested to allow context menu.
+  
 });

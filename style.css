@@ -406,10 +406,13 @@ hr {
   border: 1px solid #eee;
   border-radius: 8px;
   overflow: hidden;
-  /* Ensure flex for filter visibility toggle */
+  /* Use flex display for easy hide/show based on filter */
   display: flex; 
-  flex-direction: column;
+  /* Change to column layout to just hold the image */
+  flex-direction: column; 
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  /* Minimum padding/margin for better visual grouping */
+  margin-bottom: 15px; 
 }
 
 .download-item-image {
@@ -417,52 +420,20 @@ hr {
   height: 200px;
   object-fit: cover;
   background-color: #e0e0e0;
-}
-
-/* New style for GFX copy-on-click functionality */
-.gfx-copy-image {
-    cursor: copy; 
-}
-.gfx-copy-image:hover {
-    opacity: 0.9;
-}
-
-
-.download-item-content {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.download-item-content h4 {
-  margin-top: 0;
-  font-weight: 600;
-}
-
-.download-item-content p {
-  font-size: 0.9rem;
-  color: #555;
-  flex-grow: 1;
-  margin-bottom: 20px;
-}
-
-.download-btn {
-  display: block;
-  text-align: center;
-  background: var(--sidebar-bg);
-  color: var(--text-light);
-  padding: 12px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 600;
+  /* Ensure cursor is default for simple right-click/copy behavior */
+  cursor: default; 
   transition: opacity 0.3s;
 }
 
-.download-btn:hover {
-  opacity: 0.8;
+.download-item-image:hover {
+  opacity: 0.95;
 }
-/* END: GFX Page Styles */
+
+/* Remove content container styles since title/description are gone */
+/* The download-item itself will hold only the image */
+.download-item-content {
+  display: none; /* Hide any remaining content padding/elements */
+}
 
 
 /* ---------- Request Form Styles ---------- */
