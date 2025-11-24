@@ -30,7 +30,7 @@
 
     <a href="#" data-target="home" class="active" data-key="navHome">Home</a>
     <a href="#" data-target="Portfolio" data-key="navPortfolio">Portfolio</a>
-    <a href="#" data-target="Downloads" data-key="navDownloads">Downloads</a>
+    <a href="#" data-target="GFX" data-key="navGFX">GFX</a>
     <a href="#" data-target="Request" data-key="navRequest">Request</a>
   </nav>
 
@@ -80,15 +80,16 @@
             
             <div class="box">
               <table>
-                <tr><td data-key="priceLogo">Logo</td><td>50 Eur</td></tr>
-                <tr><td data-key="pricePoster">A4 poster / promo</td><td>30 Eur</td></tr>
-                <tr><td data-key="priceBanner">Banner / Header / promo</td><td>20 Eur</td></tr>
-                <tr><td data-key="priceProfile">Profile / promo</td><td>10 Eur</td></tr>
-                <tr><td data-key="priceBundle">Promo Bundle [Logo/Profile/Banner]</td><td>80 Eur</td></tr>
+                <tr><td data-key="priceLogo">Logo</td><td>20 Eur</td></tr>
+                <tr><td data-key="pricePoster">A4 Promo Poster</td><td>8 Eur</td></tr>
+                <tr><td data-key="priceBanner">Banner / Header</td><td>5 Eur</td></tr>
+                <tr><td data-key="priceProfile">Profile</td><td>3 Eur</td></tr>
+                <tr><td data-key="priceUI">Brand-focused UI layout [Logo/Profile/Ui]</td><td>30 Eur</td></tr>
+                <tr><td data-key="priceBundle">Promo Bundle [Logo/Profile/Banner]</td><td>25 Eur</td></tr>
               </table>
               <br>
               <p data-key="priceNote1"><strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.</p>
-              <p data-key="priceNote2">Discount for regular client discussable.</p>
+              <p data-key="priceNote2">Bulk discount for regular clients: 37.5%.</p>
             </div>
           </div>
           
@@ -129,13 +130,25 @@
       </div>
     </section>
 
-    <section id="Downloads" class="content">
+    <section id="GFX" class="content">
       <div class="home-content-wrapper">
         <div class="content-padding">
-          <h2 data-key="downloadsTitle">Downloads</h2>
-          <p data-key="downloadsIntro">Here you can find various design assets and resources I've created over time.</p>
-          <div id="downloads-container">
-            </div>
+          <h2 data-key="gfxTitle">GFX</h2>
+          <p data-key="gfxIntro">Here you can find various design assets and resources I've created over time.</p>
+          <div class="filter-controls" id="gfx-filter-controls">
+            <button class="filter-btn active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-btn" data-filter="environment" data-key="filterEnvironment">ENVIRONMENT</button>
+            <button class="filter-btn" data-filter="natural" data-key="filterNatural">NATURAL EFFECTS</button>
+            <button class="filter-btn" data-filter="particle" data-key="filterParticle">PARTICLE STYLES</button>
+            <button class="filter-btn" data-filter="tech" data-key="filterTech">TECH GLITCH DIGITAL EFFECTS</button>
+            <button class="filter-btn" data-filter="space" data-key="filterSpace">SPACE COSMIC EFFECTS</button>
+            <button class="filter-btn" data-filter="abstract" data-key="filterAbstract">CLEAN ABSTRACT TEXTURES</button>
+            <button class="filter-btn" data-filter="impact" data-key="filterImpact">IMPACT DAMAGE EFFECTS</button>
+            <button class="filter-btn" data-filter="energy" data-key="filterEnergy">ENERGY MAGIC SCI-FI EFFECTS</button>
+            <button class="filter-btn" data-filter="smoke" data-key="filterSmoke">SMOKE FOG ATMOSPHERE</button>
+            <button class="filter-btn" data-filter="fire" data-key="filterFire">FIRE HEAT EFFECTS</button>
+          </div>
+          <div id="gfx-container"></div>
         </div>
       </div>
     </section>
@@ -202,17 +215,18 @@
             <div class="form-group">
               <label for="product-type" data-key="formProduct">Select Product Type</label>
               <select id="product-type" name="product_type">
-                <option value="profile" data-key="formOptionProfile">Profile / promo (10 Eur)</option>
-                <option value="banner" data-key="formOptionBanner">Banner / Header / promo (20 Eur)</option>
-                <option value="poster" data-key="formOptionPoster">A4 poster / promo (30 Eur)</option>
-                <option value="logo" data-key="formOptionLogo">Logo (50 Eur)</option>
-                <option value="bundle" data-key="formOptionBundle">Promo Bundle [Logo/Profile/Banner] (80 Eur)</option>
+                <option value="profile" data-key="formOptionProfile">Profile (3 Eur)</option>
+                <option value="banner" data-key="formOptionBanner">Banner / Header (5 Eur)</option>
+                <option value="poster" data-key="formOptionPoster">A4 Promo Poster (8 Eur)</option>
+                <option value="logo" data-key="formOptionLogo">Logo (20 Eur)</option>
+                <option value="ui" data-key="formOptionUI">Brand-focused UI layout [Logo/Profile/Ui] (30 Eur)</option>
+                <option value="bundle" data-key="formOptionBundle">Promo Bundle [Logo/Profile/Banner] (25 Eur)</option>
               </select>
             </div>
 
             <div class="form-group">
               <label for="budget" data-key="formBudget">Starting Budget (EUR)</label>
-              <input type="text" id="budget" name="budget" value="10" readonly>
+              <input type="text" id="budget" name="budget" value="3" readonly>
             </div>
 
             <div class="form-group conditional-details" id="logo-details">
@@ -232,8 +246,14 @@
               <textarea name="banner_text" placeholder="What text or @usernames should be on the banner?" data-key-placeholder="formBannerPlaceholder2"></textarea>
             </div>
 
+            <div class="form-group conditional-details" id="ui-details">
+              <label data-key="formUIDetails">Brand-focused UI layout Details</label>
+              <input type="text" name="ui_platform" placeholder="UI Platform (e.g., Twitch, YouTube channel layout, App)" data-key-placeholder="formUIPlaceholder1">
+              <textarea name="ui_info" placeholder="Describe the layout requirements, brand feel, and necessary assets (Logo/Profile/UI)." data-key-placeholder="formUIPlaceholder2"></textarea>
+            </div>
+
             <div class="form-group conditional-details visible" id="profile-details">
-              <label data-key="formProfileDetails">Profile / Promo Details</label>
+              <label data-key="formProfileDetails">Profile Details</label>
               <input type="text" name="profile_username" placeholder="Username or Text for profile pic" data-key-placeholder="formProfilePlaceholder1">
               <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas." data-key-placeholder="formProfilePlaceholder2"></textarea>
             </div>

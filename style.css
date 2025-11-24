@@ -393,8 +393,8 @@ hr {
   color: var(--text-light);
 }
 
-/* ---------- NEW: Downloads Page Styles ---------- */
-#downloads-container {
+/* ---------- GFX Page Styles (Replacing Downloads) ---------- */
+#gfx-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
@@ -406,7 +406,8 @@ hr {
   border: 1px solid #eee;
   border-radius: 8px;
   overflow: hidden;
-  display: flex;
+  /* Ensure flex for filter visibility toggle */
+  display: flex; 
   flex-direction: column;
   box-shadow: 0 2px 4px rgba(0,0,0,0.05);
 }
@@ -417,6 +418,15 @@ hr {
   object-fit: cover;
   background-color: #e0e0e0;
 }
+
+/* New style for GFX copy-on-click functionality */
+.gfx-copy-image {
+    cursor: copy; 
+}
+.gfx-copy-image:hover {
+    opacity: 0.9;
+}
+
 
 .download-item-content {
   padding: 20px;
@@ -452,7 +462,7 @@ hr {
 .download-btn:hover {
   opacity: 0.8;
 }
-/* END: Downloads Page Styles */
+/* END: GFX Page Styles */
 
 
 /* ---------- Request Form Styles ---------- */
@@ -690,7 +700,7 @@ hr {
     column-count: 1;
   }
   
-  #downloads-container {
+  #gfx-container {
     grid-template-columns: 1fr; /* Stack download items on mobile */
   }
 

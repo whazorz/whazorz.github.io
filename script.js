@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Nav
       navHome: "Home",
       navPortfolio: "Portfolio",
-      navDownloads: "Downloads", // NEW
+      navGFX: "GFX",
       navRequest: "Request",
       // Header
       headerTitle: "/// Whazorz Designs",
@@ -23,16 +23,18 @@ document.addEventListener("DOMContentLoaded", () => {
       homeTermsPayment: "<strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.",
       homeTermsComm: "<strong>Communication:</strong> All project communication will be via email.",
       homeTermsContact: "Contacts: whazorz.design@gmail.com",
+      // UPDATED PRICES/PRODUCTS
       priceLogo: "Logo",
-      pricePoster: "A4 poster / promo",
-      priceBanner: "Banner / Header / promo",
-      priceProfile: "Profile / promo",
+      pricePoster: "A4 Promo Poster",
+      priceBanner: "Banner / Header",
+      priceProfile: "Profile",
+      priceUI: "Brand-focused UI layout [Logo/Profile/Ui]",
       priceBundle: "Promo Bundle [Logo/Profile/Banner]",
       priceNote1: "<strong>Note:</strong> Prices are starting estimates. Final cost may vary based on complexity.",
-      priceNote2: "Discount for regular client discussable.",
-      homeDonateTitle: "Support My Work", // NEW
-      homeDonateText: "“Buy me a coffee ☕🎨”", // NEW
-      homeDonateButton: "Donate with PayPal", // NEW
+      priceNote2: "Bulk discount for regular clients: 37.5%.",
+      homeDonateTitle: "Support My Work",
+      homeDonateText: "“Buy me a coffee ☕🎨”",
+      homeDonateButton: "Donate with PayPal",
       // Portfolio Page
       portfolioTitle: "Portfolio",
       filterAll: "All",
@@ -40,11 +42,21 @@ document.addEventListener("DOMContentLoaded", () => {
       filterPosters: "A4 Posters",
       filterBanners: "Banners",
       filterProfile: "Profile",
-      // NEW: Downloads Page
-      downloadsTitle: "Downloads",
-      downloadsIntro: "Here you can find various design assets and resources I've created over time.",
-      downloadButton: "Download",
-      downloadsError: "<p>Error loading downloads.</p>",
+      // NEW: GFX Page
+      gfxTitle: "GFX",
+      gfxIntro: "Here you can find various design assets and resources I've created over time.",
+      downloadsError: "<p>Error loading GFX.</p>", 
+      // NEW GFX Filter Keys
+      filterEnvironment: "ENVIRONMENT",
+      filterNatural: "NATURAL EFFECTS",
+      filterParticle: "PARTICLE STYLES",
+      filterTech: "TECH GLITCH DIGITAL EFFECTS",
+      filterSpace: "SPACE COSMIC EFFECTS",
+      filterAbstract: "CLEAN ABSTRACT TEXTURES",
+      filterImpact: "IMPACT DAMAGE EFFECTS",
+      filterEnergy: "ENERGY MAGIC SCI-FI EFFECTS",
+      filterSmoke: "SMOKE FOG ATMOSPHERE",
+      filterFire: "FIRE HEAT EFFECTS",
       // Request Page
       requestTitle: "Request a Design",
       requestTermsSummary: "Please read the full Commission Terms & Conditions before proceeding.",
@@ -74,11 +86,13 @@ document.addEventListener("DOMContentLoaded", () => {
       formEmail: "Your Email Address",
       formEmailPlaceholder: "your.email@example.com",
       formProduct: "Select Product Type",
-      formOptionProfile: "Profile / promo (10 Eur)",
-      formOptionBanner: "Banner / Header / promo (20 Eur)",
-      formOptionPoster: "A4 poster / promo (30 Eur)",
-      formOptionLogo: "Logo (50 Eur)",
-      formOptionBundle: "Promo Bundle [Logo/Profile/Banner] (80 Eur)",
+      // UPDATED OPTIONS
+      formOptionProfile: "Profile (3 Eur)",
+      formOptionBanner: "Banner / Header (5 Eur)",
+      formOptionPoster: "A4 Promo Poster (8 Eur)",
+      formOptionLogo: "Logo (20 Eur)",
+      formOptionUI: "Brand-focused UI layout [Logo/Profile/Ui] (30 Eur)",
+      formOptionBundle: "Promo Bundle [Logo/Profile/Banner] (25 Eur)",
       formBudget: "Starting Budget (EUR)",
       formLogoDetails: "Logo Details",
       formLogoPlaceholder1: "Brand Name",
@@ -88,9 +102,13 @@ document.addEventListener("DOMContentLoaded", () => {
       formBannerDetails: "Banner / Header Details",
       formBannerPlaceholder1: "Platform (e.g., YouTube, Twitter, Website)",
       formBannerPlaceholder2: "What text or @usernames should be on the banner?",
-      formProfileDetails: "Profile / Promo Details",
+      formProfileDetails: "Profile Details",
       formProfilePlaceholder1: "Username or Text for profile pic",
       formProfilePlaceholder2: "Color scheme, style, or any specific ideas.",
+      // NEW UI FIELDS
+      formUIDetails: "Brand-focused UI layout Details",
+      formUIPlaceholder1: "UI Platform (e.g., Twitch, YouTube channel layout, App)",
+      formUIPlaceholder2: "Describe the layout requirements, brand feel, and necessary assets (Logo/Profile/UI).",
       formInstructions: "General Instructions / Project Brief",
       formInstructionsPlaceholder: "Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references.",
       formAgreeTerms: "I agree to the Terms and Conditions",
@@ -111,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // Nav
       navHome: "Sākums",
       navPortfolio: "Portfolio",
-      navDownloads: "Lejupielādes", // NEW
+      navGFX: "GFX",
       navRequest: "Pieprasījums",
       // Header
       headerTitle: "/// Whazorz Designs",
@@ -128,16 +146,18 @@ document.addEventListener("DOMContentLoaded", () => {
       homeTermsPayment: "<strong>Apmaksa:</strong> Apmaksa tiek veikta *pēc* tam, kad esat apstiprinājis dizainu. Norādītās cenas ir aptuvenas un var mainīties.",
       homeTermsComm: "<strong>Komunikācija:</strong> Visa projekta komunikācija notiks pa e-pastu.",
       homeTermsContact: "Kontakti: whazorz.design@gmail.com",
+      // UPDATED PRICES/PRODUCTS
       priceLogo: "Logo",
-      pricePoster: "A4 plakāts / promo",
-      priceBanner: "Baneris / Galvene / promo",
-      priceProfile: "Profils / promo",
+      pricePoster: "A4 Promo Plakāts",
+      priceBanner: "Baneris / Galvene",
+      priceProfile: "Profils",
+      priceUI: "Uz zīmolu orientēts UI izkārtojums [Logo/Profils/UI]",
       priceBundle: "Promo komplekts [Logo/Profils/Baneris]",
       priceNote1: "<strong>Piezīme:</strong> Cenas ir sākuma cenas. Gala izmaksas var atšķirties atkarībā no sarežģītības.",
-      priceNote2: "Atlaides pastāvīgiem klientiem ir apspriežamas.",
-      homeDonateTitle: "Atbalsti manu darbu", // NEW
-      homeDonateText: "“Uzsauc man kafiju ☕🎨”", // NEW
-      homeDonateButton: "Ziedot ar PayPal", // NEW
+      priceNote2: "Lielapjoma atlaide pastāvīgiem klientiem: 37.5%.",
+      homeDonateTitle: "Atbalsti manu darbu",
+      homeDonateText: "“Uzsauc man kafiju ☕🎨”",
+      homeDonateButton: "Ziedot ar PayPal",
       // Portfolio Page
       portfolioTitle: "Portfolio",
       filterAll: "Visi",
@@ -145,11 +165,21 @@ document.addEventListener("DOMContentLoaded", () => {
       filterPosters: "A4 Plakāti",
       filterBanners: "Baneri",
       filterProfile: "Profili",
-      // NEW: Downloads Page
-      downloadsTitle: "Lejupielādes",
-      downloadsIntro: "Šeit Jūs varat atrast dažādus dizaina resursus, ko esmu laika gaitā izveidojis.",
-      downloadButton: "Lejupielādēt",
-      downloadsError: "<p>Kļūda, ielādējot lejupielādes.</p>",
+      // NEW: GFX Page
+      gfxTitle: "GFX",
+      gfxIntro: "Šeit Jūs varat atrast dažādus dizaina resursus, ko esmu laika gaitā izveidojis.",
+      downloadsError: "<p>Kļūda, ielādējot GFX.</p>",
+      // NEW GFX Filter Keys
+      filterEnvironment: "VIDE",
+      filterNatural: "DABĪGIE EFEKTI",
+      filterParticle: "DAĻIŅU STILI",
+      filterTech: "TEHNISKI DIGITĀLIE EFEKTI",
+      filterSpace: "KOSMOSA EFEKTI",
+      filterAbstract: "TĪRAS ABSTRAKTAS TEKSTŪRAS",
+      filterImpact: "TRIECIENA BOJĀJUMU EFEKTI",
+      filterEnergy: "ENERĢIJAS/MAĢIJAS/SCI-FI EFEKTI",
+      filterSmoke: "DŪMU/MIGLAS EFEKTI",
+      filterFire: "UGUNS/KARSTUMA EFEKTI",
       // Request Page
       requestTitle: "Pieprasīt dizainu",
       requestTermsSummary: "Lūdzu, izlasiet visus Pasūtījuma noteikumus un nosacījumus pirms turpināt.",
@@ -179,11 +209,13 @@ document.addEventListener("DOMContentLoaded", () => {
       formEmail: "Jūsu e-pasta adrese",
       formEmailPlaceholder: "jusu.epasts@piemers.com",
       formProduct: "Izvēlieties produkta veidu",
-      formOptionProfile: "Profils / promo (10 Eur)",
-      formOptionBanner: "Baneris / Galvene / promo (20 Eur)",
-      formOptionPoster: "A4 plakāts / promo (30 Eur)",
-      formOptionLogo: "Logo (50 Eur)",
-      formOptionBundle: "Promo komplekts [Logo/Profils/Baneris] (80 Eur)",
+      // UPDATED OPTIONS
+      formOptionProfile: "Profils (3 Eur)",
+      formOptionBanner: "Baneris / Galvene (5 Eur)",
+      formOptionPoster: "A4 Promo Plakāts (8 Eur)",
+      formOptionLogo: "Logo (20 Eur)",
+      formOptionUI: "Uz zīmolu orientēts UI izkārtojums [Logo/Profils/UI] (30 Eur)",
+      formOptionBundle: "Promo komplekts [Logo/Profils/Baneris] (25 Eur)",
       formBudget: "Sākuma budžets (EUR)",
       formLogoDetails: "Logo detaļas",
       formLogoPlaceholder1: "Zīmola nosaukums",
@@ -193,9 +225,13 @@ document.addEventListener("DOMContentLoaded", () => {
       formBannerDetails: "Banera / Galvenes detaļas",
       formBannerPlaceholder1: "Platforma (piem., YouTube, Twitter, Mājaslapa)",
       formBannerPlaceholder2: "Kāds teksts vai @lietotājvārdi jāiekļauj banerī?",
-      formProfileDetails: "Profila / Promo detaļas",
+      formProfileDetails: "Profila detaļas",
       formProfilePlaceholder1: "Lietotājvārds vai teksts profila bildei",
       formProfilePlaceholder2: "Krāsu shēma, stils vai citas konkrētas idejas.",
+      // NEW UI FIELDS
+      formUIDetails: "Uz zīmolu orientēts UI izkārtojums detaļas",
+      formUIPlaceholder1: "UI Platforma (piem., Twitch, YouTube kanāla izkārtojums, Lietotne)",
+      formUIPlaceholder2: "Aprakstiet izkārtojuma prasības, zīmola sajūtu un nepieciešamos resursus (Logo/Profils/UI).",
       formInstructions: "Vispārīgas instrukcijas / Projekta apraksts",
       formInstructionsPlaceholder: "Lūdzu, sniedziet skaidru un detalizētu savu prasību aprakstu. Iekļaujiet saites uz iedvesmas avotiem vai atsaucēm.",
       formAgreeTerms: "Es piekrītu Noteikumiem un Nosacījumiem",
@@ -229,12 +265,15 @@ document.addEventListener("DOMContentLoaded", () => {
     // Translate all elements with data-key
     document.querySelectorAll('[data-key]').forEach(el => {
       const key = el.getAttribute('data-key');
-      if (translations[lang][key]) {
-        // --- THIS IS THE CORRECTED LINE ---
-        if (key.includes('homeTerms') || key === 'homeViewAll' || key === 'requestFormIntro' || key.includes('priceNote1')) {
-          el.innerHTML = translations[lang][key];
+      // Use fallback for GFX keys if old keys are accidentally used
+      const translationKey = translations[lang][key] ? key : (key.replace('downloads', 'gfx') in translations[lang] ? key.replace('downloads', 'gfx') : key);
+
+
+      if (translations[lang][translationKey]) {
+        if (translationKey.includes('homeTerms') || translationKey === 'homeViewAll' || translationKey === 'requestFormIntro' || translationKey.includes('priceNote')) {
+          el.innerHTML = translations[lang][translationKey];
         } else {
-          el.innerText = translations[lang][key];
+          el.innerText = translations[lang][translationKey];
         }
       }
     });
@@ -263,9 +302,15 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // NEW: Re-translate dynamic download buttons
-    document.querySelectorAll('.download-btn').forEach(btn => {
-        btn.innerText = translations[lang].downloadButton;
+    // NEW: Re-translate GFX filter buttons
+    document.querySelectorAll('#gfx-filter-controls .filter-btn').forEach(btn => {
+        const type = btn.getAttribute('data-filter');
+        const key = `filter${type.charAt(0).toUpperCase() + type.slice(1)}`;
+        if (translations[lang][key]) {
+            btn.innerText = translations[lang][key];
+        } else if (type === 'all') {
+             btn.innerText = translations[lang].filterAll;
+        }
     });
   }
 
@@ -302,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setupRequestForm(db, translations, () => currentLang);
     loadPortfolio(db, translations, () => currentLang);
     loadLatestWork(db, translations, () => currentLang);
-    loadDownloads(db, translations, () => currentLang); // NEW
+    loadGFX(db, translations, translatePage, () => currentLang);
     setupLightbox();
     setupHomePageLinks();
     setupImageProtection();
@@ -333,7 +378,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- 5. Portfolio Filter ---
   function setupPortfolioFilter() {
-    const filterButtons = document.querySelectorAll(".filter-btn");
+    const filterButtons = document.querySelectorAll("#Portfolio .filter-btn");
     const galleryItems = document.querySelectorAll("#portfolio-gallery .gallery-item");
 
     if (filterButtons.length > 0 && galleryItems.length > 0) {
@@ -346,10 +391,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
           galleryItems.forEach(item => {
             const itemType = item.getAttribute("data-type");
+            // Use display none/block for filter visibility (instead of opacity/scale for smooth filtering)
             if (filter === "all" || filter === itemType) {
-              item.classList.remove("hidden");
+              item.style.display = 'block';
             } else {
-              item.classList.add("hidden");
+              item.style.display = 'none';
             }
           });
         });
@@ -368,7 +414,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gallery.innerHTML = "";
       snapshot.forEach(doc => {
         const item = doc.data();
-        const galleryItem = createGalleryItem(item);
+        const galleryItem = createGalleryItem(item, '/images/'); // Pass root folder
         gallery.appendChild(galleryItem);
       });
 
@@ -391,7 +437,7 @@ document.addEventListener("DOMContentLoaded", () => {
       gallery.innerHTML = "";
       snapshot.forEach(doc => {
         const item = doc.data();
-        const galleryItem = createGalleryItem(item);
+        const galleryItem = createGalleryItem(item, '/images/'); // Pass root folder
         gallery.appendChild(galleryItem);
       });
     } catch (e) {
@@ -400,58 +446,131 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // --- 8. Create Gallery Item Helper ---
-  function createGalleryItem(item) {
+  // --- 8. Create Gallery Item Helper (FOR PORTFOLIO) ---
+  function createGalleryItem(item, rootPath) {
     const galleryItem = document.createElement("div");
     galleryItem.className = "gallery-item";
     galleryItem.setAttribute("data-type", item.type || "general");
 
     const img = document.createElement("img");
-    img.src = item.imageUrl;
+    img.src = `${rootPath}${item.imageUrl}`;
     img.alt = `${item.type || "Portfolio"} project`;
-    img.setAttribute("data-lightbox-src", item.imageUrl);
+    img.setAttribute("data-lightbox-src", `${rootPath}${item.imageUrl}`);
 
     galleryItem.appendChild(img);
     return galleryItem;
   }
 
-  // --- 9. NEW: Load Downloads ---
-  async function loadDownloads(db, translations, getCurrentLang) {
-    const container = document.getElementById("downloads-container");
-    if (!container) return;
+  // --- 9. Load GFX (replacing Load Downloads) ---
+  async function loadGFX(db, translations, translatePage, getCurrentLang) {
+    const container = document.getElementById("gfx-container");
+    const filterControls = document.getElementById("gfx-filter-controls");
+
+    if (!container || !filterControls) return;
+
+    // --- Setup GFX Filter Listener (using pre-defined buttons) ---
+    function setupGfxFilter() {
+        const filterButtons = document.querySelectorAll("#GFX .filter-btn");
+        
+        filterButtons.forEach(button => {
+            button.addEventListener("click", () => {
+                const filter = button.getAttribute("data-filter");
+
+                filterButtons.forEach(btn => btn.classList.remove("active"));
+                button.classList.add("active");
+
+                container.querySelectorAll('.gfx-item').forEach(item => {
+                    const itemType = item.getAttribute("data-type");
+                    item.style.display = (filter === "all" || filter === itemType) ? 'flex' : 'none';
+                });
+            });
+        });
+    }
+    // -----------------------------------------------------------------
 
     try {
-      // Assuming you create a "downloads" collection in Firestore
-      const snapshot = await db.collection("downloads").orderBy("title").get(); 
-      
-      container.innerHTML = ""; // Clear existing
-      
-      if (snapshot.empty) {
-          container.innerHTML = `<p>${translations[getCurrentLang()].downloadsIntro}</p>`; // Show intro if empty
-          return;
-      }
+        const snapshot = await db.collection("downloads").orderBy("title").get();
 
-      snapshot.forEach(doc => {
-        const item = doc.data();
+        container.innerHTML = "";
         const lang = getCurrentLang();
-        
-        const downloadItem = document.createElement("div");
-        downloadItem.className = "download-item";
-        
-        downloadItem.innerHTML = `
-          <img src="${item.imageUrl}" alt="${item.title}" class="download-item-image">
-          <div class="download-item-content">
-            <h4>${item.title}</h4>
-            <p>${item.description}</p>
-            <a href="${item.downloadUrl}" class="download-btn" target="_blank" rel="noopener noreferrer">${translations[lang].downloadButton}</a>
-          </div>
-        `;
-        
-        container.appendChild(downloadItem);
-      });
+
+        if (snapshot.empty) {
+            container.innerHTML = `<p>${translations[lang].gfxIntro}</p>`;
+            return;
+        }
+
+        const items = [];
+        snapshot.forEach(doc => {
+            const item = doc.data();
+            item.id = doc.id;
+            items.push(item);
+        });
+
+        // 1. Render Items
+        items.forEach(item => {
+            const gfxItem = document.createElement("div");
+            gfxItem.className = "download-item gfx-item"; // Use download-item for styling
+            gfxItem.setAttribute("data-type", item.type || "general");
+
+            const imageUrl = `/gfx/${item.imageUrl}`; // Path to local folder
+
+            // Download button removed as requested
+            gfxItem.innerHTML = `
+              <img src="${imageUrl}" alt="${item.title}" class="download-item-image gfx-copy-image" data-image-url="${imageUrl}">
+              <div class="download-item-content">
+                <h4>${item.title}</h4>
+                <p>${item.description}</p>
+              </div>
+            `;
+            container.appendChild(gfxItem);
+        });
+
+        // 2. Setup GFX Filter Listener
+        setupGfxFilter();
+
+        // 3. Setup Image Copy Feature (FIXED for JPG/JPEG)
+        container.querySelectorAll('.gfx-copy-image').forEach(img => {
+            img.addEventListener('click', async (e) => {
+                e.preventDefault();
+                const src = e.target.getAttribute('data-image-url');
+                
+                // Determine MIME type based on file extension
+                const extension = src.split('.').pop().toLowerCase();
+                let mimeType = 'image/png'; // Default
+                if (extension === 'jpg' || extension === 'jpeg') {
+                    mimeType = 'image/jpeg';
+                }
+                // Handle potential path errors gracefully
+                if (!src.startsWith('/')) {
+                    console.error("Image source path seems incorrect:", src);
+                    alert('Error copying image: Invalid path format.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch(src);
+                    const blob = await response.blob();
+                    
+                    if (window.ClipboardItem) {
+                        await navigator.clipboard.write([
+                            new ClipboardItem({
+                                [mimeType]: blob
+                            })
+                        ]);
+                        alert(`Image "${e.target.alt}" copied to clipboard!`);
+                    } else {
+                        alert('Your browser does not fully support direct image copying. Please right-click and copy the image.');
+                    }
+                } catch (err) {
+                    console.error('Failed to copy image to clipboard: ', err);
+                    alert('An error occurred. Please right-click and copy the image.');
+                }
+            });
+        });
+
     } catch (e) {
-      console.error("Error loading downloads:", e);
-      container.innerHTML = translations[getCurrentLang()].downloadsError;
+        console.error("Error loading GFX:", e);
+        container.innerHTML = translations[getCurrentLang()].downloadsError;
     }
   }
 
@@ -464,7 +583,8 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!overlay || !lightboxImg || !closeBtn) return;
 
     function openLightbox(e) {
-      if (e.target.tagName === "IMG" && e.target.closest(".gallery-container")) {
+      // Only open lightbox for Portfolio images
+      if (e.target.tagName === "IMG" && e.target.closest("#portfolio-gallery")) {
         const src = e.target.getAttribute("data-lightbox-src");
         if (src) {
           lightboxImg.src = src;
@@ -521,24 +641,27 @@ document.addEventListener("DOMContentLoaded", () => {
       submitBtn.disabled = !termsCheckbox.checked;
     });
 
+    // UPDATED PRICES
     const prices = {
-      profile: 10,
-      banner: 20,
-      poster: 30,
-      logo: 50,
-      bundle: 80
+      profile: 3,
+      banner: 5,
+      poster: 8,
+      logo: 20,
+      ui: 30, // NEW PRODUCT PRICE
+      bundle: 25
     };
 
     const conditionalFields = {
       logo: document.getElementById("logo-details"),
       poster: document.getElementById("poster-details"),
       banner: document.getElementById("banner-details"),
-      profile: document.getElementById("profile-details")
+      profile: document.getElementById("profile-details"),
+      ui: document.getElementById("ui-details")
     };
 
     function updateForm() {
       const selectedValue = productSelect.value;
-      budgetInput.value = prices[selectedValue] || 10;
+      budgetInput.value = prices[selectedValue] || 3; // Fallback to lowest price (profile: 3)
 
       Object.values(conditionalFields).forEach(field => {
         if (field) field.classList.remove("visible");
@@ -548,7 +671,12 @@ document.addEventListener("DOMContentLoaded", () => {
         ["logo", "banner", "profile"].forEach(key => {
           if (conditionalFields[key]) conditionalFields[key].classList.add("visible");
         });
-      } else if (conditionalFields[selectedValue]) {
+      } else if (selectedValue === "ui") {
+        ["logo", "profile", "ui"].forEach(key => {
+          if (conditionalFields[key]) conditionalFields[key].classList.add("visible");
+        });
+      }
+      else if (conditionalFields[selectedValue]) {
         conditionalFields[selectedValue].classList.add("visible");
       }
     }
@@ -558,8 +686,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     form.addEventListener("submit", async e => {
       e.preventDefault();
-      submitBtn.disabled = true; 
-      
+      submitBtn.disabled = true;
+
       const lang = getCurrentLang();
       formStatus.textContent = translations[lang].formSubmitting;
       formStatus.className = "";
@@ -570,26 +698,26 @@ document.addEventListener("DOMContentLoaded", () => {
 
       requestData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
       requestData.status = "pending";
-      
+
       requestData.showcase = requestData.showcase === "true";
       requestData.email_agree = requestData.email_agree === "true";
 
       try {
         const docRef = await db.collection("requests").add(requestData);
         console.log("✅ Request added with ID:", docRef.id);
-        
+
         formStatus.textContent = translations[lang].formSuccess;
         formStatus.className = "success";
         form.reset();
         updateForm();
-        
+
         submitBtn.disabled = true;
         termsCheckbox.checked = false;
 
         setTimeout(() => {
           submitBtn.disabled = !termsCheckbox.checked;
-          formStatus.textContent = ""; 
-        }, 30000); 
+          formStatus.textContent = "";
+        }, 30000);
 
       } catch (error) {
         console.error("❌ Error adding document:", error);
@@ -603,7 +731,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- 13. Image Right-Click Protection ---
   function setupImageProtection() {
     document.addEventListener('contextmenu', event => {
-      if (event.target.tagName === 'IMG' && event.target.closest('.gallery-container')) {
+      if (event.target.tagName === 'IMG' && 
+          (event.target.closest('.gallery-container') || event.target.closest('#gfx-container'))) {
         event.preventDefault();
       }
     });

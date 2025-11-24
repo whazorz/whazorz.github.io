@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const db = firebase.firestore();
   const auth = firebase.auth();
 
-  // Get DOM Elements (These variables no longer return null)
+  // Get DOM Elements
   const loginView = document.getElementById("admin-login");
   const dashboardView = document.getElementById("admin-dashboard");
   const loginForm = document.getElementById("login-form");
@@ -36,6 +36,40 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadEditId = document.getElementById("download-edit-id");
   const downloadSubmitBtn = document.getElementById("download-submit-btn");
   const downloadCancelBtn = document.getElementById("download-cancel-btn");
+  const downloadType = document.getElementById("download-type");
+  // NEW: Reference to the hidden download URL input
+  const downloadFileUrlInput = document.getElementById("download-file-url"); 
+
+  // Function to temporarily show the Download File URL field
+  function showDownloadUrlField(url = '') {
+      // Create and insert the missing form group temporarily for editing
+      let fg = document.getElementById('download-file-url-group');
+      if (!fg) {
+          fg = document.createElement('div');
+          fg.id = 'download-file-url-group';
+          fg.className = 'form-group';
+          fg.innerHTML = `
+              <label for="download-file-url-visible">Download File URL</label>
+              <input type="url" id="download-file-url-visible" placeholder="https://link.to/file.zip">
+          `;
+          downloadsForm.insertBefore(fg, downloadEditId.parentNode);
+      }
+      document.getElementById("download-file-url-visible").value = url;
+      downloadFileUrlInput.value = url; // Keep the hidden field updated
+
+      // Add a listener to update the hidden field
+      document.getElementById("download-file-url-visible").oninput = (e) => {
+          downloadFileUrlInput.value = e.target.value;
+      };
+  }
+
+  // Function to remove the temporary Download File URL field
+  function hideDownloadUrlField() {
+      const fg = document.getElementById('download-file-url-group');
+      if (fg) {
+          fg.remove();
+      }
+  }
 
 
   // --- Authentication ---
@@ -71,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     auth.signOut();
   });
 
-  // --- Request Management ---
+  // --- Request Management (Unchanged) ---
   
   function loadRequests() {
     db.collection("requests").orderBy("timestamp", "desc").onSnapshot(snapshot => {
@@ -91,7 +125,9 @@ document.addEventListener("DOMContentLoaded", () => {
             details += `Platform: ${req.banner_platform}\nText: ${req.banner_text}`;
         } else if (req.product_type === 'profile') {
             details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
-        } else if (req.product_type === 'bundle') {
+        } else if (req.product_type === 'ui') {
+           details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
+       } else if (req.product_type === 'bundle') {
             details += `(Bundle) Logo Brand: ${req.logo_brand_name}\n`;
             details += `(Bundle) Banner Platform: ${req.banner_platform}\n`;
             details += `(Bundle) Profile User: ${req.profile_username}`;
@@ -151,7 +187,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- NEW: Completed Requests Log ---
+  // --- Completed Requests Log (Unchanged) ---
   
   function loadCompletedRequests() {
     db.collection("requests").where("status", "==", "approved").orderBy("timestamp", "desc").onSnapshot(snapshot => {
@@ -171,7 +207,9 @@ document.addEventListener("DOMContentLoaded", () => {
             details += `Platform: ${req.banner_platform}\nText: ${req.banner_text}`;
         } else if (req.product_type === 'profile') {
             details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
-        } else if (req.product_type === 'bundle') {
+        } else if (req.product_type === 'ui') {
+            details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
+        } else if (req.product_type === 'bundle') {
             details += `(Bundle) Logo Brand: ${req.logo_brand_name}\n`;
             details += `(Bundle) Banner Platform: ${req.banner_platform}\n`;
             details += `(Bundle) Profile User: ${req.profile_username}`;
@@ -193,16 +231,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // --- Gallery Management ---
+  // --- Gallery Management (Unchanged) ---
 
   galleryForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const id = galleryEditId.value;
-    const imageUrl = document.getElementById("gallery-url").value;
+    const imageFilename = document.getElementById("gallery-url").value; 
     const type = document.getElementById("gallery-type").value;
     
     const data = {
-      imageUrl: imageUrl,
+      imageUrl: imageFilename,
       type: type
     };
 
@@ -219,7 +257,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // NEW: Reset gallery form (for editing)
+  // Reset gallery form (for editing)
   function resetGalleryForm() {
     galleryForm.reset();
     galleryEditId.value = "";
@@ -227,7 +265,7 @@ document.addEventListener("DOMContentLoaded", () => {
     galleryCancelBtn.style.display = "none";
   }
 
-  // NEW: Cancel button listener
+  // Cancel button listener
   galleryCancelBtn.addEventListener("click", resetGalleryForm);
 
   function loadGalleryItems() {
@@ -237,7 +275,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const item = doc.data();
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td><img src="${item.imageUrl}" alt="Gallery Item"></td>
+          <td><img src="/images/${item.imageUrl}" alt="Gallery Item"></td>
           <td>${item.type}</td>
           <td>
             <button class="btn-action btn-edit" data-id="${doc.id}">Edit</button>
@@ -276,7 +314,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- Download Management ---
+  // --- Download/GFX Management (Updated) ---
 
   downloadsForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -285,8 +323,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = {
       title: document.getElementById("download-title").value,
       imageUrl: document.getElementById("download-image-url").value,
+      type: document.getElementById("download-type").value,
       description: document.getElementById("download-description").value,
-      downloadUrl: document.getElementById("download-file-url").value
+      // Use the value from the hidden input field
+      downloadUrl: downloadFileUrlInput.value || '' 
     };
 
     if (id) {
@@ -302,15 +342,18 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // NEW: Reset downloads form (for editing)
+  // Reset downloads form (for editing)
   function resetDownloadsForm() {
     downloadsForm.reset();
     downloadEditId.value = "";
     downloadSubmitBtn.textContent = "Add Download Item";
     downloadCancelBtn.style.display = "none";
+    downloadType.value = "environment"; 
+    downloadFileUrlInput.value = ''; // Clear hidden download URL
+    hideDownloadUrlField(); // Remove temporary field
   }
 
-  // NEW: Cancel button listener
+  // Cancel button listener
   downloadCancelBtn.addEventListener("click", resetDownloadsForm);
 
   function loadAdminDownloads() {
@@ -320,8 +363,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const item = doc.data();
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td><img src="${item.imageUrl}" alt="${item.title}"></td>
+          <td><img src="/gfx/${item.imageUrl}" alt="${item.title}"></td>
           <td>${item.title}</td>
+          <td>${item.type}</td>
           <td class="td-truncate" title="${item.description}">${item.description}</td>
           <td>
             <button class="btn-action btn-edit" data-id="${doc.id}">Edit</button>
@@ -339,8 +383,11 @@ document.addEventListener("DOMContentLoaded", () => {
             const item = doc.data();
             document.getElementById("download-title").value = item.title;
             document.getElementById("download-image-url").value = item.imageUrl;
+            document.getElementById("download-type").value = item.type;
             document.getElementById("download-description").value = item.description;
-            document.getElementById("download-file-url").value = item.downloadUrl;
+
+            // Show and populate the download URL field for editing
+            showDownloadUrlField(item.downloadUrl || ''); 
 
             downloadEditId.value = doc.id;
             downloadSubmitBtn.textContent = "Update Item";
