@@ -5,21 +5,20 @@ import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc
 document.addEventListener("DOMContentLoaded", () => {
 // --- 3. Firebase Setup (MODULAR) ---
   const firebaseConfig = {
-    // Note: Your existing API Key is kept, but ensure it's restricted and authorized for your new project
-    apiKey: "1:23481217882:web:533d4a7dadd4563426b963", 
+    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ", 
     authDomain: "whazorz-portfolio.firebaseapp.com",
     projectId: "whazorz-portfolio",
     storageBucket: "whazorz-portfolio.appspot.com",
     messagingSenderId: "23481217882",
-    appId: "1:23481217882:web:cd604440b34b9dea62b027",
+    appId: "1:23481217882:web:533d4a7dadd4563426b963", // UPDATED APP ID
     measurementId: "G-EJEJGRE025"
   };
 
   // Initialize Firebase
   const app = initializeApp(firebaseConfig);
   // Get modular service instances
-  const db = getFirestore(app); // MODULAR FIRESTORE
-  const auth = getAuth(app);    // MODULAR AUTH
+  const db = getFirestore(app); 
+  const auth = getAuth(app);    
 
   // Get DOM Elements (Unchanged)
   const loginView = document.getElementById("admin-login");
