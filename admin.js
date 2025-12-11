@@ -1,21 +1,27 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-auth.js";
+import { getFirestore, collection, onSnapshot, doc, updateDoc, deleteDoc, addDoc, query, orderBy, where, getDoc } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Firebase Setup ---
+// --- 3. Firebase Setup (MODULAR) ---
   const firebaseConfig = {
-    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ",
-    authDomain: "whazorzdesign-1ebbe.firebaseapp.com",
-    projectId: "whazorzdesign-1ebbe",
-    storageBucket: "whazorzdesign-1ebbe.firebasestorage.app",
-    messagingSenderId: "425863278566",
-    appId: "1:425863278566:web:cd604440b34b9dea62b027",
+    // Note: Your existing API Key is kept, but ensure it's restricted and authorized for your new project
+    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ", 
+    authDomain: "whazorz-portfolio.firebaseapp.com",
+    projectId: "whazorz-portfolio",
+    storageBucket: "whazorz-portfolio.appspot.com",
+    messagingSenderId: "23481217882",
+    appId: "1:23481217882:web:cd604440b34b9dea62b027",
     measurementId: "G-EJEJGRE025"
   };
 
   // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const auth = firebase.auth();
+  const app = initializeApp(firebaseConfig);
+  // Get modular service instances
+  const db = getFirestore(app); // MODULAR FIRESTORE
+  const auth = getAuth(app);    // MODULAR AUTH
 
-  // Get DOM Elements
+  // Get DOM Elements (Unchanged)
   const loginView = document.getElementById("admin-login");
   const dashboardView = document.getElementById("admin-dashboard");
   const loginForm = document.getElementById("login-form");
@@ -36,45 +42,45 @@ document.addEventListener("DOMContentLoaded", () => {
   const downloadEditId = document.getElementById("download-edit-id");
   const downloadSubmitBtn = document.getElementById("download-submit-btn");
   const downloadCancelBtn = document.getElementById("download-cancel-btn");
-  const downloadType = document.getElementById("download-type");
-  // NEW: Reference to the hidden download URL input
-  const downloadFileUrlInput = document.getElementById("download-file-url"); 
+  const downloadType = document.getElementById("download-type");
+  // NEW: Reference to the hidden download URL input
+  const downloadFileUrlInput = document.getElementById("download-file-url"); 
 
-  // Function to temporarily show the Download File URL field
-  function showDownloadUrlField(url = '') {
-      // Create and insert the missing form group temporarily for editing
-      let fg = document.getElementById('download-file-url-group');
-      if (!fg) {
-          fg = document.createElement('div');
-          fg.id = 'download-file-url-group';
-          fg.className = 'form-group';
-          fg.innerHTML = `
-              <label for="download-file-url-visible">Download File URL</label>
-              <input type="url" id="download-file-url-visible" placeholder="https://link.to/file.zip">
-          `;
-          downloadsForm.insertBefore(fg, downloadEditId.parentNode);
-      }
-      document.getElementById("download-file-url-visible").value = url;
-      downloadFileUrlInput.value = url; // Keep the hidden field updated
+  // Function to temporarily show the Download File URL field (Unchanged)
+  function showDownloadUrlField(url = '') {
+      // Create and insert the missing form group temporarily for editing
+      let fg = document.getElementById('download-file-url-group');
+      if (!fg) {
+          fg = document.createElement('div');
+          fg.id = 'download-file-url-group';
+          fg.className = 'form-group';
+          fg.innerHTML = `
+              <label for="download-file-url-visible">Download File URL</label>
+              <input type="url" id="download-file-url-visible" placeholder="https://link.to/file.zip">
+          `;
+          downloadsForm.insertBefore(fg, downloadEditId.parentNode);
+      }
+      document.getElementById("download-file-url-visible").value = url;
+      downloadFileUrlInput.value = url; // Keep the hidden field updated
 
-      // Add a listener to update the hidden field
-      document.getElementById("download-file-url-visible").oninput = (e) => {
-          downloadFileUrlInput.value = e.target.value;
-      };
-  }
+      // Add a listener to update the hidden field
+      document.getElementById("download-file-url-visible").oninput = (e) => {
+          downloadFileUrlInput.value = e.target.value;
+      };
+  }
 
-  // Function to remove the temporary Download File URL field
-  function hideDownloadUrlField() {
-      const fg = document.getElementById('download-file-url-group');
-      if (fg) {
-          fg.remove();
-      }
-  }
+  // Function to remove the temporary Download File URL field (Unchanged)
+  function hideDownloadUrlField() {
+      const fg = document.getElementById('download-file-url-group');
+      if (fg) {
+          fg.remove();
+      }
+  }
 
 
-  // --- Authentication ---
+  // --- Authentication (MODULAR) ---
   
-  auth.onAuthStateChanged(user => {
+  onAuthStateChanged(auth, user => { // Uses modular onAuthStateChanged
     if (user) {
       // User is logged in
       loginView.style.display = "none";
@@ -95,23 +101,29 @@ document.addEventListener("DOMContentLoaded", () => {
     const email = document.getElementById("admin-email").value;
     const pass = document.getElementById("admin-password").value;
     
-    auth.signInWithEmailAndPassword(email, pass)
+    // Uses modular signInWithEmailAndPassword
+    signInWithEmailAndPassword(auth, email, pass)
       .catch(err => {
         loginError.textContent = err.message;
       });
   });
 
   logoutBtn.addEventListener("click", () => {
-    auth.signOut();
+    // Uses modular signOut
+    signOut(auth);
   });
 
-  // --- Request Management (Unchanged) ---
+  // --- Request Management (MODULAR Firestore) ---
   
   function loadRequests() {
-    db.collection("requests").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+    const requestsCol = collection(db, "requests");
+    const q = query(requestsCol, orderBy("timestamp", "desc"));
+
+    onSnapshot(q, (snapshot) => {
       requestList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const req = doc.data();
+      snapshot.forEach(docSnapshot => {
+        const docId = docSnapshot.id;
+        const req = docSnapshot.data();
         const tr = document.createElement("tr");
         
         const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
@@ -126,8 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (req.product_type === 'profile') {
             details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
         } else if (req.product_type === 'ui') {
-           details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
-       } else if (req.product_type === 'bundle') {
+           details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
+       } else if (req.product_type === 'bundle') {
             details += `(Bundle) Logo Brand: ${req.logo_brand_name}\n`;
             details += `(Bundle) Banner Platform: ${req.banner_platform}\n`;
             details += `(Bundle) Profile User: ${req.profile_username}`;
@@ -139,7 +151,7 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${req.product_type}</td>
           <td>${req.budget} Eur</td>
           <td>
-            <select class="status-select" data-id="${doc.id}">
+            <select class="status-select" data-id="${docId}">
               <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>Pending</option>
               <option value="approved" ${req.status === 'approved' ? 'selected' : ''}>Approved</option>
               <option value="declined" ${req.status === 'declined' ? 'selected' : ''}>Declined</option>
@@ -149,8 +161,8 @@ document.addEventListener("DOMContentLoaded", () => {
           <td>${req.email_agree ? 'Yes' : 'No'}</td>
           <td><pre class="request-details">${details}</pre></td>
           <td>
-            <button class="btn-action btn-approve" data-id="${doc.id}">Approve</button>
-            <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
+            <button class="btn-action btn-approve" data-id="${docId}">Approve</button>
+            <button class="btn-action btn-delete" data-id="${docId}">Delete</button>
           </td>
         `;
         requestList.appendChild(tr);
@@ -165,7 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
       select.addEventListener('change', (e) => {
         const id = e.target.getAttribute('data-id');
         const status = e.target.value;
-        db.collection("requests").doc(id).update({ status: status });
+        // Uses modular updateDoc
+        updateDoc(doc(db, "requests", id), { status: status });
       });
     });
 
@@ -173,7 +186,8 @@ document.addEventListener("DOMContentLoaded", () => {
     requestList.querySelectorAll('.btn-approve').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const id = e.target.getAttribute('data-id');
-        db.collection("requests").doc(id).update({ status: "approved" });
+        // Uses modular updateDoc
+        updateDoc(doc(db, "requests", id), { status: "approved" });
       });
     });
 
@@ -182,18 +196,22 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.addEventListener('click', (e) => {
         if (!confirm("Are you sure you want to delete this request?")) return;
         const id = e.target.getAttribute('data-id');
-        db.collection("requests").doc(id).delete();
+        // Uses modular deleteDoc
+        deleteDoc(doc(db, "requests", id));
       });
     });
   }
 
-  // --- Completed Requests Log (Unchanged) ---
+  // --- Completed Requests Log (MODULAR Firestore) ---
   
   function loadCompletedRequests() {
-    db.collection("requests").where("status", "==", "approved").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+    const requestsCol = collection(db, "requests");
+    const q = query(requestsCol, where("status", "==", "approved"), orderBy("timestamp", "desc"));
+    
+    onSnapshot(q, (snapshot) => {
       completedRequestList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const req = doc.data();
+      snapshot.forEach(docSnapshot => {
+        const req = docSnapshot.data();
         const tr = document.createElement("tr");
         
         const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
@@ -208,8 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
         } else if (req.product_type === 'profile') {
             details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
         } else if (req.product_type === 'ui') {
-            details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
-        } else if (req.product_type === 'bundle') {
+            details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
+        } else if (req.product_type === 'bundle') {
             details += `(Bundle) Logo Brand: ${req.logo_brand_name}\n`;
             details += `(Bundle) Banner Platform: ${req.banner_platform}\n`;
             details += `(Bundle) Profile User: ${req.profile_username}`;
@@ -231,7 +249,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // --- Gallery Management (Unchanged) ---
+  // --- Gallery Management (MODULAR Firestore) ---
 
   galleryForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -245,19 +263,19 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (id) {
-      // Update existing item
-      db.collection("portfolioItems").doc(id).update(data)
+      // Update existing item (Uses modular updateDoc)
+      updateDoc(doc(db, "portfolioItems", id), data)
         .then(() => resetGalleryForm())
-    .catch(err => alert("Error updating item: " + err.message));
+        .catch(err => alert("Error updating item: " + err.message));
     } else {
-      // Add new item
-      db.collection("portfolioItems").add(data)
+      // Add new item (Uses modular addDoc)
+      addDoc(collection(db, "portfolioItems"), data)
         .then(() => galleryForm.reset())
         .catch(err => alert("Error adding item: " + err.message));
     }
   });
 
-  // Reset gallery form (for editing)
+  // Reset gallery form (for editing) (Unchanged)
   function resetGalleryForm() {
     galleryForm.reset();
     galleryEditId.value = "";
@@ -265,21 +283,21 @@ document.addEventListener("DOMContentLoaded", () => {
     galleryCancelBtn.style.display = "none";
   }
 
-  // Cancel button listener
+  // Cancel button listener (Unchanged)
   galleryCancelBtn.addEventListener("click", resetGalleryForm);
 
   function loadGalleryItems() {
-    db.collection("portfolioItems").onSnapshot(snapshot => {
+    onSnapshot(collection(db, "portfolioItems"), (snapshot) => {
       galleryList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const item = doc.data();
+      snapshot.forEach(docSnapshot => {
+        const item = docSnapshot.data();
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td><img src="/images/${item.imageUrl}" alt="Gallery Item"></td>
           <td>${item.type}</td>
           <td>
-            <button class="btn-action btn-edit" data-id="${doc.id}">Edit</button>
-            <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
+            <button class="btn-action btn-edit" data-id="${docSnapshot.id}">Edit</button>
+            <button class="btn-action btn-delete" data-id="${docSnapshot.id}">Delete</button>
           </td>
         `;
         galleryList.appendChild(tr);
@@ -289,12 +307,13 @@ document.addEventListener("DOMContentLoaded", () => {
       galleryList.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = e.target.getAttribute('data-id');
-          db.collection("portfolioItems").doc(id).get().then(doc => {
-            const item = doc.data();
+          // Uses modular getDoc
+          getDoc(doc(db, "portfolioItems", id)).then(docSnapshot => {
+            const item = docSnapshot.data();
             document.getElementById("gallery-url").value = item.imageUrl;
             document.getElementById("gallery-type").value = item.type;
             
-            galleryEditId.value = doc.id;
+            galleryEditId.value = docSnapshot.id;
             gallerySubmitBtn.textContent = "Update Item";
             galleryCancelBtn.style.display = "inline-block";
             
@@ -308,13 +327,14 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener('click', (e) => {
           if (!confirm("Are you sure you want to delete this gallery item?")) return;
           const id = e.target.getAttribute('data-id');
-          db.collection("portfolioItems").doc(id).delete();
+          // Uses modular deleteDoc
+          deleteDoc(doc(db, "portfolioItems", id));
         });
       });
     });
   }
 
-  // --- Download/GFX Management (Updated) ---
+  // --- Download/GFX Management (MODULAR Firestore) ---
 
   downloadsForm.addEventListener("submit", (e) => {
     e.preventDefault();
@@ -323,53 +343,53 @@ document.addEventListener("DOMContentLoaded", () => {
     const data = {
       title: document.getElementById("download-title").value,
       imageUrl: document.getElementById("download-image-url").value,
-      type: document.getElementById("download-type").value,
+      type: document.getElementById("download-type").value,
       description: document.getElementById("download-description").value,
-      // Use the value from the hidden input field
+      // Use the value from the hidden input field
       downloadUrl: downloadFileUrlInput.value || '' 
     };
 
     if (id) {
-      // Update existing item
-      db.collection("downloads").doc(id).update(data)
+      // Update existing item (Uses modular updateDoc)
+      updateDoc(doc(db, "downloads", id), data)
         .then(() => resetDownloadsForm())
         .catch(err => alert("Error updating item: " + err.message));
     } else {
-      // Add new item
-      db.collection("downloads").add(data)
+      // Add new item (Uses modular addDoc)
+      addDoc(collection(db, "downloads"), data)
         .then(() => downloadsForm.reset())
         .catch(err => alert("Error adding download item: " + err.message));
     }
   });
 
-  // Reset downloads form (for editing)
+  // Reset downloads form (for editing) (Unchanged)
   function resetDownloadsForm() {
     downloadsForm.reset();
     downloadEditId.value = "";
     downloadSubmitBtn.textContent = "Add Download Item";
     downloadCancelBtn.style.display = "none";
-    downloadType.value = "environment"; 
-    downloadFileUrlInput.value = ''; // Clear hidden download URL
-    hideDownloadUrlField(); // Remove temporary field
+    downloadType.value = "environment"; 
+    downloadFileUrlInput.value = ''; // Clear hidden download URL
+    hideDownloadUrlField(); // Remove temporary field
   }
 
-  // Cancel button listener
+  // Cancel button listener (Unchanged)
   downloadCancelBtn.addEventListener("click", resetDownloadsForm);
 
   function loadAdminDownloads() {
-    db.collection("downloads").onSnapshot(snapshot => {
+    onSnapshot(collection(db, "downloads"), (snapshot) => {
       downloadsList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const item = doc.data();
+      snapshot.forEach(docSnapshot => {
+        const item = docSnapshot.data();
         const tr = document.createElement("tr");
         tr.innerHTML = `
           <td><img src="/gfx/${item.imageUrl}" alt="${item.title}"></td>
           <td>${item.title}</td>
-          <td>${item.type}</td>
+          <td>${item.type}</td>
           <td class="td-truncate" title="${item.description}">${item.description}</td>
           <td>
-            <button class="btn-action btn-edit" data-id="${doc.id}">Edit</button>
-            <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
+            <button class="btn-action btn-edit" data-id="${docSnapshot.id}">Edit</button>
+            <button class="btn-action btn-delete" data-id="${docSnapshot.id}">Delete</button>
           </td>
         `;
         downloadsList.appendChild(tr);
@@ -379,17 +399,18 @@ document.addEventListener("DOMContentLoaded", () => {
       downloadsList.querySelectorAll('.btn-edit').forEach(btn => {
         btn.addEventListener('click', (e) => {
           const id = e.target.getAttribute('data-id');
-          db.collection("downloads").doc(id).get().then(doc => {
-            const item = doc.data();
+          // Uses modular getDoc
+          getDoc(doc(db, "downloads", id)).then(docSnapshot => {
+            const item = docSnapshot.data();
             document.getElementById("download-title").value = item.title;
             document.getElementById("download-image-url").value = item.imageUrl;
-            document.getElementById("download-type").value = item.type;
+            document.getElementById("download-type").value = item.type;
             document.getElementById("download-description").value = item.description;
 
-            // Show and populate the download URL field for editing
-            showDownloadUrlField(item.downloadUrl || ''); 
+            // Show and populate the download URL field for editing
+            showDownloadUrlField(item.downloadUrl || ''); 
 
-            downloadEditId.value = doc.id;
+            downloadEditId.value = docSnapshot.id;
             downloadSubmitBtn.textContent = "Update Item";
             downloadCancelBtn.style.display = "inline-block";
             
@@ -403,7 +424,8 @@ document.addEventListener("DOMContentLoaded", () => {
         btn.addEventListener('click', (e) => {
           if (!confirm("Are you sure you want to delete this download item?")) return;
           const id = e.target.getAttribute('data-id');
-          db.collection("downloads").doc(id).delete();
+          // Uses modular deleteDoc
+          deleteDoc(doc(db, "downloads", id));
         });
       });
     });
