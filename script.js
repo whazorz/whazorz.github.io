@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
       headerTitle: "/// Whazorz Designs",
       // Home Page
       homeAboutTitle: "About",
-      homeAboutText: "Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of digital art and design with me.",
+      homeAboutText: "Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of graphics and design with me.",
       homeLatestWorkTitle: "Latest Work",
       homeViewAll: "View Full Portfolio &rarr;",
       homeRequestInfoTitle: "REQUESTING INFO.",
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
       headerTitle: "/// Whazorz Designs",
       // Home Page
       homeAboutTitle: "Par mani",
-      homeAboutText: "Sveiki, es esmu Whazorz — mākslinieks, kuru dziļi iedvesmo radošums visās tā formās. Mans ceļojums sākās 2012. gadā, kad sāku karjeru tehniskajās jomās un pakāpeniski pievērsos grafiskajam dizainam. Gadu gaitā esmu dalījies ar savu radošo procesu un idejām tiešraidēs, aicinot citus kopā ar mani izpētīt digitālās mākslas un dizaina pasauli.",
+      homeAboutText: "Sveiki, es esmu Whazorz — mākslinieks, kuru dziļi iedvesmo radošums visās tā formās. Mans ceļojums sākās 2012. gadā, kad sāku karjeru tehniskajās jomās un pakāpeniski pievērsos grafiskajam dizainam. Gadu gaitā esmu dalījies ar savu radošo procesu un idejām tiešraidēs, aicinot citus kopā ar mani izpētīt digitālās grafikas un dizaina pasauli.",
       homeLatestWorkTitle: "Jaunākie darbi",
       homeViewAll: "Skatīt pilnu portfolio &rarr;",
       homeRequestInfoTitle: "INFORMĀCIJA PAR PASŪTĪJUMU",
