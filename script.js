@@ -325,16 +325,16 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Initial Page Translation ---
   translatePage(currentLang);
 
-// --- 3. Firebase Setup ---
-  const firebaseConfig = {
-    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ", // Keeping your original API key
-    authDomain: "whazorz-portfolio.firebaseapp.com", // UPDATED DOMAIN
-    projectId: "whazorz-portfolio", // UPDATED PROJECT ID
-    storageBucket: "whazorz-portfolio.appspot.com", // UPDATED BUCKET
-    messagingSenderId: "23481217882", // UPDATED PROJECT NUMBER
-    appId: "1:23481217882:web:cd604440b34b9dea62b027", // NOTE: This will likely need to be the full App ID from the new project.
-    measurementId: "G-EJEJGRE025" // Keeping your original Measurement ID
-  };
+  // --- 3. Firebase Setup ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ",
+    authDomain: "whazorzdesign-1ebbe.firebaseapp.com",
+    projectId: "whazorzdesign-1ebbe",
+    storageBucket: "whazorzdesign-1ebbe.firebasestorage.app",
+    messagingSenderId: "425863278566",
+    appId: "1:425863278566:web:cd604440b34b9dea62b027",
+    measurementId: "G-EJEJGRE025"
+  };
 
   // Initialize Firebase and Firestore
   try {
