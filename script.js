@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       filterProfile: "Profili",
       // NEW: GFX Page
       gfxTitle: "GFX",
-      gfxIntro: "Šeit Jūs varat atrast dažādus dizaina resursus, ko esmu laika gaitā izveidojis. Tehnikas padoms: izmantojiet to kā ekrāna filtru, lai padarītu to caurspīdīgu kā fonu, lai GFX attēls patiešām darbotos.",
+      gfxIntro: "Šeit Jūs varat atrast dažādus dizaina resursus, ko esmu laika gaitā izveidojis. Tehnikas padoms: izmantojiet to kā screen filtru, lai padarītu to caurspīdīgu kā fonu, lai GFX attēls patiešām darbotos.",
       downloadsError: "<p>Kļūda, ielādējot GFX.</p>",
       // NEW GFX Filter Keys
       filterEnvironment: "VIDE",
