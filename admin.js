@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // --- 3. Firebase Setup (MODULAR) ---
   const firebaseConfig = {
     // Note: Your existing API Key is kept, but ensure it's restricted and authorized for your new project
-    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ", 
+    apiKey: "1:23481217882:web:533d4a7dadd4563426b963", 
     authDomain: "whazorz-portfolio.firebaseapp.com",
     projectId: "whazorz-portfolio",
     storageBucket: "whazorz-portfolio.appspot.com",
