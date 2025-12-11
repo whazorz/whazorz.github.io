@@ -2,11 +2,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Firebase Setup ---
   const firebaseConfig = {
     apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ",
-    authDomain: "whazorzdesign-1ebbe.firebaseapp.com",
-    projectId: "whazorzdesign-1ebbe",
-    storageBucket: "whazorzdesign-1ebbe.firebasestorage.app",
-    messagingSenderId: "425863278566",
-    appId: "1:425863278566:web:cd604440b34b9dea62b027",
+    authDomain: "whazorz-portfolio.firebaseapp.com",
+    projectId: "whazorz-portfolio",
+    storageBucket: "whazorz-portfolio.appspot.com",
+    messagingSenderId: "23481217882",
+    appId: "1:23481217882:web:533d4a7dadd4563426b963",
     measurementId: "G-EJEJGRE025"
   };
 
