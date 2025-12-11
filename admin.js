@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- Firebase Setup ---
   const firebaseConfig = {
-    apiKey: "1:23481217882:web:533d4a7dadd4563426b963",
+    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ",
     authDomain: "whazorz-portfolio.firebaseapp.com",
     projectId: "whazorz-portfolio",
     storageBucket: "whazorz-portfolio.appspot.com",
