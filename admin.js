@@ -1,13 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   // --- Firebase Setup ---
   const firebaseConfig = {
-    apiKey: "AIzaSyD5AQifYaoVsRyc2-LmIAh4SncH5P5kpqQ",
-    authDomain: "whazorz-portfolio.firebaseapp.com",
-    projectId: "whazorz-portfolio",
-    storageBucket: "whazorz-portfolio.appspot.com",
-    messagingSenderId: "23481217882",
-    appId: "1:23481217882:web:533d4a7dadd4563426b963",
-    measurementId: "G-EJEJGRE025"
+  apiKey: "AIzaSyBUzYdeKfD7z31uUMhIKcQsU-ImA8Aopxk",
+  authDomain: "whazorz-portfolio.firebaseapp.com",
+  projectId: "whazorz-portfolio",
+  storageBucket: "whazorz-portfolio.firebasestorage.app",
+  messagingSenderId: "23481217882",
+  appId: "1:23481217882:web:533d4a7dadd4563426b963",
+  measurementId: "G-159920MCTC"
   };
 
   // Initialize Firebase
