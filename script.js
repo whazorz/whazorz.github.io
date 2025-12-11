@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", () => {
       filterProfile: "Profile",
       // NEW: GFX Page
       gfxTitle: "GFX",
-      gfxIntro: "Here you can find various design assets and resources I've created over time. Tech tip use it as Screen filter to make it transperent as background, so the GFX image works indeed.",
+      gfxIntro: "Here you can find various hand draw design assets and resources I've created over time. Tech tip: use it as Screen filter to make it transperent as background, so the GFX image works indeed.",
       downloadsError: "<p>Error loading GFX.</p>", 
       // NEW GFX Filter Keys
       filterEnvironment: "ENVIRONMENT",
@@ -167,7 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
       filterProfile: "Profili",
       // NEW: GFX Page
       gfxTitle: "GFX",
-      gfxIntro: "Šeit Jūs varat atrast dažādus dizaina resursus, ko esmu laika gaitā izveidojis. Tehnikas padoms: izmantojiet to kā screen filtru, lai padarītu to caurspīdīgu kā fonu, lai GFX attēls patiešām darbotos.",
+      gfxIntro: "Šeit Jūs varat atrast dažādus zīmētus rokas dizaina resursus, ko esmu laika gaitā izveidojis. Tehnikas padoms: izmantojiet to kā screen filtru, lai padarītu to caurspīdīgu kā fonu, lai GFX attēls patiešām darbotos.",
       downloadsError: "<p>Kļūda, ielādējot GFX.</p>",
       // NEW GFX Filter Keys
       filterEnvironment: "VIDE",
