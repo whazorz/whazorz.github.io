@@ -606,12 +606,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // UPDATED PRICES
     const prices = {
-      profile: 3,
-      banner: 5,
-      poster: 8,
-      logo: 20,
-      ui: 30, // NEW PRODUCT PRICE
-      bundle: 25
+      profile: 15,
+      banner: 20,
+      poster: 25,
+      logo: 60,
+      ui: 90, // NEW PRODUCT PRICE
+      bundle: 75,
     };
 
     const conditionalFields = {
