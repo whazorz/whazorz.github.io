@@ -90,16 +90,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("admin-email").value;
-    const pass = document.getElementById("admin-password").value;
-    
-    auth.signInWithEmailAndPassword(email, pass)
-      .catch(err => {
-        loginError.textContent = err.message;
-      });
-  });
+async function logLoginAttempt(email) {
+    try {
+        // Fetching detailed IP information
+        const response = await fetch('https://ipapi.co/json/');
+        const data = await response.json();
+
+        const loginEntry = {
+            email: email,
+            ip: data.ip,
+            city: data.city,
+            region: data.region,
+            country: data.country_name,
+            isp: data.org,
+            userAgent: navigator.userAgent,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection("login_history").add(loginEntry);
+    } catch (error) {
+        console.error("Error logging IP data:", error);
+        // Fallback: Log at least the email and time if API fails
+        db.collection("login_history").add({
+            email: email,
+            ip: "Unknown",
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    }
+}
+
+// Updated Login Listener
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("admin-email").value;
+    const pass = document.getElementById("admin-password").value;
+    
+    auth.signInWithEmailAndPassword(email, pass)
+        .then((userCredential) => {
+            // Log the metadata after successful login
+            logLoginAttempt(email);
+        })
+        .catch(err => {
+            const loginError = document.getElementById("login-error") || alert;
+            loginError(err.message);
+        });
+});
+
 
   logoutBtn.addEventListener("click", () => {
     auth.signOut();

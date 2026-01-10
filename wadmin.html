@@ -12,23 +12,21 @@
 
 <body>
 
-    <div class="admin-container">
-
-        <div id="admin-login">
-            <h2>W-Admin Login</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="admin-email">E-mail</label>
-                    <input type="email" id="admin-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="admin-password">Password</label>
-                    <input type="password" id="admin-password" required>
-                </div>
-                <button type="submit">Login</button>
-                <div id="login-error" style="color: red; margin-top: 10px;"></div>
-            </form>
-        </div>
+<div class="admin-container">
+    <div id="admin-login">
+        <h2>W-Admin Login</h2>
+        <form id="login-form">
+            <div class="form-group">
+                <label for="admin-email">E-mail</label>
+                <input type="email" id="admin-email" required>
+            </div>
+            <div class="form-group">
+                <label for="admin-password">Password</label>
+                <input type="password" id="admin-password" required>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
 
         <div id="admin-dashboard">
             <button id="logout-btn">Logout</button>
@@ -166,10 +164,25 @@
                     <tbody id="completed-request-items-list"></tbody>
                 </table>
             </div>
-        
-        
 
-
+            <hr>
+<div class="scroll-box">
+    <h3>Security: Recent Admin Logins</h3>
+    <table class="request-list">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>Email</th>
+                <th>IP Address</th>
+                <th>Location</th>
+                <th>ISP / Provider</th>
+                <th>Device Info</th>
+            </tr>
+        </thead>
+        <tbody id="login-history-list"></tbody>
+    </table>
+</div>
+        
 <script src="wadmin.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
