@@ -232,11 +232,8 @@ tr:hover {
   max-width: 180px;
 }
 
-/* Prevent dashboard flicker on refresh */
+/* Start both views as hidden to prevent the "1-second flash" */
+#admin-login, 
 #admin-dashboard {
     display: none;
-}
-
-#admin-login {
-    display: none; /* We will show this via JS if not logged in */
 }

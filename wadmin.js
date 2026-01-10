@@ -72,34 +72,48 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-// --- Authentication ---
+// --- Updated Authentication Logic ---
 auth.onAuthStateChanged(user => {
   if (user) {
-    // User is logged in
+    // 1. Logged In: Show Dashboard
     loginView.style.display = "none";
-    dashboardView.style.display = "block"; // CSS hidden it, JS reveals it now
+    dashboardView.style.display = "block";
     
+    // 2. Initialize the Security Monitor Display
+    // This connects to the function in your wsystemtracker.js
+    if (typeof displayLoginTracker === "function") {
+      displayLoginTracker();
+    }
+    
+    // 3. Load Data
     loadRequests();
     loadCompletedRequests();
     loadGalleryItems();
     loadAdminDownloads();
+    
+    console.log("Admin Session Active:", user.email);
   } else {
-    // User is logged out
-    loginView.style.display = "block"; // Show login form only now
+    // 4. Logged Out: Show Login Form
+    loginView.style.display = "block";
     dashboardView.style.display = "none";
+    console.log("No active session. Waiting for login...");
   }
 });
 
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("admin-email").value;
-    const pass = document.getElementById("admin-password").value;
-    
-    auth.signInWithEmailAndPassword(email, pass)
-      .catch(err => {
-        loginError.textContent = err.message;
-      });
-  });
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("admin-email").value;
+    const pass = document.getElementById("admin-password").value;
+    
+    auth.signInWithEmailAndPassword(email, pass)
+      .then((userCredential) => {
+          // TRIGGER THE TRACKER MANUALLY ON SUCCESS
+          logSecuritySession(email); 
+      })
+      .catch(err => {
+          loginError.textContent = err.message;
+      });
+});
 
   logoutBtn.addEventListener("click", () => {
     auth.signOut();
