@@ -80,7 +80,9 @@ auth.onAuthStateChanged(user => {
     dashboardView.style.display = "block";
     
     // 2. Start the monitor listener ONLY now
-    displayLoginTracker(); 
+    if (typeof displayLoginTracker === "function") {
+      displayLoginTracker(); 
+    }
     
     // 3. Load other data
     loadRequests();
@@ -93,41 +95,28 @@ auth.onAuthStateChanged(user => {
   }
 });
 
-// Locate your loginForm listener and update the success block:
-loginForm.addEventListener("submit", (e) => {
+// --- Consolidated Login Handler ---
+loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("admin-email").value;
     const pass = document.getElementById("admin-password").value;
     
-    auth.signInWithEmailAndPassword(email, pass)
-      .then((userCredential) => {
-          // --- Trigger the One-Time Catch ---
-          logSecuritySession(email);
-          // ----------------------------------
-      })
-      .catch(err => {
-          loginError.textContent = err.message;
-      });
+    try {
+        // Step 1: Sign in with Firebase
+        const userCredential = await auth.signInWithEmailAndPassword(email, pass);
+        
+        // Step 2: Trigger the Security Tracker immediately after successful login
+        if (typeof logSecuritySession === "function") {
+            await logSecuritySession(email);
+            console.log("Security log: IP and Location captured.");
+        }
+        
+        loginError.textContent = ""; // Clear any error messages
+    } catch (err) {
+        console.error("Login Error:", err.message);
+        loginError.textContent = err.message;
+    }
 });
-
-loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("admin-email").value;
-    const pass = document.getElementById("admin-password").value;
-    
-    auth.signInWithEmailAndPassword(email, pass)
-      .then((userCredential) => {
-          // TRIGGER THE TRACKER MANUALLY ON SUCCESS
-          logSecuritySession(email); 
-      })
-      .catch(err => {
-          loginError.textContent = err.message;
-      });
-});
-
-  logoutBtn.addEventListener("click", () => {
-    auth.signOut();
-  });
 
   // --- Updated Request Management for 2026 Bulk Orders ---
 
