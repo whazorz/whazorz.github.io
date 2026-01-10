@@ -86,29 +86,40 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  async function logLoginAttempt(email) {
-    try {
-      const response = await fetch('https://ipapi.co/json/');
-      const data = await response.json();
-      const loginEntry = {
-        email: email,
-        ip: data.ip || "Unknown",
-        city: data.city || "Unknown",
-        country: data.country_name || "Unknown",
-        isp: data.org || "Unknown",
-        userAgent: navigator.userAgent,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      };
-      await db.collection("login_history").add(loginEntry);
-    } catch (error) {
-      console.error("Tracking Error:", error);
-      db.collection("login_history").add({
-        email: email,
-        ip: "Fetch Failed",
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      });
+// --- Advanced IP Tracker Logic ---
+    async function logLoginAttempt(email) {
+        try {
+            // First, fetch the data
+            const response = await fetch('https://ipapi.co/json/');
+            const data = await response.json();
+
+            const loginEntry = {
+                email: email,
+                ip: data.ip || "Unknown",
+                city: data.city || "Unknown",
+                country: data.country_name || "Unknown",
+                isp: data.org || "Unknown",
+                userAgent: navigator.userAgent,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            // Before writing, ensure the Auth Token is actually ready
+            // We use a small timeout or check auth.currentUser
+            if (auth.currentUser) {
+                await db.collection("login_history").add(loginEntry);
+            }
+        } catch (error) {
+            console.error("IP Tracker Error:", error);
+            // Fallback log
+            if (auth.currentUser) {
+                db.collection("login_history").add({
+                    email: email,
+                    ip: "Fetch Failed",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+        }
     }
-  }
 
   function loadLoginHistory() {
     // Check if the table body exists before running
@@ -138,15 +149,14 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  loginForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const email = document.getElementById("admin-email").value;
-    const pass = document.getElementById("admin-password").value;
-    auth.signInWithEmailAndPassword(email, pass)
-      .then(() => logLoginAttempt(email))
-      .catch(err => { if(loginError) loginError.textContent = err.message; });
-  });
-
+loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("admin-email").value;
+        const pass = document.getElementById("admin-password").value;
+        auth.signInWithEmailAndPassword(email, pass)
+            .then(() => logLoginAttempt(email))
+            .catch(err => { if(loginError) loginError.textContent = err.message; });
+    });
   logoutBtn.addEventListener("click", () => auth.signOut());
 
   // --- Request Management (Unchanged) ---
