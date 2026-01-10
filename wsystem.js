@@ -18,9 +18,8 @@ async function getAdminSessionData() {
     }
 }
 
-// 2. Global Function: Log Session & Unique History (Called from wadmin.js)
+// 2. Global Function: Log Session & Unique History
 window.logSecuritySession = async function(userEmail) {
-    // Ensure Firebase is initialized
     if (!firebase.apps.length) return;
 
     const geoData = await getAdminSessionData();
@@ -31,66 +30,46 @@ window.logSecuritySession = async function(userEmail) {
         ip: geoData.ip,
         location: geoData.location,
         time: timestamp,
-        device: navigator.platform || "Unknown Platform",
-        browser: navigator.userAgent,
-        screenResolution: `${window.screen.width}x${window.screen.height}`
+        device: navigator.platform || "Unknown",
+        browser: navigator.userAgent
     };
 
     try {
         const db = firebase.firestore();
-        
-        // Update Live Monitor (admin_meta/last_access)
+        // Update Live Monitor
         await db.collection("admin_meta").doc("last_access").set(sessionData);
 
         // One-time History Catch: Use IP as document ID to prevent duplicates
-        // Dots are replaced by underscores because Firestore IDs handle them better
         const ipDocId = geoData.ip.replace(/\./g, "_");
         await db.collection("login_history").doc(ipDocId).set({
             ...sessionData,
             first_detected: timestamp
         }, { merge: true });
 
-        console.log("Tracker: Successfully logged security session for", geoData.ip);
+        console.log("Tracker: Security session logged for", geoData.ip);
         return true;
     } catch (e) {
         console.error("Tracker Logging Error:", e);
-        return false;
     }
 };
 
-// 3. Real-time Monitor Display (Triggered by onAuthStateChanged)
+// 3. Real-time Monitor Display
 window.displayLoginTracker = function() {
     const ipDisplay = document.getElementById("last-login-ip");
     const locDisplay = document.getElementById("last-login-location");
     const timeDisplay = document.getElementById("last-login-time");
     const devDisplay = document.getElementById("last-login-device");
 
-    // Safety Check: Avoid "Missing Permissions" by ensuring user is logged in
-    if (!firebase.auth().currentUser) {
-        console.warn("Tracker: Authentication required to start display listener.");
-        return;
-    }
+    if (!firebase.auth().currentUser) return;
 
     firebase.firestore().collection("admin_meta").doc("last_access")
         .onSnapshot(doc => {
             if (doc.exists) {
                 const data = doc.data();
-                
-                // Update UI elements if they exist in the current view
                 if (ipDisplay) ipDisplay.textContent = data.ip || "0.0.0.0";
-                if (locDisplay) locDisplay.textContent = data.location || "Detecting...";
-                
-                if (timeDisplay) {
-                    timeDisplay.textContent = data.time ? data.time.toDate().toLocaleString() : "Syncing...";
-                }
-                
-                if (devDisplay) {
-                    devDisplay.textContent = data.device || "Unknown";
-                    devDisplay.title = `Browser: ${data.browser}`;
-                }
+                if (locDisplay) locDisplay.textContent = data.location || "Unknown";
+                if (timeDisplay) timeDisplay.textContent = data.time ? data.time.toDate().toLocaleString() : "Syncing...";
+                if (devDisplay) devDisplay.textContent = data.device || "Unknown";
             }
-        }, err => {
-            // This usually triggers during the split-second logout transition
-            console.log("Monitor Listener paused (waiting for valid session).");
-        });
+        }, err => console.log("Monitor paused."));
 };

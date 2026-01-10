@@ -118,6 +118,34 @@ loginForm.addEventListener("submit", async (e) => {
     }
 });
 
+
+// Login Handler: Captures IP/Location immediately after success
+    loginForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("admin-email").value;
+        const pass = document.getElementById("admin-password").value;
+        
+        try {
+            await auth.signInWithEmailAndPassword(email, pass);
+            
+            // Trigger the One-Time IP Catch (from wsystemtracker.js)
+            if (typeof logSecuritySession === "function") {
+                await logSecuritySession(email);
+                console.log("Security Audit: Session metadata logged.");
+            }
+            loginError.textContent = ""; 
+        } catch (err) {
+            console.error("Login failed:", err.message);
+            loginError.textContent = err.message;
+        }
+    });
+
+    // Logout Handler: Fully resets page state to avoid permission bugs
+    logoutBtn.addEventListener("click", () => {
+        auth.signOut().then(() => {
+            window.location.reload();
+        }).catch(err => alert("Logout Error: " + err.message));
+    });
   // --- Updated Request Management for 2026 Bulk Orders ---
 
 function loadRequests() {
