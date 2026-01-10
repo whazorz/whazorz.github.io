@@ -107,52 +107,91 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Request Management (Unchanged) ---
   
-  function loadRequests() {
-    db.collection("requests").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-      requestList.innerHTML = "";
-      snapshot.forEach(doc => {
-        const req = doc.data();
-        const tr = document.createElement("tr");
-        
-        const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
-        
-        let details = `Instructions: ${req.instructions || 'N/A'}\n`;
-        if (req.product_type === 'logo') {
-          details += `Brand: ${req.logo_brand_name}\nStyle: ${req.logo_style}`;
-        } else if (req.product_type === 'postera3') {
-          details += `Info: ${req.poster_info}`;
-        } else if (req.product_type === 'banner') {
-            details += `Platform: ${req.banner_platform}\nText: ${req.banner_text}`;
-        } else if (req.product_type === 'profile') {
-            details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
-        } else if (req.product_type === 'ui') {
-        }
-        
-        tr.innerHTML = `
-          <td>${date}</td>
-          <td>${req.email}</td>
-          <td>${req.product_type}</td>
-          <td>${req.budget} Eur</td>
-          <td>
-            <select class="status-select" data-id="${doc.id}">
-              <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>Pending</option>
-              <option value="approved" ${req.status === 'approved' ? 'selected' : ''}>Approved</option>
-              <option value="declined" ${req.status === 'declined' ? 'selected' : ''}>Declined</option>
-            </select>
-          </td>
-          <td>${req.showcase ? 'Yes' : 'No'}</td>
-          <td>${req.email_agree ? 'Yes' : 'No'}</td>
-          <td><pre class="request-details">${details}</pre></td>
-          <td>
-            <button class="btn-action btn-approve" data-id="${doc.id}">Approve</button>
-            <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
-          </td>
-        `;
-        requestList.appendChild(tr);
-      });
-      addRequestListeners();
-    });
-  }
+  // --- Updated Request Management for 2026 Bulk Orders ---
+
+function loadRequests() {
+  db.collection("requests").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+    requestList.innerHTML = "";
+    snapshot.forEach(doc => {
+      const req = doc.data();
+      const tr = document.createElement("tr");
+      const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
+
+      // 1. Build Order Summary (The items selected in the grid)
+      let itemsOrdered = "";
+      if (Array.isArray(req.orderSummary)) {
+        itemsOrdered = req.orderSummary.join(", ");
+      } else {
+        itemsOrdered = req.product_type || "N/A"; // Fallback for old orders
+      }
+
+      // 2. Build Detailed Project Info (Checking all possible detail fields)
+      let details = `Instructions: ${req.instructions || 'N/A'}\n\n`;
+      
+      if (req.logo_brand_name) details += `[LOGO] Brand: ${req.logo_brand_name}\n`;
+      if (req.poster_info) details += `[A3 POSTER] Info: ${req.poster_info}\n`;
+      if (req.poster_info2) details += `[A4 POSTER] Info: ${req.poster_info2}\n`;
+      if (req.banner_platform) details += `[BANNER] Platform: ${req.banner_platform} | Text: ${req.banner_text}\n`;
+      if (req.profile_username) details += `[PROFILE] Name: ${req.profile_username}\n`;
+      if (req.flyer_info) details += `[FLYER] Info: ${req.flyer_info}\n`;
+      if (req.cover_info) details += `[COVER] Info: ${req.cover_info}\n`;
+      if (req.brandcard_name) details += `[BRAND CARD] Name: ${req.brandcard_name}\n`;
+
+      tr.innerHTML = `
+        <td>${date}</td>
+        <td>${req.email}</td>
+        <td><strong style="color:var(--accent-color)">${itemsOrdered}</strong></td>
+        <td>${req.budget} Eur</td>
+        <td>
+          <select class="status-select" data-id="${doc.id}">
+            <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>Pending</option>
+            <option value="approved" ${req.status === 'approved' ? 'selected' : ''}>Approved</option>
+            <option value="declined" ${req.status === 'declined' ? 'selected' : ''}>Declined</option>
+          </select>
+        </td>
+        <td>${req.showcase ? 'Yes' : 'No'}</td>
+        <td>${req.email_agree ? 'Yes' : 'No'}</td>
+        <td><pre class="request-details">${details}</pre></td>
+        <td>
+          <button class="btn-action btn-approve" data-id="${doc.id}">Approve</button>
+          <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
+        </td>
+      `;
+      requestList.appendChild(tr);
+    });
+    addRequestListeners();
+  });
+}
+
+function loadCompletedRequests() {
+  db.collection("requests").where("status", "==", "approved").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+    completedRequestList.innerHTML = "";
+    snapshot.forEach(doc => {
+      const req = doc.data();
+      const tr = document.createElement("tr");
+      const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
+
+      let itemsOrdered = Array.isArray(req.orderSummary) ? req.orderSummary.join(", ") : (req.product_type || "N/A");
+
+      let details = `Instructions: ${req.instructions || 'N/A'}\n\n`;
+      if (req.logo_brand_name) details += `[LOGO] Brand: ${req.logo_brand_name}\n`;
+      if (req.poster_info) details += `[A3 POSTER] Info: ${req.poster_info}\n`;
+      if (req.banner_platform) details += `[BANNER] Platform: ${req.banner_platform}\n`;
+
+      tr.innerHTML = `
+        <td>${date}</td>
+        <td>${req.email}</td>
+        <td>${itemsOrdered}</td>
+        <td>${req.budget} Eur</td>
+        <td>${req.status}</td>
+        <td>${req.showcase ? 'Yes' : 'No'}</td>
+        <td>${req.email_agree ? 'Yes' : 'No'}</td>
+        <td><pre class="request-details">${details}</pre></td>
+      `;
+      completedRequestList.appendChild(tr);
+    });
+  });
+}
 
   function addRequestListeners() {
     // Status dropdown change

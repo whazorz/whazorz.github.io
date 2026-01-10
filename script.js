@@ -308,24 +308,40 @@ function setupRequestForm(db, translations, getCurrentLang) {
     renderGrid();
   });
 
-  form.addEventListener("submit", async e => {
+ form.addEventListener("submit", async e => {
     e.preventDefault();
     const lang = getCurrentLang();
-    if (Object.keys(selectedItems).length === 0) {
-      alert(translations[lang].selectProductError);
-      return;
-    }
-
+    
     submitBtn.disabled = true;
     formStatus.textContent = translations[lang].formSubmitting;
 
     const formData = new FormData(form);
     const requestData = Object.fromEntries(formData.entries());
-    
-    // Summary as array of strings for Firestore compatibility
+
+    // --- FIX: REMOVE FILE OBJECTS ---
+    // Firestore cannot store raw File objects. 
+    // If you have a file input, we delete it from the text data.
+    if (requestData.file) {
+        delete requestData.file; 
+    }
+    // --------------------------------
+
+    // Format the order summary as simple text strings
     requestData.orderSummary = Object.keys(selectedItems).map(key => 
       `${designLibrary[key].name} (Qty: ${selectedItems[key]})`
     );
+
+    // Setup the email notification data
+    requestData.to = "whazorz.design@gmail.com"; 
+    requestData.message = {
+      subject: `New Design Request from ${requestData.email || 'Client'}`,
+      html: `
+        <h2>New Order Received</h2>
+        <p><strong>Client Email:</strong> ${requestData.email}</p>
+        <p><strong>Budget:</strong> ${requestData.budget} EUR</p>
+        <p><strong>Instructions:</strong> ${requestData.instructions || 'None'}</p>
+      `
+    };
 
     requestData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
     requestData.status = "pending";
@@ -343,7 +359,7 @@ function setupRequestForm(db, translations, getCurrentLang) {
       formStatus.className = "error";
       submitBtn.disabled = false;
     }
-  });
+});
 
   renderGrid();
 }
