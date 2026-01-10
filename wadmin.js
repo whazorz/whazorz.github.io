@@ -79,7 +79,8 @@ auth.onAuthStateChanged(user => {
     loginView.style.display = "none";
     dashboardView.style.display = "block";
     
-    // 2. Start the monitor listener ONLY now
+    // 2. Start the monitor listener ONLY after auth is confirmed
+    // This fixed the "Missing Permissions" and "0.0.0.0" issue
     if (typeof displayLoginTracker === "function") {
       displayLoginTracker(); 
     }
@@ -103,9 +104,10 @@ loginForm.addEventListener("submit", async (e) => {
     
     try {
         // Step 1: Sign in with Firebase
-        const userCredential = await auth.signInWithEmailAndPassword(email, pass);
+        await auth.signInWithEmailAndPassword(email, pass);
         
         // Step 2: Trigger the Security Tracker immediately after successful login
+        // Using 'await' here ensures the IP is detected on the very first login
         if (typeof logSecuritySession === "function") {
             await logSecuritySession(email);
             console.log("Security log: IP and Location captured.");
