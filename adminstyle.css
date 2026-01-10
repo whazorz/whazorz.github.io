@@ -238,8 +238,12 @@ tr:hover {
     font-style: italic;
 }
 
-/* Start both views as hidden to prevent the "1-second flash" */
-#admin-login, 
+/* Change this temporarily to see the form */
+#admin-login {
+    display: block !important; 
+}
+
+/* Keep the dashboard hidden */
 #admin-dashboard {
     display: none;
 }
