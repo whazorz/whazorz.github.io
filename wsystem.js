@@ -1,97 +1,103 @@
 /**
- * tracker.js - Security & Session Monitor (Updated)
+ * tracker.js - Security & Session Monitor (Finalized)
  */
 
-// 1. Fetch IP with a fallback
+// 1. Fetch IP with a timeout to prevent hanging
 async function getAdminIP() {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout
+
     try {
-        const response = await fetch('https://api.ipify.org?format=json');
-        if (!response.ok) throw new Error("API Limit/Blocked");
+        const response = await fetch('https://api.ipify.org?format=json', { signal: controller.signal });
         const data = await response.json();
         return data.ip;
     } catch (err) {
-        console.warn("IP Fetch failed, using fallback string.");
-        return "IP_UNAVAILABLE";
+        console.warn("IP Fetch failed or timed out.");
+        return "IP_PRIVATE_OR_BLOCKED";
     }
 }
 
-// 2. Intercept the Login Form
+// 2. The Interceptor: Capture and Save
 const adminLoginForm = document.getElementById("login-form");
 
 if (adminLoginForm) {
     adminLoginForm.addEventListener("submit", async (e) => {
-        // PREVENT the default refresh so the async code can finish
-        e.preventDefault();
+        e.preventDefault(); // Stop the reload
 
+        // Gather UI elements for status feedback (optional)
         const email = document.getElementById("admin-email").value;
-        const ip = await getAdminIP();
-        
-        const sessionData = {
-            email: email,
-            ip: ip,
-            time: firebase.firestore.FieldValue.serverTimestamp(),
-            device: navigator.platform || "Unknown Platform",
-            browser: navigator.userAgent,
-            screenResolution: `${window.screen.width}x${window.screen.height}`
-        };
+        const password = document.getElementById("admin-password").value; // Adjust ID as needed
 
         try {
-            // Wait for BOTH operations to finish before moving on
+            // Step A: Authenticate first
+            const userCredential = await firebase.auth().signInWithEmailAndPassword(email, password);
+            
+            // Step B: If login successful, gather session data
+            const ip = await getAdminIP();
+            const sessionData = {
+                email: email,
+                ip: ip,
+                time: firebase.firestore.FieldValue.serverTimestamp(),
+                device: navigator.platform || "Unknown",
+                browser: navigator.userAgent,
+                screenResolution: `${window.screen.width}x${window.screen.height}`
+            };
+
+            // Step C: Save to Firestore
             await Promise.all([
                 firebase.firestore().collection("login_logs").add(sessionData),
                 firebase.firestore().collection("admin_meta").doc("last_access").set(sessionData)
             ]);
-            
-            console.log("Security log captured.");
 
-            // SUCCESS: Now manually trigger the login logic or redirect
-            // If you are using Firebase Auth signInWithEmailAndPassword, call it here:
-            // loginUser(email, password); 
-            
-            // Or, if this is a standard form submit, you can now unbind and submit:
-            // adminLoginForm.submit();
+            console.log("Session captured. Redirecting...");
+            // Redirect to dashboard if necessary: window.location.href = "dashboard.html";
 
         } catch (error) {
-            console.error("Firestore Error:", error);
-            // Even if logging fails, you might want to allow login to proceed
+            console.error("Auth or Logging Error:", error.message);
+            alert("Login failed: " + error.message);
         }
     });
 }
 
-// 3. Display the data in the Dashboard
+// 3. The Display: Real-time Listener
 function displayLoginTracker() {
     const ipDisplay = document.getElementById("last-login-ip");
     const timeDisplay = document.getElementById("last-login-time");
     const deviceDisplay = document.getElementById("last-login-device");
 
+    // Only proceed if the elements exist on the current page
     if (ipDisplay && timeDisplay) {
         firebase.firestore().collection("admin_meta").doc("last_access")
             .onSnapshot(doc => {
                 if (doc.exists) {
                     const data = doc.data();
+                    
+                    // Update UI with fades or direct text
                     ipDisplay.textContent = data.ip || "0.0.0.0";
                     
-                    // Handle Firestore Timestamp conversion
-                    if (data.time && data.time.toDate) {
-                        timeDisplay.textContent = data.time.toDate().toLocaleString();
-                    } else {
-                        timeDisplay.textContent = "Updating...";
+                    if (data.time) {
+                        // Firebase Timestamps need toDate()
+                        const date = data.time.seconds ? data.time.toDate() : new Date();
+                        timeDisplay.textContent = date.toLocaleString();
                     }
-                    
+
                     if (deviceDisplay) {
-                        deviceDisplay.textContent = data.device || "Unknown";
-                        deviceDisplay.title = `Res: ${data.screenResolution} | Browser: ${data.browser}`;
+                        deviceDisplay.textContent = data.device || "Unknown Device";
+                        deviceDisplay.title = `Browser: ${data.browser} | Res: ${data.screenResolution}`;
                     }
                 }
             }, err => {
-                console.error("Snapshot listener failed (Check Rules):", err);
+                console.error("Firestore Listen Error. Check your Security Rules:", err.message);
             });
     }
 }
 
-// 4. Trigger display only when logged in
+// 4. Initialization
 firebase.auth().onAuthStateChanged(user => {
     if (user) {
+        console.log("Admin authenticated:", user.email);
         displayLoginTracker();
+    } else {
+        console.log("No active session.");
     }
 });
