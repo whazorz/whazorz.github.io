@@ -75,69 +75,76 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- Authentication ---
   
 auth.onAuthStateChanged(user => {
-  if (user) {
-    // SUCCESS: User is logged in. Now it is safe to ask for data.
-    loginView.style.display = "none";
-    dashboardView.style.display = "block";
-
-    // Call all your data loading functions here
-    loadRequests();
-    loadCompletedRequests();
-    loadGalleryItems();
-    loadAdminDownloads();
-    loadLoginHistory(); // <--- Make sure this is here!
-  } else {
-    // User is logged out. Stop trying to read data.
-    loginView.style.display = "block";
-    dashboardView.style.display = "none";
-  }
-});
+    if (user) {
+      loginView.style.display = "none";
+      dashboardView.style.display = "block";
+      // Load data only after auth confirmed
+      loadRequests();
+      loadCompletedRequests();
+      loadGalleryItems();
+      loadAdminDownloads();
+      loadLoginHistory(); 
+    } else {
+      loginView.style.display = "block";
+      dashboardView.style.display = "none";
+    }
+  });
 
 async function logLoginAttempt(email) {
     try {
-        // Fetching detailed IP information
-        const response = await fetch('https://ipapi.co/json/');
-        const data = await response.json();
-
-        const loginEntry = {
-            email: email,
-            ip: data.ip,
-            city: data.city,
-            region: data.region,
-            country: data.country_name,
-            isp: data.org,
-            userAgent: navigator.userAgent,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        await db.collection("login_history").add(loginEntry);
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
+      const loginEntry = {
+        email: email,
+        ip: data.ip || "Unknown",
+        city: data.city || "Unknown",
+        country: data.country_name || "Unknown",
+        isp: data.org || "Unknown",
+        userAgent: navigator.userAgent,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      };
+      await db.collection("login_history").add(loginEntry);
     } catch (error) {
-        console.error("Error logging IP data:", error);
-        // Fallback: Log at least the email and time if API fails
-        db.collection("login_history").add({
-            email: email,
-            ip: "Unknown",
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-        });
+      console.error("Tracking Error:", error);
+      db.collection("login_history").add({
+        email: email,
+        ip: "Fetch Failed",
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
     }
-}
+  }
+
+function loadLoginHistory() {
+    if (!loginHistoryList) return;
+    db.collection("login_history").orderBy("timestamp", "desc").limit(15).onSnapshot(snapshot => {
+      loginHistoryList.innerHTML = "";
+      snapshot.forEach(doc => {
+        const item = doc.data();
+        const tr = document.createElement("tr");
+        const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
+        tr.innerHTML = `
+          <td>${date}</td>
+          <td>${item.email}</td>
+          <td><strong>${item.ip}</strong></td>
+          <td>${item.city}, ${item.country}</td>
+          <td>${item.isp}</td>
+          <td><small>${item.userAgent.slice(0, 20)}...</small></td>
+        `;
+        loginHistoryList.appendChild(tr);
+      });
+    }, err => console.error("History Error:", err));
+  }
+
 
 // Updated Login Listener
 loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("admin-email").value;
     const pass = document.getElementById("admin-password").value;
-    
     auth.signInWithEmailAndPassword(email, pass)
-        .then((userCredential) => {
-            // Log the metadata after successful login
-            logLoginAttempt(email);
-        })
-        .catch(err => {
-            const loginError = document.getElementById("login-error") || alert;
-            loginError(err.message);
-        });
-});
+      .then(() => logLoginAttempt(email))
+      .catch(err => { if(loginError) loginError.textContent = err.message; });
+  });
 
 
   logoutBtn.addEventListener("click", () => {
