@@ -389,7 +389,7 @@ async function loadPortfolio(db, translations, getCurrentLang) {
     gallery.innerHTML = translations[getCurrentLang()].portfolioError; 
   }
 
-
+  
 async function loadLatestWork(db, translations, getCurrentLang) {
   const gallery = document.getElementById("latest-work-gallery");
   if (!gallery) return;
@@ -454,6 +454,8 @@ function setupLightbox() {
   });
   document.getElementById("lightbox-close")?.addEventListener("click", () => overlay.classList.remove("visible"));
 }
+
+
 
 function setupPortfolioFilter() {
   const btns = document.querySelectorAll("#Portfolio .filter-btn");
