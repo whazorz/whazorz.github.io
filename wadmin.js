@@ -105,8 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
     auth.signOut();
   });
 
-  // --- Request Management (Unchanged) ---
-  
   // --- Updated Request Management for 2026 Bulk Orders ---
 
 function loadRequests() {
@@ -122,12 +120,14 @@ function loadRequests() {
       if (Array.isArray(req.orderSummary)) {
         itemsOrdered = req.orderSummary.join(", ");
       } else {
-        itemsOrdered = req.product_type || "N/A"; // Fallback for old orders
+        // Fallback for old orders using the previous schema
+        itemsOrdered = req.product_type || "N/A"; 
       }
 
-      // 2. Build Detailed Project Info (Checking all possible detail fields)
+      // 2. Build Detailed Project Info (Aggregating all possible conditional fields)
       let details = `Instructions: ${req.instructions || 'N/A'}\n\n`;
       
+      // Check each specific design field from the 2026 form
       if (req.logo_brand_name) details += `[LOGO] Brand: ${req.logo_brand_name}\n`;
       if (req.poster_info) details += `[A3 POSTER] Info: ${req.poster_info}\n`;
       if (req.poster_info2) details += `[A4 POSTER] Info: ${req.poster_info2}\n`;
@@ -136,6 +136,9 @@ function loadRequests() {
       if (req.flyer_info) details += `[FLYER] Info: ${req.flyer_info}\n`;
       if (req.cover_info) details += `[COVER] Info: ${req.cover_info}\n`;
       if (req.brandcard_name) details += `[BRAND CARD] Name: ${req.brandcard_name}\n`;
+      
+      // Legacy support for older field names
+      if (req.logo_style) details += `[LEGACY LOGO] Style: ${req.logo_style}\n`;
 
       tr.innerHTML = `
         <td>${date}</td>
