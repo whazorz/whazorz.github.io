@@ -1,48 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // --- Firebase Setup ---
-  const firebaseConfig = {
-  apiKey: "AIzaSyBUzYdeKfD7z31uUMhIKcQsU-ImA8Aopxk",
-  authDomain: "whazorz-portfolio.firebaseapp.com",
-  projectId: "whazorz-portfolio",
-  storageBucket: "whazorz-portfolio.firebasestorage.app",
-  messagingSenderId: "23481217882",
-  appId: "1:23481217882:web:533d4a7dadd4563426b963",
-  measurementId: "G-159920MCTC"
-  };
+  // --- Firebase Setup ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUzYdeKfD7z31uUMhIKcQsU-ImA8Aopxk",
+    authDomain: "whazorz-portfolio.firebaseapp.com",
+    projectId: "whazorz-portfolio",
+    storageBucket: "whazorz-portfolio.firebasestorage.app",
+    messagingSenderId: "23481217882",
+    appId: "1:23481217882:web:533d4a7dadd4563426b963",
+    measurementId: "G-159920MCTC"
+  };
 
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  const db = firebase.firestore();
-  const auth = firebase.auth();
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+  const auth = firebase.auth();
 
-  // Get DOM Elements
-  const loginView = document.getElementById("admin-login");
-  const dashboardView = document.getElementById("admin-dashboard");
-  const loginForm = document.getElementById("login-form");
-  const loginError = document.getElementById("login-error");
-  const logoutBtn = document.getElementById("logout-btn");
-  
-  const requestList = document.getElementById("request-items-list");
-  const completedRequestList = document.getElementById("completed-request-items-list");
-  
-  const galleryList = document.getElementById("gallery-items-list");
-  const galleryForm = document.getElementById("gallery-form");
-  const galleryEditId = document.getElementById("gallery-edit-id");
-  const gallerySubmitBtn = document.getElementById("gallery-submit-btn");
-  const galleryCancelBtn = document.getElementById("gallery-cancel-btn");
-  
-  const downloadsList = document.getElementById("downloads-items-list");
-  const downloadsForm = document.getElementById("downloads-form");
-  const downloadEditId = document.getElementById("download-edit-id");
-  const downloadSubmitBtn = document.getElementById("download-submit-btn");
-  const downloadCancelBtn = document.getElementById("download-cancel-btn");
+  // --- Get DOM Elements (Ensure all IDs exist in your HTML) ---
+  const loginView = document.getElementById("admin-login");
+  const dashboardView = document.getElementById("admin-dashboard");
+  const loginForm = document.getElementById("login-form");
+  const loginError = document.getElementById("login-error");
+  const logoutBtn = document.getElementById("logout-btn");
+  
+  const requestList = document.getElementById("request-items-list");
+  const completedRequestList = document.getElementById("completed-request-items-list");
+  
+  const galleryList = document.getElementById("gallery-items-list");
+  const galleryForm = document.getElementById("gallery-form");
+  const galleryEditId = document.getElementById("gallery-edit-id");
+  const gallerySubmitBtn = document.getElementById("gallery-submit-btn");
+  const galleryCancelBtn = document.getElementById("gallery-cancel-btn");
+  
+  const downloadsList = document.getElementById("downloads-items-list");
+  const downloadsForm = document.getElementById("downloads-form");
+  const downloadEditId = document.getElementById("download-edit-id");
+  const downloadSubmitBtn = document.getElementById("download-submit-btn");
+  const downloadCancelBtn = document.getElementById("download-cancel-btn");
   const downloadType = document.getElementById("download-type");
-  // NEW: Reference to the hidden download URL input
-  const downloadFileUrlInput = document.getElementById("download-file-url"); 
+  const downloadFileUrlInput = document.getElementById("download-file-url");
 
-  // Function to temporarily show the Download File URL field
+  // FIX: This was the missing variable causing the ReferenceError
+  const loginHistoryList = document.getElementById("login-history-list");
+
+  // --- Functions ---
+
   function showDownloadUrlField(url = '') {
-      // Create and insert the missing form group temporarily for editing
       let fg = document.getElementById('download-file-url-group');
       if (!fg) {
           fg = document.createElement('div');
@@ -55,29 +56,24 @@ document.addEventListener("DOMContentLoaded", () => {
           downloadsForm.insertBefore(fg, downloadEditId.parentNode);
       }
       document.getElementById("download-file-url-visible").value = url;
-      downloadFileUrlInput.value = url; // Keep the hidden field updated
-
-      // Add a listener to update the hidden field
+      downloadFileUrlInput.value = url;
       document.getElementById("download-file-url-visible").oninput = (e) => {
           downloadFileUrlInput.value = e.target.value;
       };
   }
 
-  // Function to remove the temporary Download File URL field
   function hideDownloadUrlField() {
       const fg = document.getElementById('download-file-url-group');
-      if (fg) {
-          fg.remove();
-      }
+      if (fg) fg.remove();
   }
 
-
-  // --- Authentication ---
-  
-auth.onAuthStateChanged(user => {
+  // --- Authentication & Data Loading ---
+  
+  auth.onAuthStateChanged(user => {
     if (user) {
       loginView.style.display = "none";
       dashboardView.style.display = "block";
+      
       // Load data only after auth confirmed
       loadRequests();
       loadCompletedRequests();
@@ -90,7 +86,7 @@ auth.onAuthStateChanged(user => {
     }
   });
 
-async function logLoginAttempt(email) {
+  async function logLoginAttempt(email) {
     try {
       const response = await fetch('https://ipapi.co/json/');
       const data = await response.json();
@@ -114,8 +110,13 @@ async function logLoginAttempt(email) {
     }
   }
 
-function loadLoginHistory() {
-    if (!loginHistoryList) return;
+  function loadLoginHistory() {
+    // Check if the table body exists before running
+    if (!loginHistoryList) {
+        console.warn("Table element 'login-history-list' not found.");
+        return;
+    }
+
     db.collection("login_history").orderBy("timestamp", "desc").limit(15).onSnapshot(snapshot => {
       loginHistoryList.innerHTML = "";
       snapshot.forEach(doc => {
@@ -128,16 +129,16 @@ function loadLoginHistory() {
           <td><strong>${item.ip}</strong></td>
           <td>${item.city}, ${item.country}</td>
           <td>${item.isp}</td>
-          <td><small>${item.userAgent.slice(0, 20)}...</small></td>
+          <td><small title="${item.userAgent}">${item.userAgent.slice(0, 15)}...</small></td>
         `;
         loginHistoryList.appendChild(tr);
       });
-    }, err => console.error("History Error:", err));
+    }, err => {
+        console.error("Permission Error on login_history:", err.message);
+    });
   }
 
-
-// Updated Login Listener
-loginForm.addEventListener("submit", (e) => {
+  loginForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const email = document.getElementById("admin-email").value;
     const pass = document.getElementById("admin-password").value;
@@ -146,10 +147,7 @@ loginForm.addEventListener("submit", (e) => {
       .catch(err => { if(loginError) loginError.textContent = err.message; });
   });
 
-
-  logoutBtn.addEventListener("click", () => {
-    auth.signOut();
-  });
+  logoutBtn.addEventListener("click", () => auth.signOut());
 
   // --- Request Management (Unchanged) ---
   
