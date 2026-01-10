@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WDESIGN - Admin Dashboard</title>
+    <title>W-Admin Dashboard</title>
     <link rel="icon" href="w.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="adminstyle.css">
@@ -14,10 +14,10 @@
     <div class="admin-container">
 
         <div id="admin-login">
-            <h2>Admin Login</h2>
+            <h2>W-Admin Login</h2>
             <form id="login-form">
                 <div class="form-group">
-                    <label for="admin-email">Email</label>
+                    <label for="admin-email">E-mail</label>
                     <input type="email" id="admin-email" required>
                 </div>
                 <div class="form-group">
@@ -31,7 +31,7 @@
 
         <div id="admin-dashboard">
             <button id="logout-btn">Logout</button>
-            <h2>Admin Dashboard</h2>
+            <h2>W-Admin Dashboard</h2>
 
             <hr>
 
@@ -97,7 +97,11 @@
                     <label for="gallery-type">Filter Type</label>
                     <select id="gallery-type">
                         <option value="logo">Logo</option>
-                        <option value="poster">A4 Poster</option>
+                        <option value="postera3">A3 Poster</option>
+                        <option value="postera3">A4 Poster</option>
+                        <option value="cover">Cover</option>
+                        <option value="flyer">Flyer</option>
+                        <option value="brandcard">Brand Card</option>
                         <option value="banner">Banner</option>
                         <option value="profile">Profile</option>
                     </select>
@@ -170,7 +174,7 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
-    <script src="admin.js"></script>
+    <script src="wadmin.js"></script>
 
 </body>
 </html>

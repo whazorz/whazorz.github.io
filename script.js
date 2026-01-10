@@ -1,6 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
-
-  // --- 1. Translation Setup ---
+// --- 1. Translation Setup ---
   const translations = {
     en: {
       // Nav
@@ -25,11 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
       homeTermsContact: "Contacts: whazorz.design@gmail.com",
       // UPDATED PRICES/PRODUCTS
       priceLogo: "Logo",
-      pricePoster: "A4 Promo Poster",
-      priceBanner: "Banner / Header",
-      priceProfile: "Profile",
-      priceUI: "Brand-focused UI layout [Logo/Profile/Ui]",
-      priceBundle: "Promo Bundle [Logo/Profile/Banner]",
+      priceA3: "A3 Poster",
+      priceA4: "A4 Poster",
+      priceBanner: "Banner",
+      priceCover: "Cover",
+      priceFlyer: "Flyer",
+      priceBrandCard: "Brand Card",
+      priceBanner: "Banner",
+      priceProfile: "Profile Image",
       homeDonateTitle: "Support My Work",
       homeDonateText: "“Buy me a coffee ☕🎨”",
       homeDonateButton: "Donate with PayPal",
@@ -37,12 +38,16 @@ document.addEventListener("DOMContentLoaded", () => {
       portfolioTitle: "Portfolio",
       filterAll: "All",
       filterLogos: "Logos",
-      filterPosters: "A4 Posters",
+      filterPosters: "A3 Posters",
+      filterPosters2: "A4 Posters",
+      filterFlyer: "Flyers",
+      filterCover: "Covers",
+      filterBrandCard: "Brand Cards",
       filterBanners: "Banners",
       filterProfile: "Profile",
       // NEW: GFX Page
       gfxTitle: "GFX",
-      gfxIntro: "Here you can find various hand draw design assets and resources I've created over time. Tech tip: use it as Screen filter to make it transperent as background, so the GFX image works indeed.",
+      gfxIntro: "Here you can find various digital hand wrapped design assets and resources I've created over time. Tech tip: use it as Screen filter to make it transperent as background so the GFX image works indeed.",
       downloadsError: "<p>Error loading GFX.</p>", 
       // NEW GFX Filter Keys
       filterEnvironment: "ENVIRONMENT",
@@ -56,6 +61,10 @@ document.addEventListener("DOMContentLoaded", () => {
       filterSmoke: "SMOKE FOG ATMOSPHERE",
       filterFire: "FIRE HEAT EFFECTS",
       // Request Page
+      FormalSelectProductAbove: "Choose Product",
+      FormalSmartGuide: "*Smart Guide: Sizes are Width x Height & mm",
+      FormalResolution: "Formal Resolution:",
+      FormalSelectProduct: "Select a product.",
       requestTitle: "Request a Design",
       requestTermsSummary: "Please read the full Commission Terms & Conditions before proceeding.",
       requestTermsTitle: "Commission Terms & Conditions",
@@ -71,6 +80,10 @@ document.addEventListener("DOMContentLoaded", () => {
       requestTermsTimeframe2: "However, more complex or customized projects may require additional time.",
       requestTermsTimeframe3: "Clients will be informed of any expected delays in advance.",
       requestTermsRevisionsTitle: "Revisions",
+      formFlyerPlaceholder1: "What text, dates, and information must be on the flyer?",
+      formFlyerPlaceholder2: "Color scheme, style, or any specific ideas?",
+      formCoverPlaceholder1: "What text, dates, and information must be on the cover?",
+      formCoverPlaceholder2: "Color scheme, style, or any specific ideas?",
       requestTermsRevisions1: "Each project includes up to two (2) revisions, depending on the scope and complexity.",
       requestTermsRevisions2: "Additional revisions may incur extra charges, which will be discussed prior to implementation.",
       requestTermsCommTitle: "Communication",
@@ -84,36 +97,44 @@ document.addEventListener("DOMContentLoaded", () => {
       formEmailPlaceholder: "your.email@example.com",
       formProduct: "Select Product Type",
       // UPDATED OPTIONS
-      formOptionProfile: "Profile (15 Eur)",
-      formOptionBanner: "Banner / Header (20 Eur)",
-      formOptionPoster: "A4 Promo Poster (25 Eur)",
-      formOptionLogo: "Logo (60 Eur)",
-      formOptionUI: "Brand-focused UI layout [Logo/Profile/Ui] (90 Eur)",
+      formOptionProfile: "Profile (5 Eur)",
+      formOptionBanner: "Banner (10 Eur)",
+      formOptionPoster: "A3 Promo Poster (15 Eur)",
+      formOptionLogo: "Logo (35 Eur)",
+      formOptionUI: "Social focused layout [Logo/Profile/Banner] (50 Eur)",
       formOptionBundle: "Promo Bundle [Logo/Profile/Banner] (75 Eur)",
-      formBudget: "Starting Budget (EUR)",
+      formBudget: "Your Budget (EUR)",
       formLogoDetails: "Logo Details",
       formLogoPlaceholder1: "Brand Name",
-      formLogoPlaceholder2: "Describe the style (e.g., modern, minimalist, retro) and any color preferences.",
-      formPosterDetails: "A4 Poster / Promo Details",
+      formBrandcardPlaceholder1: "Brand Name",
+      formBrandcardPlaceholder2: "Phone Number",
+      formBrandcardPlaceholder3: "E-mail",
+      formBrandcardPlaceholder4: "Extra Information",
+      formBrandCardPlaceholder5: "Describe the style (e.g., modern, minimalist, retro) and any color preferences?",
+      formLogoPlaceholder2: "Describe the style (e.g., modern, minimalist, retro) and any color preferences?",
+      formPosterDetails: "A3 Poster Details",
+      formPosterDetails2: "A4 Poster Details",
       formPosterPlaceholder: "What text, dates, and information must be on the poster?",
-      formBannerDetails: "Banner / Header Details",
+      FormPosterPlaceholder2: "Describe any style (e.g., modern, minimalist, retro) or any color preferences?",
+      formBannerDetails: "Banner Details",
       formBannerPlaceholder1: "Platform (e.g., YouTube, Twitter, Website)",
       formBannerPlaceholder2: "What text or @usernames should be on the banner?",
+      formBannerPlaceholder3: "Describe any style (e.g., modern, minimalist, retro) or any color preferences?",
       formProfileDetails: "Profile Details",
       formProfilePlaceholder1: "Username or Text for profile pic",
-      formProfilePlaceholder2: "Color scheme, style, or any specific ideas.",
+      formProfilePlaceholder2: "Color scheme, style, or any specific ideas?",
       // NEW UI FIELDS
       formUIDetails: "Brand-focused UI layout Details",
       formUIPlaceholder1: "UI Platform (e.g., Twitch, YouTube channel layout, App)",
       formUIPlaceholder2: "Describe the layout requirements, brand feel, and necessary assets (Logo/Profile/UI).",
-      formInstructions: "General Instructions / Project Brief",
-      formInstructionsPlaceholder: "Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references.",
+      formInstructions: "Additional information or General Instructions / Project Brief",
+      formInstructionsPlaceholder: "Please provide a clear and detailed brief of your requirements. Include information, dates and links to any inspiration or references.",
       formAgreeTerms: "I agree to the Terms and Conditions",
       formAgreeShowcase: "I agree to allow WhazorzDesigns to showcase the final work in their portfolio.",
       formAgreeEmail: "I agree to recieve future emails.",
       formSubmitButton: "Submit Request",
       // Footer
-      footerCopyright: "Copyright © WHAZORZ 2025",
+      footerCopyright: "Copyright © WHAZORZ 2025-2026",
       // Dynamic JS Messages
       firebaseError: "Error: Could not connect to submission service. Check API key.",
       portfolioError: "<p>Error loading portfolio.</p>",
@@ -145,11 +166,13 @@ document.addEventListener("DOMContentLoaded", () => {
       homeTermsContact: "Kontakti: whazorz.design@gmail.com",
       // UPDATED PRICES/PRODUCTS
       priceLogo: "Logo",
-      pricePoster: "A4 Promo Plakāts",
-      priceBanner: "Baneris / Galvene",
-      priceProfile: "Profils",
-      priceUI: "Uz zīmolu orientēts UI izkārtojums [Logo/Profils/UI]",
-      priceBundle: "Promo komplekts [Logo/Profils/Baneris]",
+      priceA3: "A3 Posteris",
+      priceA4: "A4 Posteris",
+      priceBanner: "Banneris",
+      priceCover: "Kovers",
+      priceFlyer: "Flajers",
+      priceBrandCard: "Uzņēmuma Karte",
+      priceProfile: "Profil Bilde",
       homeDonateTitle: "Atbalsti manu darbu",
       homeDonateText: "“Uzsauc man kafiju ☕🎨”",
       homeDonateButton: "Ziedot ar PayPal",
@@ -157,12 +180,16 @@ document.addEventListener("DOMContentLoaded", () => {
       portfolioTitle: "Portfolio",
       filterAll: "Visi",
       filterLogos: "Logo",
-      filterPosters: "A4 Plakāti",
-      filterBanners: "Baneri",
-      filterProfile: "Profili",
+      filterPosters: "A3 Posters",
+      filterPosters2: "A4 Posters",
+      filterFlyer: "Flajeri",
+      filterCover: "Kovers",
+      filterBrandCard: "Uzņēmuma Kartes",
+      filterBanners: "Banneri",
+      filterProfile: "Profila Bildes",
       // NEW: GFX Page
       gfxTitle: "GFX",
-      gfxIntro: "Šeit Jūs varat atrast dažādus zīmētus rokas dizaina resursus, ko esmu laika gaitā izveidojis. Tehnikas padoms: izmantojiet to kā screen filtru, lai padarītu to caurspīdīgu kā fonu, lai GFX attēls patiešām darbotos.",
+      gfxIntro: "Šeit varat atrast dažādus digitālus, ar rokām veidotus dizaina elementus un resursus, kurus esmu izstrādājis laika gaitā. Tehnisks padoms: izmantojiet Screen sapludināšanas režīmu, lai padarītu to caurspīdīgu kā fonu, tādējādi GFX attēls darbosies korekti.",
       downloadsError: "<p>Kļūda, ielādējot GFX.</p>",
       // NEW GFX Filter Keys
       filterEnvironment: "VIDE",
@@ -176,7 +203,11 @@ document.addEventListener("DOMContentLoaded", () => {
       filterSmoke: "DŪMU/MIGLAS EFEKTI",
       filterFire: "UGUNS/KARSTUMA EFEKTI",
       // Request Page
+      FormalSelectProductAbove: "Izvēlaties Produktu Augšup.",
+      FormalSmartGuide: "*Gudrais ceļvedis: izmēri ir platums × augstums (mm)",
       requestTitle: "Pieprasīt dizainu",
+      FormalResolution: "Formāls lēmums:",
+      FormalSelectProduct: "Izvēleties produktu.",
       requestTermsSummary: "Lūdzu, izlasiet visus Pasūtījuma noteikumus un nosacījumus pirms turpināt.",
       requestTermsTitle: "Pasūtījuma noteikumi un nosacījumi",
       requestTermsApprovalTitle: "Apstiprināšana",
@@ -205,20 +236,26 @@ document.addEventListener("DOMContentLoaded", () => {
       formProduct: "Izvēlieties produkta veidu",
       // UPDATED OPTIONS
       formOptionProfile: "Profils ( 15 Eur)",
-      formOptionBanner: "Baneris / Galvene (20 Eur)",
+      formOptionBanner: "Baneris(20 Eur)",
       formOptionPoster: "A4 Promo Plakāts (25 Eur)",
       formOptionLogo: "Logo (60 Eur)",
       formOptionUI: "Uz zīmolu orientēts UI izkārtojums [Logo/Profils/UI] (90 Eur)",
       formOptionBundle: "Promo komplekts [Logo/Profils/Baneris] (75 Eur)",
-      formBudget: "Sākuma budžets (EUR)",
+      formBudget: "Tavs Budžets (EUR)",
       formLogoDetails: "Logo detaļas",
       formLogoPlaceholder1: "Zīmola nosaukums",
+      formBrandcardPlaceholder1: "Zīmola nosaukums",
+      formBrandcardPlaceholder2: "Telefona Nummurs",
+      formBrandcardPlaceholder3: "E-pasta addrese",
+      formBrandcardPlaceholder4: "Pielukuma Informācija",
+      formBrandCardPlaceholder5: "Aprakstiet stilu (piemēram, moderns, minimālistisks, retro) un krāsu vēlmes.",
       formLogoPlaceholder2: "Aprakstiet stilu (piemēram, moderns, minimālistisks, retro) un krāsu vēlmes.",
       formPosterDetails: "A4 Plakāta / Promo detaļas",
       formPosterPlaceholder: "Kāds teksts, datumi un informācija jāiekļauj plakātā?",
-      formBannerDetails: "Banera / Galvenes detaļas",
+      FormPosterPlaceholder2: "Aprakstiet vēlamo stilu (piemēram, modernu, minimālistisku, retro) vai jebkādas krāsu izvēles.",
+      formBannerDetails: "Banera detaļas",
       formBannerPlaceholder1: "Platforma (piem., YouTube, Twitter, Mājaslapa)",
-      formBannerPlaceholder2: "Kāds teksts vai @lietotājvārdi jāiekļauj banerī?",
+      formBannerPlaceholder2: "Aprakstiet stilu (piemēram, moderns, minimālistisks, retro) un krāsu vēlmes.",
       formProfileDetails: "Profila detaļas",
       formProfilePlaceholder1: "Lietotājvārds vai teksts profila bildei",
       formProfilePlaceholder2: "Krāsu shēma, stils vai citas konkrētas idejas.",
@@ -227,13 +264,13 @@ document.addEventListener("DOMContentLoaded", () => {
       formUIPlaceholder1: "UI Platforma (piem., Twitch, YouTube kanāla izkārtojums, Lietotne)",
       formUIPlaceholder2: "Aprakstiet izkārtojuma prasības, zīmola sajūtu un nepieciešamos resursus (Logo/Profils/UI).",
       formInstructions: "Vispārīgas instrukcijas / Projekta apraksts",
-      formInstructionsPlaceholder: "Lūdzu, sniedziet skaidru un detalizētu savu prasību aprakstu. Iekļaujiet saites uz iedvesmas avotiem vai atsaucēm.",
+      formInstructionsPlaceholder: "Lūdzu, sniedziet skaidru un detalizētu aprakstu par savām prasībām. Iekļaujiet informāciju, datumus un saites uz jebkādu iedvesmu vai atsaucēm.",
       formAgreeTerms: "Es piekrītu Noteikumiem un Nosacījumiem",
       formAgreeShowcase: "Es piekrītu atļaut WhazorzDesigns demonstrēt gala darbu savā portfolio.",
       formAgreeEmail: "Es piekrītu saņemt turpmākus e-pastus.",
       formSubmitButton: "Iesniegt pieprasījumu",
       // Footer
-      footerCopyright: "Autortiesības © WHAZORZ 2025",
+      footerCopyright: "Autortiesības © WHAZORZ 2025-2026",
       // Dynamic JS Messages
       firebaseError: "Kļūda: Nevar izveidot savienojumu ar iesniegšanas pakalpojumu. Pārbaudiet API atslēgu.",
       portfolioError: "<p>Kļūda, ielādējot portfolio.</p>",
@@ -582,110 +619,153 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // --- 12. Request Form ---
-  function setupRequestForm(db, translations, getCurrentLang) {
-    const form = document.getElementById("request-form");
-    if (!form) return;
 
-    const productSelect = document.getElementById("product-type");
-    const budgetInput = document.getElementById("budget");
-    const formStatus = document.getElementById("form-status");
-    const submitBtn = document.getElementById("submit-btn");
-    const termsCheckbox = document.getElementById("terms-agree");
+// --- 12. Request Form (Updated 2026 - Clickable & Bulk) ---
+function setupRequestForm(db, translations, getCurrentLang) {
+  const form = document.getElementById("request-form");
+  if (!form) return;
 
-    submitBtn.disabled = true;
-    termsCheckbox.addEventListener("change", () => {
-      submitBtn.disabled = !termsCheckbox.checked;
+  const gridContainer = document.getElementById("product-selection-grid"); 
+  const budgetInput = document.getElementById("budget");
+  const formStatus = document.getElementById("form-status");
+  const submitBtn = document.getElementById("submit-btn");
+  const resOutput = document.getElementById("res-output");
+
+  let selectedItems = {}; 
+  const MAX_QTY = 7; // Maximum limit set to 7
+
+  const designLibrary = {
+    logo: { name: "Logo", res: "Vector (.SVG/.PNG)", dimensions: "Size not predefined", customizable: true },
+    a3: { name: "A3 Poster", res: "3508 x 4961 px", dimensions: "297 x 420 mm", customizable: false },
+    a4: { name: "A4 Poster", res: "2480 x 3508 px", dimensions: "210 x 297 mm", customizable: false },
+    banner: { name: "Banner", res: "2560 x 1440 px", dimensions: "216.75 x 121.92 mm", customizable: true },
+    cover: { name: "Cover", res: "3000 x 3000 px", dimensions: "120 x 120 mm", customizable: true },
+    flyer: { name: "Flyer", res: "1748 x 2480 px", dimensions: "148 x 210 mm", customizable: true },
+    brandcard: { name: "Brand Card", res: "1050 x 600 px", dimensions: "85 x 55 mm", customizable: false },
+    profile: { name: "Profile", res: "800 x 800 px", dimensions: "67.73 x 67.73 mm", customizable: true }
+  };
+
+function renderGrid() {
+    gridContainer.innerHTML = "";
+    Object.keys(designLibrary).forEach(key => {
+      const item = designLibrary[key];
+      const count = selectedItems[key] || 0;
+      const isSelected = count > 0;
+
+      const card = document.createElement("div");
+      card.className = `product-card ${isSelected ? 'active' : ''}`;
+      
+      card.innerHTML = `
+        <div class="card-main">
+          <strong>${item.name}</strong>
+          <small style="display:block; opacity: 0.8;">${item.dimensions}</small>
+        </div>
+        ${isSelected ? `
+          <div class="card-qty">
+            <button type="button" class="qty-btn" data-action="minus" data-key="${key}">-</button>
+            <span class="qty-val">${count}</span>
+            <button type="button" class="qty-btn" data-action="plus" data-key="${key}" ${count >= MAX_QTY ? 'disabled' : ''}>+</button>
+          </div>
+        ` : `<button type="button" class="add-btn add-space" data-action="add" data-key="${key}">Add</button>`}
+      `;
+      gridContainer.appendChild(card);
     });
-
-    // UPDATED PRICES
-    const prices = {
-      profile: 15,
-      banner: 20,
-      poster: 25,
-      logo: 60,
-      ui: 90, // NEW PRODUCT PRICE
-      bundle: 75,
-    };
-
-    const conditionalFields = {
-      logo: document.getElementById("logo-details"),
-      poster: document.getElementById("poster-details"),
-      banner: document.getElementById("banner-details"),
-      profile: document.getElementById("profile-details"),
-      ui: document.getElementById("ui-details")
-    };
-
-    function updateForm() {
-      const selectedValue = productSelect.value;
-      budgetInput.value = prices[selectedValue] || 3; // Fallback to lowest price (profile: 3)
-
-      Object.values(conditionalFields).forEach(field => {
-        if (field) field.classList.remove("visible");
-      });
-
-      if (selectedValue === "bundle") {
-        ["logo", "banner", "profile"].forEach(key => {
-          if (conditionalFields[key]) conditionalFields[key].classList.add("visible");
-        });
-      } else if (selectedValue === "ui") {
-        ["logo", "profile", "ui"].forEach(key => {
-          if (conditionalFields[key]) conditionalFields[key].classList.add("visible");
-        });
-      }
-      else if (conditionalFields[selectedValue]) {
-        conditionalFields[selectedValue].classList.add("visible");
-      }
-    }
-
-    updateForm();
-    productSelect.addEventListener("change", updateForm);
-
-    form.addEventListener("submit", async e => {
-      e.preventDefault();
-      submitBtn.disabled = true;
-
-      const lang = getCurrentLang();
-      formStatus.textContent = translations[lang].formSubmitting;
-      formStatus.className = "";
-
-      const formData = new FormData(form);
-      const requestData = {};
-      formData.forEach((value, key) => (requestData[key] = value));
-
-      requestData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      requestData.status = "pending";
-
-      requestData.showcase = requestData.showcase === "true";
-      requestData.email_agree = requestData.email_agree === "true";
-
-      try {
-        const docRef = await db.collection("requests").add(requestData);
-        console.log("✅ Request added with ID:", docRef.id);
-
-        formStatus.textContent = translations[lang].formSuccess;
-        formStatus.className = "success";
-        form.reset();
-        updateForm();
-
-        submitBtn.disabled = true;
-        termsCheckbox.checked = false;
-
-        setTimeout(() => {
-          submitBtn.disabled = !termsCheckbox.checked;
-          formStatus.textContent = "";
-        }, 30000);
-
-      } catch (error) {
-        console.error("❌ Error adding document:", error);
-        formStatus.textContent = translations[lang].formError;
-        formStatus.className = "error";
-        submitBtn.disabled = !termsCheckbox.checked;
-      }
-    });
+    updateSpecs();
   }
 
-  // --- 13. Image Right-Click Protection ---
-  // REMOVED function body as requested to allow context menu.
-  
-});
+  function updateSpecs() {
+    let techSpecs = [];
+
+    // Toggle detail fields visibility based on selection
+    const conditionalFields = {
+        logo: document.getElementById("logo-details"),
+        a3: document.getElementById("poster-details"),
+        a4: document.getElementById("poster-details2"),
+        banner: document.getElementById("banner-details"),
+        profile: document.getElementById("profile-details"),
+        brandcard: document.getElementById("brandcard-details"),
+        flyer: document.getElementById("Flyer-details"),
+        cover: document.getElementById("cover-details")
+    };
+    Object.values(conditionalFields).forEach(f => f?.classList.remove("visible"));
+
+    Object.keys(selectedItems).forEach(key => {
+      const qty = selectedItems[key];
+      const item = designLibrary[key];
+      
+      if (conditionalFields[key]) conditionalFields[key].classList.add("visible");
+
+      // Generate tech spec lines for every single item in the quantity
+      for (let i = 1; i <= qty; i++) {
+        const customTag = item.customizable ? `<span class="badge-custom"></span>` : "";
+        techSpecs.push(`
+          <div class="spec-line">
+              <strong>${item.name} #${i}</strong><br>
+              Resolution: ${item.res} | Size: ${item.dimensions} ${customTag}
+          </div>
+        `);
+      }
+    });
+
+    resOutput.innerHTML = techSpecs.length > 0 ? techSpecs.join("") : "Select products above.";
+  }
+
+  // Event Delegation
+  gridContainer.addEventListener("click", e => {
+    const btn = e.target.closest("button");
+    if (!btn) return;
+
+    const action = btn.dataset.action;
+    const key = btn.dataset.key;
+
+    if (action === "add" || action === "plus") {
+      const currentQty = selectedItems[key] || 0;
+      if (currentQty < MAX_QTY) {
+        selectedItems[key] = currentQty + 1;
+      }
+    } else if (action === "minus") {
+      selectedItems[key] > 1 ? selectedItems[key]-- : delete selectedItems[key];
+    }
+    renderGrid();
+  });
+
+  // Submit Handler
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const lang = getCurrentLang();
+    if (Object.keys(selectedItems).length === 0) {
+      alert(translations[lang].selectProductError || "Please select at least one product.");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    formStatus.textContent = translations[lang].formSubmitting;
+
+    const formData = new FormData(form);
+    const requestData = Object.fromEntries(formData.entries());
+
+    requestData.orderSummary = Object.keys(selectedItems).map(key => ({
+      name: designLibrary[key].name,
+      quantity: selectedItems[key],
+      specs: designLibrary[key].res
+    }));
+
+    requestData.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    requestData.status = "pending";
+
+    try {
+      await db.collection("requests").add(requestData);
+      formStatus.textContent = translations[lang].formSuccess;
+      formStatus.className = "success";
+      form.reset();
+      selectedItems = {};
+      renderGrid();
+    } catch (err) {
+      formStatus.textContent = translations[lang].formError;
+      formStatus.className = "error";
+      submitBtn.disabled = false;
+    }
+  });
+
+  renderGrid();
+}

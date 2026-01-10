@@ -28,10 +28,10 @@
       <button data-lang="lv" class="lang-btn">LV</button>
     </div>
 
-    <a href="#" data-target="home" class="active" data-key="navHome">Home</a>
+    <a href="#" data-target="home" class="active" data-key="navHome">Home Page</a>
+    <a href="#" data-target="Request" data-key="navRequest">Request</a>
     <a href="#" data-target="Portfolio" data-key="navPortfolio">Portfolio</a>
     <a href="#" data-target="GFX" data-key="navGFX">GFX</a>
-    <a href="#" data-target="Request" data-key="navRequest">Request</a>
   </nav>
 
   <div id="head">
@@ -39,7 +39,7 @@
     <div class="header-social-links">
       <a href="mailto:whazorz.design@gmail.com" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
       <a href="https://twitch.tv/whazorz" title="Twitch" target="_blank"><i class="fab fa-twitch"></i></a>
-      <a href="https://www.youtube.com/@whazorz.design" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.youtube.com/@whazorz" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
       <a href="https://www.paypal.com/donate?business=whazorz.design@gmail.com&item_name=Donation+to+Whazorz+Designs&currency_code=EUR" title="Donate" target="_blank"><i class="fab fa-paypal"></i></a>
     </div>
   </div>
@@ -79,16 +79,25 @@
             </div>
             
             <div class="box">
-              <table>
-                <tr><td data-key="priceLogo">Logo</td><td>60 Eur</td></tr>
-                <tr><td data-key="pricePoster">A4 Promo Poster</td><td>25 Eur</td></tr>
-                <tr><td data-key="priceBanner">Banner / Header</td><td>20 Eur</td></tr>
-                <tr><td data-key="priceProfile">Profile</td><td>15 Eur</td></tr>
-                <tr><td data-key="priceUI">Brand-focused UI layout [Logo/Profile/Ui]</td><td>90 Eur</td></tr>
-                <tr><td data-key="priceBundle">Promo Bundle [Logo/Profile/Banner]</td><td>75 Eur</td></tr>
+              <table class="price-table">
+                <thead>
+                  <tr>
+                    <th data-key="priceHeaderProduct">Products & Types</th>
+                    <th data-key="priceHeaderRes">Technical Resolution (In MM)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td data-key="priceLogo">Logo Graphical</td><td>No predefined size</td></tr>
+                  <tr><td data-key="priceA3">A3 Poster Graphical</td><td>(297 x 420 mm)</td></tr>
+                  <tr><td data-key="priceA4">A4 Poster Graphical</td><td>(210 x 297 mm)</td></tr>
+                  <tr><td data-key="priceCover">Cover Graphical</td><td>(120 x 120 mm)</td></tr>
+                  <tr><td data-key="priceFlyer">Flyer Graphical</td><td>(148 x 210 mm))</td></tr>
+                  <tr><td data-key="priceBrandCard">Brand Card Graphical</td><td>(85 x 55 mm)</td></tr>
+                  <tr><td data-key="priceBanner">Banner / Header Graphical</td><td>(216.75 x 121.92 mm) </td></tr>
+                  <tr><td data-key="priceProfile">Profile Graphical</td><td>(67.73 x 67.73 mm)</td></tr>
+                </tbody>
               </table>
-              <br>
-            </div>
+
           </div>
           
         </div>
@@ -118,9 +127,12 @@
           <div class="filter-controls">
             <button class="filter-btn active" data-filter="all" data-key="filterAll">All</button>
             <button class="filter-btn" data-filter="logo" data-key="filterLogos">Logos</button>
-            <button class="filter-btn" data-filter="poster" data-key="filterPosters">A4 Posters</button>
+            <button class="filter-btn" data-filter="postera3" data-key="filterPosters">A3 Posters</button>
+            <button class="filter-btn" data-filter="postera4" data-key="filterPosters2">A4 Posters</button>
             <button class="filter-btn" data-filter="banner" data-key="filterBanners">Banners</button>
-            <button class="filter-btn" data-filter="profile" data-key="filterProfile">Profile</button>
+            <button class="filter-btn" data-filter="profile" data-key="filterProfile">Profiles</button>
+            <button class="filter-btn" data-filter="brandcard" data-key="filterBrandCard">Brand Cards</button>
+            <button class="filter-btn" data-filter="flyer" data-key="filterFlyer">Flajers</button>
           </div>
 
           <div class="gallery-container" id="portfolio-gallery"></div>
@@ -145,7 +157,7 @@
             <button class="filter-btn" data-filter="smoke" data-key="filterSmoke">SMOKE FOG ATMOSPHERE</button>
             <button class="filter-btn" data-filter="fire" data-key="filterFire">FIRE HEAT EFFECTS</button>
           </div>
-          <div id="gfx-container"></div>
+          <div id="gfx-container" data-key="gfxIntro"></div>
         </div>
       </div>
     </section>
@@ -205,55 +217,108 @@
           
           <form id="request-form">
             <div class="form-group">
-              <label for="email" data-key="formEmail">Your Email Address</label>
-              <input type="email" id="email" name="email" required placeholder="your.email@example.com" data-key-placeholder="formEmailPlaceholder">
-            </div>
+             <label for="email" data-key="formEmail">Your Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+          </div>
 
-            <div class="form-group">
-              <label for="product-type" data-key="formProduct">Select Product Type</label>
-              <select id="product-type" name="product_type">
-                <option value="profile" data-key="formOptionProfile">Profile (3 Eur)</option>
-                <option value="banner" data-key="formOptionBanner">Banner / Header (5 Eur)</option>
-                <option value="poster" data-key="formOptionPoster">A4 Promo Poster (8 Eur)</option>
-                <option value="logo" data-key="formOptionLogo">Logo (20 Eur)</option>
-                <option value="ui" data-key="formOptionUI">Brand-focused UI layout [Logo/Profile/Ui] (30 Eur)</option>
-                <option value="bundle" data-key="formOptionBundle">Promo Bundle [Logo/Profile/Banner] (25 Eur)</option>
+          <div class="form-group">
+              <div id="product-selection-grid" class="product-grid"></div>
+              <div class="tech-res-display" class="tech-info" data-key="FormalSelectProductAbove">Choose Product Above.</div>
+                <input type="hidden" id="final-selection-data" name="final_selection">
+
               </select>
+              <small class="smart-guide" data-key="FormalSmartGuide">* Smart Guide: Sizes are Width x Height & mm</small>
+            </div>
+            
+            <div id="tech-res-display" class="tech-box">
+              <span class="label" data-key="FormalResolution">Formal Resolution:</span>
+              <span data-key="FormalSelectProduct" id="res-output">Select a product</span>
             </div>
 
+            <div class="form-group conditional-details" id="custom-size-details">
+              <label>Custom Dimensions (Width x Height)</label>
+              <div class="side-by-side">
+                <input type="number" name="custom_w" placeholder="Width (px)">
+                <input type="number" name="custom_h" placeholder="Height (px)">
+              </div>
+            </div>
+
+
             <div class="form-group">
-              <label for="budget" data-key="formBudget">Starting Budget (EUR)</label>
-              <input type="text" id="budget" name="budget" value="3" readonly>
+              <label for="budget" data-key="formBudget">Total Estimated Cost (EUR)</label>
+              <input type="number" id="budget" name="budget" placeholder="0" min="0">
             </div>
 
             <div class="form-group conditional-details" id="logo-details">
               <label data-key="formLogoDetails">Logo Details</label>
               <input type="text" name="logo_brand_name" placeholder="Brand Name" data-key-placeholder="formLogoPlaceholder1">
-              <textarea name="logo_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences." data-key-placeholder="formLogoPlaceholder2"></textarea>
+              <textarea name="logo_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences?" data-key-placeholder="formLogoPlaceholder2"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
             </div>
             
+            <div class="form-group conditional-details" id="brandcard-details">
+              <label data-key="formBrand-CardDetails">Brand Card Details</label>
+              <input type="text" name="Brand-Card_name" placeholder="Brand Name" data-key-placeholder="formBrandcardPlaceholder1">
+              <input type="text" name="Brand-Card_name" placeholder="Phone Number" data-key-placeholder="formBrandcardPlaceholder2">
+              <input type="text" name="Brand-Card_name" placeholder="E-mail" data-key-placeholder="formBrandcardPlaceholder3">
+              <input type="text" name="Brand-Card_name" placeholder="Extra" data-key-placeholder="formBrandcardPlaceholder4">
+              <textarea name="Brand-Card_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences?" data-key-placeholder="formBrandCardPlaceholder5"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
+            </div>
+            
+            
             <div class="form-group conditional-details" id="poster-details">
-              <label data-key="formPosterDetails">A4 Poster / Promo Details</label>
+              <label data-key="formPosterDetails">A3 Poster</label>
               <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?" data-key-placeholder="formPosterPlaceholder"></textarea>
+              <textarea name="poster_info" placeholder="Describe any style (e.g., modern, minimalist, retro) or any color preferences?" data-key-placeholder="formPosterPlaceholder2"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
+            </div>
+
+
+            <div class="form-group conditional-details" id="poster-details2">
+              <label data-key="formPosterDetails2">A4 Poster</label>
+              <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?" data-key-placeholder="formPosterPlaceholder"></textarea>
+              <textarea name="poster_info" placeholder="Describe any style (e.g., modern, minimalist, retro) or any color preferences?" data-key-placeholder="formPosterPlaceholder2"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
             </div>
 
             <div class="form-group conditional-details" id="banner-details">
-              <label data-key="formBannerDetails">Banner / Header Details</label>
+              <label data-key="formBannerDetails">Banner</label>
               <input type="text" name="banner_platform" placeholder="Platform (e.g., YouTube, Twitter, Website)" data-key-placeholder="formBannerPlaceholder1">
-              <textarea name="banner_text" placeholder="What text or @usernames should be on the banner?" data-key-placeholder="formBannerPlaceholder2"></textarea>
-            </div>
-
-            <div class="form-group conditional-details" id="ui-details">
-              <label data-key="formUIDetails">Brand-focused UI layout Details</label>
-              <input type="text" name="ui_platform" placeholder="UI Platform (e.g., Twitch, YouTube channel layout, App)" data-key-placeholder="formUIPlaceholder1">
-              <textarea name="ui_info" placeholder="Describe the layout requirements, brand feel, and necessary assets (Logo/Profile/UI)." data-key-placeholder="formUIPlaceholder2"></textarea>
+              <input type="text" name="banner_platform" placeholder="What text or @usernames should be on the banner?" data-key-placeholder="formBannerPlaceholder2">
+              <textarea name="banner_text" placeholder="Describe any style (e.g., modern, minimalist, retro) or any color preferences?" data-key-placeholder="formBannerPlaceholder3"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
             </div>
 
             <div class="form-group conditional-details visible" id="profile-details">
               <label data-key="formProfileDetails">Profile Details</label>
               <input type="text" name="profile_username" placeholder="Username or Text for profile pic" data-key-placeholder="formProfilePlaceholder1">
-              <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas." data-key-placeholder="formProfilePlaceholder2"></textarea>
+              <textarea name="profile_style" placeholder="Color scheme, style, or any specific ideas?" data-key-placeholder="formProfilePlaceholder2"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
             </div>
+
+            <div class="form-group conditional-details visible" id="Flyer-details">
+              <label data-key="formFlyerDetails">Flyer-details</label>
+              <input type="text" name="Flyer_username" placeholder="What text, dates, and information must be on the flyer?" data-key-placeholder="formFlyerPlaceholder1">
+              <textarea name="Flyer_style" placeholder="Color scheme, style, or any specific ideas." data-key-placeholder="formFlyerPlaceholder2"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
+            </div>
+
+            <div class="form-group conditional-details visible" id="cover-details">
+              <label data-key="formCoverDetails">Cover-details</label>
+              <input type="text" name="Cover_username" placeholder="What informational text must be on cover?" data-key-placeholder="formCoverPlaceholder1">
+              <textarea name="Cover_style" placeholder="Color scheme, style, or any specific ideas?" data-key-placeholder="formCoverPlaceholder2"></textarea>
+              <label for="file">Choose Image to Add (Logo,Color Pallete or Other Image Files...). Suggested Jpg or Png Files.</label>
+              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
+            </div>
+
 
             <div class="form-group">
               <label for="instructions" data-key="formInstructions">General Instructions / Project Brief</label>
@@ -288,7 +353,7 @@
 
   </div>
 
-  <footer data-key="footerCopyright">Copyright © WHAZORZ 2025</footer>
+  <footer data-key="footerCopyright">Copyright © WHAZORZ 2025-2026</footer>
 
   <div id="lightbox-overlay" class="lightbox-overlay">
     <span id="lightbox-close" class="lightbox-close">&times;</span>

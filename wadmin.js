@@ -119,18 +119,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let details = `Instructions: ${req.instructions || 'N/A'}\n`;
         if (req.product_type === 'logo') {
           details += `Brand: ${req.logo_brand_name}\nStyle: ${req.logo_style}`;
-        } else if (req.product_type === 'poster') {
+        } else if (req.product_type === 'postera3') {
           details += `Info: ${req.poster_info}`;
         } else if (req.product_type === 'banner') {
             details += `Platform: ${req.banner_platform}\nText: ${req.banner_text}`;
         } else if (req.product_type === 'profile') {
             details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
         } else if (req.product_type === 'ui') {
-           details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
-       } else if (req.product_type === 'bundle') {
-            details += `(Bundle) Logo Brand: ${req.logo_brand_name}\n`;
-            details += `(Bundle) Banner Platform: ${req.banner_platform}\n`;
-            details += `(Bundle) Profile User: ${req.profile_username}`;
         }
         
         tr.innerHTML = `
@@ -201,7 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let details = `Instructions: ${req.instructions || 'N/A'}\n`;
         if (req.product_type === 'logo') {
           details += `Brand: ${req.logo_brand_name}\nStyle: ${req.logo_style}`;
-        } else if (req.product_type === 'poster') {
+        } else if (req.product_type === 'postera3') {
           details += `Info: ${req.poster_info}`;
         } else if (req.product_type === 'banner') {
             details += `Platform: ${req.banner_platform}\nText: ${req.banner_text}`;
@@ -209,10 +204,6 @@ document.addEventListener("DOMContentLoaded", () => {
             details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
         } else if (req.product_type === 'ui') {
             details += `UI Platform: ${req.ui_platform}\nLayout Info: ${req.ui_info}`;
-        } else if (req.product_type === 'bundle') {
-            details += `(Bundle) Logo Brand: ${req.logo_brand_name}\n`;
-            details += `(Bundle) Banner Platform: ${req.banner_platform}\n`;
-            details += `(Bundle) Profile User: ${req.profile_username}`;
         }
         
         tr.innerHTML = `

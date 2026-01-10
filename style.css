@@ -72,7 +72,7 @@ nav {
   gap: 0.5rem;
   margin-bottom: 1rem;
   border: 1px solid var(--text-muted);
-  border-radius: 4px;
+  border-radius: 5px;
   overflow: hidden;
 }
 
@@ -378,7 +378,7 @@ hr {
   color: var(--text-dark);
   background: #eee;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s, color 0.3s;
 }
@@ -466,6 +466,7 @@ hr {
 }
 
 #request-form input[type="text"],
+#request-form input[type="number"],
 #request-form input[type="email"],
 #request-form select,
 #request-form textarea {
@@ -474,7 +475,7 @@ hr {
   font-family: "Montserrat", sans-serif;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
   box-sizing: border-box;
 }
 
@@ -498,7 +499,7 @@ hr {
   gap: 10px;
   padding: 15px;
   background: #f9f9f9;
-  border-radius: 4px;
+  border-radius: 5px;
   border: 1px solid #eee;
 }
 
@@ -513,7 +514,7 @@ hr {
   color: var(--text-light);
   background: var(--sidebar-bg);
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: pointer;
   transition: opacity 0.3s;
 }
@@ -530,7 +531,7 @@ hr {
 #form-status {
   margin-top: 10px;
   padding: 10px;
-  border-radius: 4px;
+  border-radius: 5px;
   font-weight: 500;
   text-align: center;
 }
@@ -576,7 +577,7 @@ hr {
   max-width: 90vw;
   max-height: 90vh;
   object-fit: contain;
-  border-radius: 4px;
+  border-radius: 5px;
   cursor: default;
 }
 
@@ -673,5 +674,158 @@ hr {
   #gfx-container {
     grid-template-columns: 1fr; /* Stack download items on mobile */
   }
+
+}
+
+.tech-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #ffcc00;
+    padding: 15px;
+    margin: 10px 0;
+    font-family: 'Courier New', monospace; /* Technical feel */
+    font-size: 0.9rem;
+}
+
+.smart-guide {
+    color: #000;
+    font-style: italic;
+    display: block;
+    margin-top: 5px;
+}
+
+.multi-select {
+    height: 120px; /* Give room for multiple selections */
+    padding: 10px;
+}
+
+.side-by-side {
+    display: flex;
+    gap: 10px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+  background: transparent;
+  color: white;
+  border: 1px solid #444;
+}
+
+.qty-btn {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 5px;
+  text-align: center;
+  transition: 0.5s;
+  padding: 20pt;
+  /* Crucial: ensures cards in a grid row stretch to the same height */
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.product-card.active {
+  border-color: #fff;
+  background: #1a1a1a;
+}
+
+.card-main {
+  display: flex;
+  flex-direction: column;
+  /* This pushes the button area to the bottom */
+  flex-grow: 1; 
+  margin-bottom: 10px;
+}
+
+/* Ensure the button container stays at the bottom */
+.card-qty, .add-btn {
+  margin-top: auto;
+}
+
+.card-qty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* Matches the margin of your .add-space for consistency */
+  margin-top: 40px; 
+}
+
+.qty-btn {
+  background: #333;
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.add-space {
+  /* Using margin-top: auto ensures it sticks to bottom, 
+     then 40px provides the minimum gap you requested */
+  margin-top: 40px !important;
+}
+
+.add-btn {
+  background: transparent;
+  color: #888;
+  border: 1px solid #444;
+  padding: 4px 12px;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+
+.tech-res-display {
+  margin-top: 40px;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
 
 }
