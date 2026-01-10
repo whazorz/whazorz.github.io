@@ -72,172 +72,87 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-// --- Authentication Block ---
-auth.onAuthStateChanged(user => {
-  if (user) {
-    // 1. Reveal Dashboard
-    loginView.style.display = "none";
-    dashboardView.style.display = "block";
-    
-    // 2. Start the monitor listener ONLY after auth is confirmed
-    // This fixed the "Missing Permissions" and "0.0.0.0" issue
-    if (typeof displayLoginTracker === "function") {
-      displayLoginTracker(); 
-    }
-    
-    // 3. Load other data
-    loadRequests();
-    loadCompletedRequests();
-    loadGalleryItems();
-    loadAdminDownloads();
-  } else {
-    loginView.style.display = "block";
-    dashboardView.style.display = "none";
-  }
-});
+  // --- Authentication ---
+  
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      // User is logged in
+      loginView.style.display = "none";
+      dashboardView.style.display = "block";
+      loadRequests();
+      loadCompletedRequests();
+      loadGalleryItems();
+      loadAdminDownloads();
+    } else {
+      // User is logged out
+      loginView.style.display = "block";
+      dashboardView.style.display = "none";
+    }
+  });
 
-// --- Consolidated Login Handler ---
-loginForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const email = document.getElementById("admin-email").value;
-    const pass = document.getElementById("admin-password").value;
-    
-    try {
-        // Step 1: Sign in with Firebase
-        await auth.signInWithEmailAndPassword(email, pass);
-        
-        // Step 2: Trigger the Security Tracker immediately after successful login
-        // Using 'await' here ensures the IP is detected on the very first login
-        if (typeof logSecuritySession === "function") {
-            await logSecuritySession(email);
-            console.log("Security log: IP and Location captured.");
-        }
-        
-        loginError.textContent = ""; // Clear any error messages
-    } catch (err) {
-        console.error("Login Error:", err.message);
-        loginError.textContent = err.message;
-    }
-});
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("admin-email").value;
+    const pass = document.getElementById("admin-password").value;
+    
+    auth.signInWithEmailAndPassword(email, pass)
+      .catch(err => {
+        loginError.textContent = err.message;
+      });
+  });
 
+  logoutBtn.addEventListener("click", () => {
+    auth.signOut();
+  });
 
-// Login Handler: Captures IP/Location immediately after success
-    loginForm.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email = document.getElementById("admin-email").value;
-        const pass = document.getElementById("admin-password").value;
-        
-        try {
-            await auth.signInWithEmailAndPassword(email, pass);
-            
-            // Trigger the One-Time IP Catch (from wsystemtracker.js)
-            if (typeof logSecuritySession === "function") {
-                await logSecuritySession(email);
-                console.log("Security Audit: Session metadata logged.");
-            }
-            loginError.textContent = ""; 
-        } catch (err) {
-            console.error("Login failed:", err.message);
-            loginError.textContent = err.message;
-        }
-    });
-
-    // Logout Handler: Fully resets page state to avoid permission bugs
-    logoutBtn.addEventListener("click", () => {
-        auth.signOut().then(() => {
-            window.location.reload();
-        }).catch(err => alert("Logout Error: " + err.message));
-    });
-  // --- Updated Request Management for 2026 Bulk Orders ---
-
-function loadRequests() {
-  db.collection("requests").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-    requestList.innerHTML = "";
-    snapshot.forEach(doc => {
-      const req = doc.data();
-      const tr = document.createElement("tr");
-      const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
-
-      // 1. Build Order Summary (The items selected in the grid)
-      let itemsOrdered = "";
-      if (Array.isArray(req.orderSummary)) {
-        itemsOrdered = req.orderSummary.join(", ");
-      } else {
-        // Fallback for old orders using the previous schema
-        itemsOrdered = req.product_type || "N/A"; 
-      }
-
-      // 2. Build Detailed Project Info (Aggregating all possible conditional fields)
-      let details = `Instructions: ${req.instructions || 'N/A'}\n\n`;
-      
-      // Check each specific design field from the 2026 form
-      if (req.logo_brand_name) details += `[LOGO] Brand: ${req.logo_brand_name}\n`;
-      if (req.poster_info) details += `[A3 POSTER] Info: ${req.poster_info}\n`;
-      if (req.poster_info2) details += `[A4 POSTER] Info: ${req.poster_info2}\n`;
-      if (req.banner_platform) details += `[BANNER] Platform: ${req.banner_platform} | Text: ${req.banner_text}\n`;
-      if (req.profile_username) details += `[PROFILE] Name: ${req.profile_username}\n`;
-      if (req.flyer_info) details += `[FLYER] Info: ${req.flyer_info}\n`;
-      if (req.cover_info) details += `[COVER] Info: ${req.cover_info}\n`;
-      if (req.brandcard_name) details += `[BRAND CARD] Name: ${req.brandcard_name}\n`;
-      
-      // Legacy support for older field names
-      if (req.logo_style) details += `[LEGACY LOGO] Style: ${req.logo_style}\n`;
-
-      tr.innerHTML = `
-        <td>${date}</td>
-        <td>${req.email}</td>
-        <td><strong style="color:var(--accent-color)">${itemsOrdered}</strong></td>
-        <td>${req.budget} Eur</td>
-        <td>
-          <select class="status-select" data-id="${doc.id}">
-            <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>Pending</option>
-            <option value="approved" ${req.status === 'approved' ? 'selected' : ''}>Approved</option>
-            <option value="declined" ${req.status === 'declined' ? 'selected' : ''}>Declined</option>
-          </select>
-        </td>
-        <td>${req.showcase ? 'Yes' : 'No'}</td>
-        <td>${req.email_agree ? 'Yes' : 'No'}</td>
-        <td><pre class="request-details">${details}</pre></td>
-        <td>
-          <button class="btn-action btn-approve" data-id="${doc.id}">Approve</button>
-          <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
-        </td>
-      `;
-      requestList.appendChild(tr);
-    });
-    addRequestListeners();
-  });
-}
-
-function loadCompletedRequests() {
-  db.collection("requests").where("status", "==", "approved").orderBy("timestamp", "desc").onSnapshot(snapshot => {
-    completedRequestList.innerHTML = "";
-    snapshot.forEach(doc => {
-      const req = doc.data();
-      const tr = document.createElement("tr");
-      const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
-
-      let itemsOrdered = Array.isArray(req.orderSummary) ? req.orderSummary.join(", ") : (req.product_type || "N/A");
-
-      let details = `Instructions: ${req.instructions || 'N/A'}\n\n`;
-      if (req.logo_brand_name) details += `[LOGO] Brand: ${req.logo_brand_name}\n`;
-      if (req.poster_info) details += `[A3 POSTER] Info: ${req.poster_info}\n`;
-      if (req.banner_platform) details += `[BANNER] Platform: ${req.banner_platform}\n`;
-
-      tr.innerHTML = `
-        <td>${date}</td>
-        <td>${req.email}</td>
-        <td>${itemsOrdered}</td>
-        <td>${req.budget} Eur</td>
-        <td>${req.status}</td>
-        <td>${req.showcase ? 'Yes' : 'No'}</td>
-        <td>${req.email_agree ? 'Yes' : 'No'}</td>
-        <td><pre class="request-details">${details}</pre></td>
-      `;
-      completedRequestList.appendChild(tr);
-    });
-  });
-}
+  // --- Request Management (Unchanged) ---
+  
+  function loadRequests() {
+    db.collection("requests").orderBy("timestamp", "desc").onSnapshot(snapshot => {
+      requestList.innerHTML = "";
+      snapshot.forEach(doc => {
+        const req = doc.data();
+        const tr = document.createElement("tr");
+        
+        const date = req.timestamp ? req.timestamp.toDate().toLocaleDateString() : 'N/A';
+        
+        let details = `Instructions: ${req.instructions || 'N/A'}\n`;
+        if (req.product_type === 'logo') {
+          details += `Brand: ${req.logo_brand_name}\nStyle: ${req.logo_style}`;
+        } else if (req.product_type === 'postera3') {
+          details += `Info: ${req.poster_info}`;
+        } else if (req.product_type === 'banner') {
+            details += `Platform: ${req.banner_platform}\nText: ${req.banner_text}`;
+        } else if (req.product_type === 'profile') {
+            details += `Username: ${req.profile_username}\nStyle: ${req.profile_style}`;
+        } else if (req.product_type === 'ui') {
+        }
+        
+        tr.innerHTML = `
+          <td>${date}</td>
+          <td>${req.email}</td>
+          <td>${req.product_type}</td>
+          <td>${req.budget} Eur</td>
+          <td>
+            <select class="status-select" data-id="${doc.id}">
+              <option value="pending" ${req.status === 'pending' ? 'selected' : ''}>Pending</option>
+              <option value="approved" ${req.status === 'approved' ? 'selected' : ''}>Approved</option>
+              <option value="declined" ${req.status === 'declined' ? 'selected' : ''}>Declined</option>
+            </select>
+          </td>
+          <td>${req.showcase ? 'Yes' : 'No'}</td>
+          <td>${req.email_agree ? 'Yes' : 'No'}</td>
+          <td><pre class="request-details">${details}</pre></td>
+          <td>
+            <button class="btn-action btn-approve" data-id="${doc.id}">Approve</button>
+            <button class="btn-action btn-delete" data-id="${doc.id}">Delete</button>
+          </td>
+        `;
+        requestList.appendChild(tr);
+      });
+      addRequestListeners();
+    });
+  }
 
   function addRequestListeners() {
     // Status dropdown change
@@ -486,5 +401,3 @@ function loadCompletedRequests() {
   }
 
 });
-
-

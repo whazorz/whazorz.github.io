@@ -182,68 +182,9 @@ tr:hover {
   line-height: 1.4;
 }
 
-/* ===== Security Monitor (Blue Pulse) ===== */
-.security-monitor-card {
-    background: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 12px;
-    padding: 20px;
-    margin-top: 20px;
-    color: #c9d1d9;
-}
 
-.monitor-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 15px;
-    color: #f0f6fc;
-    font-size: 0.9rem;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-/* Glowing Status Dot */
-.status-dot {
-    width: 8px;
-    height: 8px;
-    background: #00c8ff;
-    border-radius: 50%;
-    box-shadow: 0 0 8px #00c8ff;
-}
-
-.monitor-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 15px;
-}
-
-.monitor-item .label {
-    display: block;
-    font-size: 0.7rem;
-    color: #8b949e;
-    margin-bottom: 4px;
-}
-
-.monitor-item .value {
-    font-family: 'monospace';
-    font-size: 1rem;
-    color: #58a6ff;
-}
-
-.location-tag {
-    display: block;
-    font-size: 0.75rem;
-    color: #79c0ff;
-    font-style: italic;
-}
-
-/* Change this temporarily to see the form */
-#admin-login {
-    display: block !important; 
-}
-
-/* Keep the dashboard hidden */
+/* Start both views as hidden to prevent the "1-second flash" */
+#admin-login, 
 #admin-dashboard {
     display: none;
 }
