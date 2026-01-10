@@ -1,3 +1,4 @@
+
 // --- 1. Translation Setup ---
 const translations = {
     en: {
