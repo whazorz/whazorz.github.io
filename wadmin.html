@@ -7,6 +7,26 @@
     <link rel="icon" href="w.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="adminstyle.css">
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyBUzYdeKfD7z31uUMhIKcQsU-ImA8Aopxk",
+    authDomain: "whazorz-portfolio.firebaseapp.com",
+    projectId: "whazorz-portfolio",
+    storageBucket: "whazorz-portfolio.firebasestorage.app",
+    messagingSenderId: "23481217882",
+    appId: "1:23481217882:web:533d4a7dadd4563426b963",
+    measurementId: "G-159920MCTC"
+  };
+  // Initialize Firebase globally before other scripts run
+  if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+  }
+</script>
+
 </head>
 
 <body>
@@ -195,9 +215,7 @@
 
 <script src="wsystemtracker.js"></script>
 <script src="wadmin.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
 
 
 
