@@ -60,7 +60,7 @@
       filterSmoke: "SMOKE FOG ATMOSPHERE",
       filterFire: "FIRE HEAT EFFECTS",
       // Request Page
-      FormalSelectProductAbove: "Choose Product Above",
+      FormalSelectProductAbove: "Choose Product Above.",
       FormalSmartGuide: "*Smart Guide: Sizes are Width x Height & mm",
       FormalResolution: "Formal Resolution:",
       FormalSelectProduct: "Select a product.",
