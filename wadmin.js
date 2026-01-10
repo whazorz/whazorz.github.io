@@ -74,21 +74,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // --- Authentication ---
   
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      // User is logged in
-      loginView.style.display = "none";
-      dashboardView.style.display = "block";
-      loadRequests();
-      loadCompletedRequests();
-      loadGalleryItems();
-      loadAdminDownloads();
-    } else {
-      // User is logged out
-      loginView.style.display = "block";
-      dashboardView.style.display = "none";
-    }
-  });
+auth.onAuthStateChanged(user => {
+  if (user) {
+    // SUCCESS: User is logged in. Now it is safe to ask for data.
+    loginView.style.display = "none";
+    dashboardView.style.display = "block";
+
+    // Call all your data loading functions here
+    loadRequests();
+    loadCompletedRequests();
+    loadGalleryItems();
+    loadAdminDownloads();
+    loadLoginHistory(); // <--- Make sure this is here!
+  } else {
+    // User is logged out. Stop trying to read data.
+    loginView.style.display = "block";
+    dashboardView.style.display = "none";
+  }
+});
 
 async function logLoginAttempt(email) {
     try {
