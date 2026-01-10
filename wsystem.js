@@ -1,62 +1,73 @@
 /**
- * wsystemtracker.js - Security & Session Monitor
+ * wsystemtracker.js - Unique IP History & Security Monitor
  */
 
-// 1. Fetch IP with a fallback
-async function getAdminIP() {
+// 1. Fetch Geo-IP Data
+async function getAdminSessionData() {
     try {
-        const response = await fetch('https://api.ipify.org?format=json');
+        const response = await fetch('https://ipapi.co/json/');
         const data = await response.json();
-        return data.ip;
+        return {
+            ip: data.ip || "0.0.0.0",
+            location: `${data.city}, ${data.country_name}` || "Unknown Location"
+        };
     } catch (err) {
-        return "IP_UNAVAILABLE";
+        return { ip: "IP_BLOCKED", location: "Geo-Fetch Failed" };
     }
 }
 
-// 2. Logic to log the session
+// 2. Log Session (Live Monitor) and Unique History
 async function logSecuritySession(userEmail) {
-    const ip = await getAdminIP();
+    const geoData = await getAdminSessionData();
+    const timestamp = firebase.firestore.FieldValue.serverTimestamp();
+
     const sessionData = {
         email: userEmail,
-        ip: ip,
-        time: firebase.firestore.FieldValue.serverTimestamp(),
+        ip: geoData.ip,
+        location: geoData.location,
+        time: timestamp,
         device: navigator.platform,
         browser: navigator.userAgent,
         screenResolution: `${window.screen.width}x${window.screen.height}`
     };
 
     try {
-        // Save history and update the dashboard monitor
-        await firebase.firestore().collection("login_logs").add(sessionData);
+        // A. Update the Live Dashboard Monitor (Always updates)
         await firebase.firestore().collection("admin_meta").doc("last_access").set(sessionData);
-        console.log("Security session logged.");
+
+        // B. Update Unique History Log
+        // We use the IP address (dots replaced by underscores) as the ID to prevent duplicates.
+        const ipDocId = geoData.ip.replace(/\./g, "_");
+        const historyRef = firebase.firestore().collection("login_history").doc(ipDocId);
+        
+        // We use set with {merge: true} so we don't create multiple entries for the same IP
+        await historyRef.set({
+            ...sessionData,
+            first_captured: timestamp // Records when this IP was first seen
+        }, { merge: true });
+
+        console.log("Security check complete. Unique IP logged.");
     } catch (e) {
-        console.error("Tracker Error:", e);
+        console.error("Security logging error:", e);
     }
 }
 
-// 3. Display data on the Dashboard
+// 3. Real-time Monitor Display
 function displayLoginTracker() {
     const ipDisplay = document.getElementById("last-login-ip");
+    const locDisplay = document.getElementById("last-login-location");
     const timeDisplay = document.getElementById("last-login-time");
-    const deviceDisplay = document.getElementById("last-login-device");
+    const devDisplay = document.getElementById("last-login-device");
 
-    if (ipDisplay && timeDisplay) {
+    if (ipDisplay) {
         firebase.firestore().collection("admin_meta").doc("last_access")
             .onSnapshot(doc => {
                 if (doc.exists) {
                     const data = doc.data();
-                    ipDisplay.textContent = data.ip || "0.0.0.0";
-                    
-                    if (data.time) {
-                        const date = data.time.toDate ? data.time.toDate() : new Date();
-                        timeDisplay.textContent = date.toLocaleString();
-                    }
-                    
-                    if (deviceDisplay) {
-                        deviceDisplay.textContent = data.device || "Unknown";
-                        deviceDisplay.title = `Browser: ${data.browser} | Res: ${data.screenResolution}`;
-                    }
+                    ipDisplay.textContent = data.ip;
+                    locDisplay.textContent = data.location;
+                    timeDisplay.textContent = data.time ? data.time.toDate().toLocaleString() : "Just now";
+                    devDisplay.textContent = data.device;
                 }
             });
     }

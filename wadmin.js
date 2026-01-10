@@ -72,32 +72,42 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-// --- Updated Authentication Logic ---
+// --- Authentication Block ---
 auth.onAuthStateChanged(user => {
   if (user) {
-    // 1. Logged In: Show Dashboard
+    // 1. Reveal Dashboard
     loginView.style.display = "none";
     dashboardView.style.display = "block";
     
-    // 2. Initialize the Security Monitor Display
-    // This connects to the function in your wsystemtracker.js
-    if (typeof displayLoginTracker === "function") {
-      displayLoginTracker();
-    }
+    // 2. Start the monitor listener ONLY now
+    displayLoginTracker(); 
     
-    // 3. Load Data
+    // 3. Load other data
     loadRequests();
     loadCompletedRequests();
     loadGalleryItems();
     loadAdminDownloads();
-    
-    console.log("Admin Session Active:", user.email);
   } else {
-    // 4. Logged Out: Show Login Form
     loginView.style.display = "block";
     dashboardView.style.display = "none";
-    console.log("No active session. Waiting for login...");
   }
+});
+
+// Locate your loginForm listener and update the success block:
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("admin-email").value;
+    const pass = document.getElementById("admin-password").value;
+    
+    auth.signInWithEmailAndPassword(email, pass)
+      .then((userCredential) => {
+          // --- Trigger the One-Time Catch ---
+          logSecuritySession(email);
+          // ----------------------------------
+      })
+      .catch(err => {
+          loginError.textContent = err.message;
+      });
 });
 
 loginForm.addEventListener("submit", (e) => {

@@ -165,30 +165,33 @@
                     <tbody id="completed-request-items-list"></tbody>
                 </table>
             </div>
-
+        
+        
             <div class="security-monitor-card">
-                <div class="monitor-header">
-                    
-                    <h4><div class="status-dot"></div>Security Session Monitor</h4>
-                </div>
-                <div class="monitor-grid">
-                    <div class="monitor-item">
-                        <span class="label">Last Authorized IP</span>
-                        <span id="last-login-ip" class="value">0.0.0.0</span>
-                    </div>
-                    <div class="monitor-item">
-                        <span class="label">Access Timestamp</span>
-                        <span id="last-login-time" class="value">--/--/-- --:--</span>
-                    </div>
-                    <div class="monitor-item">
-                        <span class="label">Device Info</span>
-                        <span id="last-login-device" class="value truncate" title="Loading...">Detecting...</span>
-                    </div>
-                </div>
+    <div class="monitor-header">
+        <div class="status-dot-wrapper">
+            <div class="status-dot pulse"></div>
+        </div>
+        <h4>Security Session Monitor</h4>
+    </div>
+    <div class="monitor-grid">
+        <div class="monitor-item">
+            <span class="label">Last Authorized Access</span>
+            <div class="value-container">
+                <span id="last-login-ip" class="value">0.0.0.0</span>
+                <span id="last-login-location" class="location-tag">Detecting Location...</span>
             </div>
-
+        </div>
+        <div class="monitor-item">
+            <span class="label">Access Timestamp</span>
+            <span id="last-login-time" class="value">--/--/-- --:--</span>
+        </div>
+        <div class="monitor-item">
+            <span class="label">Device Info</span>
+            <span id="last-login-device" class="value truncate" title="Detecting...">Detecting...</span>
         </div>
     </div>
+</div>
 
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>

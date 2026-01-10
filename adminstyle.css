@@ -184,52 +184,58 @@ tr:hover {
 
 /* ===== Security Monitor (Blue Pulse) ===== */
 .security-monitor-card {
-  background: #010409;
-  border: 1px solid var(--accent-color);
-  border-radius: 10px;
-  padding: 20px;
-  margin-bottom: 30px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+    color: #c9d1d9;
 }
 
-.monitor-header h4 {
-  color: var(--text-bright);
-  font-size: 0.9rem;
-  margin: 0;
-  text-transform: uppercase;
-  display: inline-flex;
-  margin-right: 15px;
+.monitor-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: #f0f6fc;
+    font-size: 0.9rem;
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
+/* Glowing Status Dot */
 .status-dot {
-  width: 12px;
-  height: 12px;
-  background-color: var(--accent-color);
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--accent-color);
-  animation: bluePulse 2s infinite;
-  margin-top: 5px;
-  margin-right: 5px;
-
+    width: 8px;
+    height: 8px;
+    background: #00c8ff;
+    border-radius: 50%;
+    box-shadow: 0 0 8px #00c8ff;
 }
 
-@keyframes bluePulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 18px var(--accent-color); }
-  100% { transform: scale(0.95); opacity: 0.8; }
+.monitor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+}
+
+.monitor-item .label {
+    display: block;
+    font-size: 0.7rem;
+    color: #8b949e;
+    margin-bottom: 4px;
 }
 
 .monitor-item .value {
-  color: var(--text-bright);
-  font-weight: bold;
-  font-size: 1.1rem;
+    font-family: 'monospace';
+    font-size: 1rem;
+    color: #58a6ff;
 }
 
-/* Utility Classes */
-.truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 180px;
+.location-tag {
+    display: block;
+    font-size: 0.75rem;
+    color: #79c0ff;
+    font-style: italic;
 }
 
 /* Start both views as hidden to prevent the "1-second flash" */
