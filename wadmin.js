@@ -72,27 +72,16 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-// --- Authentication Block ---
 auth.onAuthStateChanged(user => {
   if (user) {
-    // 1. Reveal Dashboard
+    // Reveal Dashboard
     loginView.style.display = "none";
     dashboardView.style.display = "block";
     
-    // 2. Start the monitor listener ONLY after auth is confirmed
-    // This fixed the "Missing Permissions" and "0.0.0.0" issue
+    // This call is now safe because the user is authed and the app MUST exist
     if (typeof displayLoginTracker === "function") {
       displayLoginTracker(); 
     }
-    
-    // 3. Load other data
-    loadRequests();
-    loadCompletedRequests();
-    loadGalleryItems();
-    loadAdminDownloads();
-  } else {
-    loginView.style.display = "block";
-    dashboardView.style.display = "none";
   }
 });
 
