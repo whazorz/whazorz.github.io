@@ -72,23 +72,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-  // --- Authentication ---
-  
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      // User is logged in
-      loginView.style.display = "none";
-      dashboardView.style.display = "block";
-      loadRequests();
-      loadCompletedRequests();
-      loadGalleryItems();
-      loadAdminDownloads();
-    } else {
-      // User is logged out
-      loginView.style.display = "block";
-      dashboardView.style.display = "none";
-    }
-  });
+// --- Authentication ---
+auth.onAuthStateChanged(user => {
+  if (user) {
+    // User is logged in
+    loginView.style.display = "none";
+    dashboardView.style.display = "block"; // CSS hidden it, JS reveals it now
+    
+    loadRequests();
+    loadCompletedRequests();
+    loadGalleryItems();
+    loadAdminDownloads();
+  } else {
+    // User is logged out
+    loginView.style.display = "block"; // Show login form only now
+    dashboardView.style.display = "none";
+  }
+});
 
   loginForm.addEventListener("submit", (e) => {
     e.preventDefault();

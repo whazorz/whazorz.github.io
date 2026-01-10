@@ -231,3 +231,12 @@ tr:hover {
   text-overflow: ellipsis;
   max-width: 180px;
 }
+
+/* Prevent dashboard flicker on refresh */
+#admin-dashboard {
+    display: none;
+}
+
+#admin-login {
+    display: none; /* We will show this via JS if not logged in */
+}
