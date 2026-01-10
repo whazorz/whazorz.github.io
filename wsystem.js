@@ -1,5 +1,5 @@
 /**
- * wsystemtracker.js - Unique IP History & Security Monitor
+ * wsystemtracker.js - Security & Session Monitor
  */
 
 // 1. Fetch Geo-IP Data
@@ -16,7 +16,7 @@ async function getAdminSessionData() {
     }
 }
 
-// 2. Log Session (Live Monitor) and Unique History
+// 2. Log Session & Unique History (One-time catch)
 async function logSecuritySession(userEmail) {
     const geoData = await getAdminSessionData();
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
@@ -32,43 +32,48 @@ async function logSecuritySession(userEmail) {
     };
 
     try {
-        // A. Update the Live Dashboard Monitor (Always updates)
+        // Update Live Monitor
         await firebase.firestore().collection("admin_meta").doc("last_access").set(sessionData);
 
-        // B. Update Unique History Log
-        // We use the IP address (dots replaced by underscores) as the ID to prevent duplicates.
+        // One-time History Catch: Use IP as document ID to prevent duplicates
         const ipDocId = geoData.ip.replace(/\./g, "_");
-        const historyRef = firebase.firestore().collection("login_history").doc(ipDocId);
-        
-        // We use set with {merge: true} so we don't create multiple entries for the same IP
-        await historyRef.set({
+        await firebase.firestore().collection("login_history").doc(ipDocId).set({
             ...sessionData,
-            first_captured: timestamp // Records when this IP was first seen
+            first_detected: timestamp
         }, { merge: true });
 
-        console.log("Security check complete. Unique IP logged.");
+        console.log("Security Audit: Unique IP session logged.");
     } catch (e) {
-        console.error("Security logging error:", e);
+        console.error("Tracking Error:", e);
     }
 }
 
-// 3. Real-time Monitor Display
+// 3. Real-time Monitor Display (Wait for Auth)
 function displayLoginTracker() {
     const ipDisplay = document.getElementById("last-login-ip");
     const locDisplay = document.getElementById("last-login-location");
     const timeDisplay = document.getElementById("last-login-time");
     const devDisplay = document.getElementById("last-login-device");
 
+    // Only start the listener if the user is authenticated to prevent permission errors
+    const user = firebase.auth().currentUser;
+    if (!user) {
+        console.warn("Tracker: Waiting for authentication...");
+        return;
+    }
+
     if (ipDisplay) {
         firebase.firestore().collection("admin_meta").doc("last_access")
             .onSnapshot(doc => {
                 if (doc.exists) {
                     const data = doc.data();
-                    ipDisplay.textContent = data.ip;
-                    locDisplay.textContent = data.location;
+                    ipDisplay.textContent = data.ip || "0.0.0.0";
+                    locDisplay.textContent = data.location || "Unknown";
                     timeDisplay.textContent = data.time ? data.time.toDate().toLocaleString() : "Just now";
-                    devDisplay.textContent = data.device;
+                    devDisplay.textContent = data.device || "Unknown";
                 }
+            }, err => {
+                console.error("Monitor Listener Error:", err.message);
             });
     }
 }
