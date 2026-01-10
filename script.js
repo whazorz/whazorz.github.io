@@ -371,10 +371,24 @@ async function loadPortfolio(db, translations, getCurrentLang) {
   try {
     const snap = await db.collection("portfolioItems").get();
     gallery.innerHTML = "";
-    snap.forEach(doc => gallery.appendChild(createGalleryItem(doc.data(), '/images/')));
+    
+    if (snap.empty) {
+        gallery.innerHTML = "<p>No items found.</p>";
+        return;
+    }
+
+    snap.forEach(doc => {
+        gallery.appendChild(createGalleryItem(doc.data(), '/images/'));
+    });
+
+    // CRITICAL: Re-run filter setup AFTER items are added to DOM
     setupPortfolioFilter();
-  } catch (e) { gallery.innerHTML = translations[getCurrentLang()].portfolioError; }
-}
+    
+  } catch (e) { 
+    console.error("Portfolio Load Error:", e);
+    gallery.innerHTML = translations[getCurrentLang()].portfolioError; 
+  }
+
 
 async function loadLatestWork(db, translations, getCurrentLang) {
   const gallery = document.getElementById("latest-work-gallery");
@@ -443,13 +457,29 @@ function setupLightbox() {
 
 function setupPortfolioFilter() {
   const btns = document.querySelectorAll("#Portfolio .filter-btn");
-  const items = document.querySelectorAll("#portfolio-gallery .gallery-item");
+  const gallery = document.getElementById("portfolio-gallery");
+  
   btns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      const filter = btn.dataset.filter;
-      btns.forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      items.forEach(i => i.style.display = (filter === "all" || i.dataset.type === filter) ? 'block' : 'none');
+    // Remove old listeners to prevent stacking
+    const newBtn = btn.cloneNode(true);
+    btn.parentNode.replaceChild(newBtn, btn);
+
+    newBtn.addEventListener("click", () => {
+      const filter = newBtn.dataset.filter;
+      const items = gallery.querySelectorAll(".gallery-item");
+
+      // UI update
+      document.querySelectorAll("#Portfolio .filter-btn").forEach(b => b.classList.remove("active"));
+      newBtn.classList.add("active");
+
+      // Logic update
+      items.forEach(item => {
+        if (filter === "all" || item.getAttribute("data-type") === filter) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
+      });
     });
   });
 }
