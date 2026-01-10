@@ -1,23 +1,28 @@
 /**
- * tracker.js - Security & Session Monitor
+ * tracker.js - Security & Session Monitor (Updated)
  */
 
-// 1. Fetch IP from a 3rd party API
+// 1. Fetch IP with a fallback
 async function getAdminIP() {
     try {
         const response = await fetch('https://api.ipify.org?format=json');
+        if (!response.ok) throw new Error("API Limit/Blocked");
         const data = await response.json();
         return data.ip;
     } catch (err) {
-        return "IP_BLOCKED";
+        console.warn("IP Fetch failed, using fallback string.");
+        return "IP_UNAVAILABLE";
     }
 }
 
-// 2. Intercept the existing Login Form
+// 2. Intercept the Login Form
 const adminLoginForm = document.getElementById("login-form");
 
 if (adminLoginForm) {
-    adminLoginForm.addEventListener("submit", async () => {
+    adminLoginForm.addEventListener("submit", async (e) => {
+        // PREVENT the default refresh so the async code can finish
+        e.preventDefault();
+
         const email = document.getElementById("admin-email").value;
         const ip = await getAdminIP();
         
@@ -25,16 +30,31 @@ if (adminLoginForm) {
             email: email,
             ip: ip,
             time: firebase.firestore.FieldValue.serverTimestamp(),
-            device: navigator.platform,
+            device: navigator.platform || "Unknown Platform",
             browser: navigator.userAgent,
             screenResolution: `${window.screen.width}x${window.screen.height}`
         };
 
-        // Save a permanent log entry
-        firebase.firestore().collection("login_logs").add(sessionData);
-        
-        // Update the single "Last Access" record for the dashboard UI
-        firebase.firestore().collection("admin_meta").doc("last_access").set(sessionData);
+        try {
+            // Wait for BOTH operations to finish before moving on
+            await Promise.all([
+                firebase.firestore().collection("login_logs").add(sessionData),
+                firebase.firestore().collection("admin_meta").doc("last_access").set(sessionData)
+            ]);
+            
+            console.log("Security log captured.");
+
+            // SUCCESS: Now manually trigger the login logic or redirect
+            // If you are using Firebase Auth signInWithEmailAndPassword, call it here:
+            // loginUser(email, password); 
+            
+            // Or, if this is a standard form submit, you can now unbind and submit:
+            // adminLoginForm.submit();
+
+        } catch (error) {
+            console.error("Firestore Error:", error);
+            // Even if logging fails, you might want to allow login to proceed
+        }
     });
 }
 
@@ -45,19 +65,26 @@ function displayLoginTracker() {
     const deviceDisplay = document.getElementById("last-login-device");
 
     if (ipDisplay && timeDisplay) {
-        // Use onSnapshot for real-time updates without refreshing
         firebase.firestore().collection("admin_meta").doc("last_access")
             .onSnapshot(doc => {
                 if (doc.exists) {
                     const data = doc.data();
                     ipDisplay.textContent = data.ip || "0.0.0.0";
-                    timeDisplay.textContent = data.time ? data.time.toDate().toLocaleString() : "Just now";
+                    
+                    // Handle Firestore Timestamp conversion
+                    if (data.time && data.time.toDate) {
+                        timeDisplay.textContent = data.time.toDate().toLocaleString();
+                    } else {
+                        timeDisplay.textContent = "Updating...";
+                    }
                     
                     if (deviceDisplay) {
                         deviceDisplay.textContent = data.device || "Unknown";
-                        deviceDisplay.title = `Resolution: ${data.screenResolution} | Browser: ${data.browser}`;
+                        deviceDisplay.title = `Res: ${data.screenResolution} | Browser: ${data.browser}`;
                     }
                 }
+            }, err => {
+                console.error("Snapshot listener failed (Check Rules):", err);
             });
     }
 }
