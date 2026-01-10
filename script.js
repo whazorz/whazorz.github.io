@@ -460,3 +460,78 @@ function setupHomePageLinks() {
     document.querySelector('nav a[data-target="Portfolio"]')?.click();
   });
 }
+
+// --- 1. Navigation & UI Initialization ---
+document.addEventListener("DOMContentLoaded", () => {
+    // Initialize Language
+    setupLanguageSwitcher();
+    
+    // Initialize Navigation
+    setupNavigation();
+});
+
+function setupNavigation() {
+    const navLinks = document.querySelectorAll("nav a");
+    const contentSections = document.querySelectorAll(".content");
+    
+    navLinks.forEach(link => {
+        link.addEventListener("click", e => {
+            e.preventDefault();
+            const targetId = link.getAttribute("data-target");
+            
+            navLinks.forEach(l => l.classList.remove("active"));
+            contentSections.forEach(s => s.classList.remove("active"));
+            
+            link.classList.add("active");
+            document.getElementById(targetId).classList.add("active");
+        });
+    });
+}
+
+// --- 2. Improved Translation Logic ---
+function translatePage(lang) {
+    if (!translations[lang]) lang = 'en';
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+
+    // Update Button Active States
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+    });
+
+    // Translate Text and HTML
+    document.querySelectorAll('[data-key]').forEach(el => {
+        const key = el.getAttribute('data-key');
+        const translation = translations[lang][key];
+
+        if (translation) {
+            // If the string contains HTML (like <strong> or &rarr;), use innerHTML
+            if (/<[a-z][\s\S]*>/i.test(translation) || translation.includes('—') || translation.includes('→')) {
+                el.innerHTML = translation;
+            } else {
+                el.innerText = translation;
+            }
+        }
+    });
+
+    // Translate Placeholders
+    document.querySelectorAll('[data-key-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-key-placeholder');
+        if (translations[lang][key]) el.placeholder = translations[lang][key];
+    });
+}
+
+// --- 3. Language Switcher Event Listeners ---
+function setupLanguageSwitcher() {
+    const langButtons = document.querySelectorAll('.lang-btn');
+    
+    langButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const selectedLang = btn.getAttribute('data-lang');
+            translatePage(selectedLang);
+        });
+    });
+
+    // Run once on load
+    translatePage(currentLang);
+}
