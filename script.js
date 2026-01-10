@@ -299,6 +299,7 @@ function setupRequestForm(db, translations, getCurrentLang) {
     }
 
     function updateSpecs() {
+        const lang = getCurrentLang();
         let techSpecs = [];
         Object.keys(selectedItems).forEach(key => {
             const item = designLibrary[key];
@@ -307,6 +308,16 @@ function setupRequestForm(db, translations, getCurrentLang) {
             }
         });
         resOutput.innerHTML = techSpecs.length > 0 ? techSpecs.join("") : "Select products above.";
+
+      const conditionalFields = {
+      logo: document.getElementById("logo-details"),
+      a3: document.getElementById("poster-details"),
+      a4: document.getElementById("poster-details2"),
+      banner: document.getElementById("banner-details"),
+      profile: document.getElementById("profile-details"),
+      brandcard: document.getElementById("brandcard-details"),
+      flyer: document.getElementById("Flyer-details"),
+      cover: document.getElementById("cover-details")
     }
 
     gridContainer.addEventListener("click", e => {
@@ -439,4 +450,4 @@ function setupHomePageLinks() {
         e.preventDefault();
         document.querySelector('nav a[data-target="Portfolio"]')?.click();
     });
-}
+  }
