@@ -188,3 +188,29 @@ tr:hover {
 #admin-dashboard {
     display: none;
 }
+
+/* ===== Table Image Thumbnails ===== */
+td img {
+  width: 50px;              /* Sets a fixed compact width */
+  height: 50px;             /* Sets a fixed compact height */
+  object-fit: cover;        /* Ensures image fills the square without stretching/distortion */
+  border-radius: 4px;       /* Matches your UI rounded corners */
+  border: 1px solid var(--border-color); /* Adds a subtle border definition */
+  display: block;           /* Removes default inline spacing issues */
+  transition: transform 0.2s ease; /* Smooth transition for hover */
+  cursor: pointer;
+}
+
+/* Optional: Zoom effect on hover so you can see details */
+td img:hover {
+  transform: scale(2.5);    /* Enlarge image */
+  z-index: 10;              /* Bring to front */
+  position: relative;       /* Required for z-index to work */
+  box-shadow: 0 5px 15px rgba(0,0,0,0.8);
+  border-color: var(--accent-color);
+}
+
+/* Ensure text is vertically centered with the images */
+td {
+  vertical-align: middle;
+}
