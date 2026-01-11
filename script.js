@@ -192,7 +192,7 @@ const translations = {
     priceA4: "A4 Poster Grafiski",
     priceCover: "Vāks (Koveris) Grafiski",
     priceFlyer: "Flyer Grafiski",
-    priceBrandCard: "Brand Card Grafiski",
+    priceBrandCard: "Vizītkarte Grafiski",
     priceBanner: "Banneris / Galvene Grafiski",
     priceProfile: "Profil Bilde Grafiski",
 
