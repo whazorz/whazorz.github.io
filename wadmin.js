@@ -122,49 +122,52 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 function loadLoginHistory() {
-  if (!loginHistoryList) {
-    console.warn("Table element 'login-history-list' not found.");
-    return;
-  }
+    const loginHistoryList = document.getElementById("login-history-list");
+    if (!loginHistoryList) {
+        console.warn("Table element 'login-history-list' not found.");
+        return;
+    }
 
-  db.collection("login_history").orderBy("timestamp", "desc").limit(15).onSnapshot(snapshot => {
-    loginHistoryList.innerHTML = "";
-    snapshot.forEach(doc => {
-      const item = doc.data();
-      const tr = document.createElement("tr");
-      const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
-      
-      tr.innerHTML = `
-        <td>${date}</td>
-        <td>${item.email}</td>
-        <td><strong>${item.ip}</strong></td>
-        <td>${item.city}, ${item.country}</td>
-        <td>${item.isp}</td>
-        <td><small title="${item.userAgent}">${item.userAgent.slice(0, 15)}...</small></td>
-        <td>
-          <button class="delete-btn" onclick="deleteLoginRecord('${doc.id}')" style="color: red; cursor: pointer;">
-            &times;
-          </button>
-        </td>
-      `;
-      loginHistoryList.appendChild(tr);
+    db.collection("login_history").orderBy("timestamp", "desc").limit(15).onSnapshot(snapshot => {
+        loginHistoryList.innerHTML = "";
+        snapshot.forEach(doc => {
+            const item = doc.data();
+            const tr = document.createElement("tr");
+            const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
+            
+            // We use doc.id to know which specific document to delete
+            tr.innerHTML = `
+                <td>${date}</td>
+                <td>${item.email}</td>
+                <td><strong>${item.ip}</strong></td>
+                <td>${item.city}, ${item.country}</td>
+                <td>${item.isp}</td>
+                <td><small title="${item.userAgent}">${item.userAgent.slice(0, 15)}...</small></td>
+                <td>
+                    <button onclick="deleteLoginEntry('${doc.id}')" style="color: red; cursor: pointer;">
+                        Delete
+                    </button>
+                </td>
+            `;
+            loginHistoryList.appendChild(tr);
+        });
+    }, err => {
+        console.error("Permission Error on login_history:", err.message);
     });
-  }, err => {
-    console.error("Permission Error on login_history:", err.message);
-  });
 }
 
-function deleteLoginRecord(docId) {
-  if (confirm("Are you sure you want to delete this login record?")) {
-    db.collection("login_history").doc(docId).delete()
-      .then(() => {
-        console.log("Record successfully deleted!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-        alert("Failed to delete record. Check permissions.");
-      });
-  }
+// 3. The Delete Function
+function deleteLoginEntry(docId) {
+    if (confirm("Are you sure you want to delete this security log?")) {
+        db.collection("login_history").doc(docId).delete()
+        .then(() => {
+            console.log("Document successfully deleted!");
+        })
+        .catch((error) => {
+            console.error("Error removing document: ", error);
+            alert("Error: You might not have permission to delete logs.");
+        });
+    }
 }
 
 loginForm.addEventListener("submit", (e) => {
@@ -244,18 +247,14 @@ loginForm.addEventListener("submit", (e) => {
       });
     });
 
-function deleteLoginRecord(docId) {
-  if (confirm("Are you sure you want to delete this login record?")) {
-    db.collection("login_history").doc(docId).delete()
-      .then(() => {
-        console.log("Record successfully deleted!");
-      })
-      .catch((error) => {
-        console.error("Error removing document: ", error);
-        alert("Failed to delete record. Check permissions.");
-      });
-  }
-}
+    // "Delete" button click
+    requestList.querySelectorAll('.btn-delete').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        if (!confirm("Are you sure you want to delete this request?")) return;
+        const id = e.target.getAttribute('data-id');
+        db.collection("requests").doc(id).delete();
+      });
+    });
   }
 
   // --- Completed Requests Log (Unchanged) ---
