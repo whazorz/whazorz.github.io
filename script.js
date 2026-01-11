@@ -188,13 +188,13 @@ const translations = {
     priceHeaderRes: "Tehniskā Izšķirtspēja (mm)",
     notpredefined: "Izmērs nav definēts",
     priceLogo: "Logotips Grafiski",
-    priceA3: "A3 Posteris Grafiski",
-    priceA4: "A4 Poster Grafiski",
+    priceA3: "A3 Plakāts Grafiski",
+    priceA4: "A4 Plakāts Grafiski",
     priceCover: "Vāks (Koveris) Grafiski",
     priceFlyer: "Flajers Grafiski",
     priceBrandCard: "Vizītkarte Grafiski",
     priceBanner: "Banneris / Galvene Grafiski",
-    priceProfile: "Profil Bilde Grafiski",
+    priceProfile: "Profil Attēls Grafiski",
 
     // PRODUCTS (Items)
     prodLogo: "Logo",
