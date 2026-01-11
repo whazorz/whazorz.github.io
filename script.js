@@ -679,39 +679,87 @@ function renderGrid() {
 
   function updateSpecs() {
     let techSpecs = [];
+    const formsContainer = document.getElementById("dynamic-forms-container");
+    const resOutput = document.getElementById("res-output");
+    
+    // Clear container
+    formsContainer.innerHTML = ""; 
 
-    // Toggle detail fields visibility based on selection
-    const conditionalFields = {
-        logo: document.getElementById("logo-details"),
-        a3: document.getElementById("poster-details"),
-        a4: document.getElementById("poster-details2"),
-        banner: document.getElementById("banner-details"),
-        profile: document.getElementById("profile-details"),
-        brandcard: document.getElementById("brandcard-details"),
-        flyer: document.getElementById("Flyer-details"),
-        cover: document.getElementById("cover-details")
+    // STRICT MAPPING: Product Key -> HTML Template ID
+    const templateMap = {
+        logo: "logo-details",
+        a3: "poster-details",
+        a4: "poster-details2", 
+        banner: "banner-details",
+        profile: "profile-details",
+        brandcard: "brandcard-details",
+        flyer: "Flyer-details",  // Note the Capital F from your HTML
+        cover: "cover-details"
     };
-    Object.values(conditionalFields).forEach(f => f?.classList.remove("visible"));
 
     Object.keys(selectedItems).forEach(key => {
-      const qty = selectedItems[key];
-      const item = designLibrary[key];
-      
-      if (conditionalFields[key]) conditionalFields[key].classList.add("visible");
+        const qty = selectedItems[key];
+        const item = designLibrary[key];
+        const sourceTemplateId = templateMap[key];
+        const sourceTemplate = document.getElementById(sourceTemplateId);
 
-      // Generate tech spec lines for every single item in the quantity
-      for (let i = 1; i <= qty; i++) {
-        const customTag = item.customizable ? `<span class="badge-custom"></span>` : "";
-        techSpecs.push(`
-          <div class="spec-line">
-              <strong>${item.name} #${i}</strong><br>
-              Resolution: ${item.res} | Size: ${item.dimensions} ${customTag}
-          </div>
-        `);
-      }
+        // Loop 1 to Qty
+        for (let i = 1; i <= qty; i++) {
+            
+            // 1. Tech Specs (Visual text)
+            const customTag = item.customizable ? `<span class="badge-custom"></span>` : "";
+            techSpecs.push(`
+                <div class="spec-line">
+                    <strong>${item.name} #${i}</strong><br>
+                    Resolution: ${item.res} | Size: ${item.dimensions} ${customTag}
+                </div>
+            `);
+
+            // 2. Form Generation
+            if (sourceTemplate) {
+                // We use <details> for collapsible effect
+                const detailsWrapper = document.createElement("details");
+                detailsWrapper.className = "dynamic-item-block";
+                
+                // Data attributes for identifying later
+                detailsWrapper.setAttribute("data-product-key", key);
+                detailsWrapper.setAttribute("data-product-index", i);
+                
+                // Open the FIRST item of any type by default, close others to save space
+                if (i === 1) detailsWrapper.open = true;
+
+                // Create the Header (<summary>)
+                const summary = document.createElement("summary");
+                summary.className = "dynamic-item-header";
+                summary.innerText = `${item.name} #${i} Details`;
+
+                // Create the Content container
+                const contentDiv = document.createElement("div");
+                contentDiv.className = "dynamic-item-content";
+                contentDiv.innerHTML = sourceTemplate.innerHTML;
+
+                // Rename inputs to ensure uniqueness
+                const inputs = contentDiv.querySelectorAll("input, textarea, select");
+                inputs.forEach(input => {
+                    if (input.name) {
+                        input.name = `${input.name}_${key}_${i}`;
+                        // Clear file inputs for security/cloning reasons
+                        if(input.type === 'file') input.value = ''; 
+                    }
+                });
+
+                // Assemble
+                detailsWrapper.appendChild(summary);
+                detailsWrapper.appendChild(contentDiv);
+                formsContainer.appendChild(detailsWrapper);
+            }
+        }
     });
 
-    resOutput.innerHTML = techSpecs.length > 0 ? techSpecs.join("") : "Select products above.";
+    // Output specs
+    if (resOutput) {
+        resOutput.innerHTML = techSpecs.length > 0 ? techSpecs.join("") : (translations[currentLang].FormalSelectProduct || "Select product.");
+    }
   }
 
   // Event Delegation
@@ -750,7 +798,7 @@ function renderGrid() {
     const formData = new FormData(form);
     const baseData = Object.fromEntries(formData.entries());
 
-    // 1. Map the selected items into a readable order summary
+    // 1. Order Summary
     const orderSummary = Object.keys(selectedItems).map(key => ({
       productKey: key,
       name: designLibrary[key].name,
@@ -758,32 +806,55 @@ function renderGrid() {
       specs: designLibrary[key].res
     }));
 
-    // 2. Dynamically collect details from visible conditional fields
-    const productDetails = {};
+    // 2. Specific Details Collection
+    const specificDetails = {};
+    
     Object.keys(selectedItems).forEach(key => {
-      // This looks for the container (e.g., "logo-details") 
-      // and grabs all inputs/textareas inside it
-      const container = document.getElementById(`${key}-details`);
-      if (container) {
-        const inputs = container.querySelectorAll("input, textarea");
-        productDetails[key] = Array.from(inputs).map(input => ({
-          label: input.placeholder || input.name,
-          value: input.value
-        }));
-      }
+        const qty = selectedItems[key];
+        specificDetails[key] = []; 
+
+        for (let i = 1; i <= qty; i++) {
+            // Select the <details> wrapper
+            const wrapper = document.querySelector(`details.dynamic-item-block[data-product-key="${key}"][data-product-index="${i}"]`);
+            
+            if (wrapper) {
+                const itemData = {};
+                // Select inputs inside the wrapper
+                const inputs = wrapper.querySelectorAll("input, textarea, select");
+                
+                inputs.forEach(input => {
+                    // Extract a clean label (Placeholder or original name part)
+                    let label = input.getAttribute('placeholder');
+                    if (!label && input.name) label = input.name.split('_')[0];
+                    if (!label) label = "Detail";
+
+                    // Handle File inputs vs Text inputs
+                    if (input.type === 'file') {
+                        itemData[label] = input.files.length > 0 ? input.files[0].name : "No file uploaded";
+                    } else {
+                        itemData[label] = input.value;
+                    }
+                });
+
+                specificDetails[key].push({
+                    unitNumber: i,
+                    details: itemData
+                });
+            }
+        }
     });
 
-    // 3. Construct the final object for Firestore
+    // 3. Prepare Final Data
     const requestData = {
       email: baseData.email,
       budget: baseData.budget,
       instructions: baseData.instructions,
       orderSummary: orderSummary,
-      specificDetails: productDetails, // Holds the content of the detail fields
+      productDetails: specificDetails, // Our organized array
       agreements: {
-        terms: !!baseData.agreeTerms,
-        showcase: !!baseData.agreeShowcase,
-        marketing: !!baseData.agreeEmail
+        terms: document.getElementById('terms-agree')?.checked || false,
+        showcase: !!baseData.showcase,
+        marketing: !!baseData.email_agree 
       },
       language: lang,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
@@ -796,17 +867,19 @@ function renderGrid() {
       formStatus.textContent = translations[lang].formSuccess;
       formStatus.className = "success";
       
-      // Reset form and UI
+      // Reset UI
       form.reset();
       selectedItems = {};
-      renderGrid();
+      document.getElementById("dynamic-forms-container").innerHTML = "";
+      document.querySelectorAll(".qty-val").forEach(span => span.innerText = "0");
+      document.querySelectorAll(".product-card").forEach(c => c.classList.remove("active"));
       
-      // Re-enable button after cooldown
+      // Wait before re-enabling button
       setTimeout(() => {
         submitBtn.disabled = false;
         submitBtn.innerText = translations[lang].formSubmitButton;
         formStatus.textContent = "";
-      }, 30000);
+      }, 5000);
 
     } catch (err) {
       console.error("Submission error:", err);

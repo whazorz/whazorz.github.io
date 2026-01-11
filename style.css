@@ -829,3 +829,54 @@ hr {
   unicode-bidi: isolate;
 
 }
+
+/* 1. HIDE ORIGINAL TEMPLATES */
+/* We strictly hide the IDs used as templates */
+#logo-details, #poster-details, #poster-details2, 
+#banner-details, #profile-details, #Flyer-details, 
+#cover-details, #brandcard-details {
+    display: none !important;
+}
+
+/* 2. STYLE THE GENERATED COLLAPSIBLE FORMS */
+details.dynamic-item-block {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    overflow: hidden;
+}
+
+summary.dynamic-item-header {
+    padding: 15px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+summary.dynamic-item-header:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Custom indicator (+ / -) */
+summary.dynamic-item-header::after {
+    content: '+'; 
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+details[open] summary.dynamic-item-header::after {
+    content: '-';
+}
+
+/* The content inside the form */
+.dynamic-item-content {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
