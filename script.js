@@ -24,6 +24,14 @@ const translations = {
     priceHeaderProduct: "Available Products",
     priceHeaderRes: "Technical Resolution (In MM)",
     notpredefined: "Not Predefined size",
+    priceLogo: "Logo Graphical",
+    priceA3: "A3 Poster Graphical",
+    priceA4: "A4 Poster Graphical",
+    priceCover: "Cover Graphical",
+    priceFlyer: "Flyer Graphical",
+    priceBrandCard: "Brand Card GRaphical",
+    priceBanner: "Banner / Header Graphical",
+    priceProfile: "Profile Image Graphical",
     
     // PRODUCTS (Items)
     prodLogo: "Logo",
@@ -179,6 +187,14 @@ const translations = {
     priceHeaderProduct: "Pieejamie Produkti",
     priceHeaderRes: "Tehniskā Izšķirtspēja (mm)",
     notpredefined: "Izmērs nav definēts",
+    priceLogo: "Logotips Grafiski",
+    priceA3: "A3 Posteris Grafiski",
+    priceA4: "A4 Poster Grafiski",
+    priceCover: "Cover Grafiski",
+    priceFlyer: "Flyer Grafiski",
+    priceBrandCard: "Brand Card Grafiski",
+    priceBanner: "Banneris / Galvene Grafiski",
+    priceProfile: "Profil Bilde Grafiski",
 
     // PRODUCTS (Items)
     prodLogo: "Logo",
