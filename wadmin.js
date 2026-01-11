@@ -121,29 +121,37 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-// 1. Define the delete function GLOBALLY (No confirmation)
-window.deleteLoginEntry = function(docId) {
-    db.collection("login_history").doc(docId).delete()
-        .then(() => {
-            console.log("Document successfully deleted: " + docId);
-        })
-        .catch((error) => {
-            console.error("Error removing document: ", error);
-            alert("Delete failed: " + error.message);
-        });
-};
+
 
 function loadLoginHistory() {
     const loginHistoryList = document.getElementById("login-history-list");
     if (!loginHistoryList) return;
 
-    db.collection("login_history").orderBy("timestamp", "desc").limit(15).onSnapshot(snapshot => {
+    // We still listen to the last 50 or so to ensure we find enough unique IPs 
+    // to fill our list, then filter down.
+    db.collection("login_history").orderBy("timestamp", "desc").limit(50).onSnapshot(snapshot => {
         loginHistoryList.innerHTML = "";
+        
+        // Use a Map to keep track of unique IPs (Map preserves insertion order)
+        const uniqueIps = new Map();
+
         snapshot.forEach(doc => {
-            const item = doc.data();
+            const data = doc.data();
+            const ip = data.ip || '0.0.0.0';
+
+            // Only add to the map if we haven't seen this IP yet
+            // Because we ordered by timestamp desc, the first one we hit is the latest.
+            if (!uniqueIps.has(ip)) {
+                uniqueIps.set(ip, { id: doc.id, ...data });
+            }
+        });
+
+        // Convert Map values back to an array and limit to the top 15 unique results
+        const filteredEntries = Array.from(uniqueIps.values()).slice(0, 15);
+
+        filteredEntries.forEach(item => {
             const tr = document.createElement("tr");
             
-            // Safety check for variables
             const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
             const userAgent = item.userAgent || "Unknown Device";
             const email = item.email || "No Email";
@@ -156,13 +164,18 @@ function loadLoginHistory() {
                 <td>${item.isp || 'Unknown'}</td>
                 <td><small title="${userAgent}">${userAgent.slice(0, 15)}...</small></td>
                 <td>
-                    <button onclick="deleteLoginEntry('${doc.id}')" style="color:red; border:none; background:none; cursor:pointer;">
+                    <button onclick="deleteLoginEntry('${item.id}')" style="color:red; border:none; background:none; cursor:pointer;">
                         Delete
                     </button>
                 </td>
             `;
             loginHistoryList.appendChild(tr);
         });
+        
+        if (filteredEntries.length === 0) {
+            loginHistoryList.innerHTML = `<tr><td colspan="7" style="text-align:center;">No login history found.</td></tr>`;
+        }
+        
     }, err => {
         console.error("Permission Error:", err.message);
         loginHistoryList.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Permission Denied. Check Firebase Rules.</td></tr>`;
