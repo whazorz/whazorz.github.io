@@ -7,7 +7,6 @@
     <link rel="icon" href="w.png" type="image/png">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="adminstyle.css">
-
 </head>
 
 <body>
@@ -28,147 +27,157 @@
         </form>
     </div>
 
-        <div id="admin-dashboard">
-            <button id="logout-btn">Logout</button>
-            <h2>W-Admin Dashboard</h2>
+    <div id="admin-dashboard" style="display:none;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+             <h2>W-Admin Dashboard</h2>
+             <button id="logout-btn">Logout</button>
+        </div>
 
-            <hr>
+        <hr>
 
-            <h3>Manage GFX / Downloads</h3>
-            <form id="downloads-form">
-                <div class="form-group">
-                    <label for="download-title">Title</label>
-                    <input type="text" id="download-title" required>
-                </div>
-                <div class="form-group">
-                    <label for="download-image-url">Image Filename (e.g., image.png)</label>
-                    <input type="text" id="download-image-url" placeholder="filename.png (must be in /gfx/)" required>
-                </div>
-                <div class="form-group">
-                    <label for="download-type">Filter Type</label>
-                    <select id="download-type" required>
-                        <option value="environment">ENVIRONMENT</option>
-                        <option value="natural">NATURAL EFFECTS</option>
-                        <option value="particle">PARTICLE STYLES</option>
-                        <option value="tech">TECH GLITCH DIGITAL EFFECTS</option>
-                        <option value="space">SPACE COSMIC EFFECTS</option>
-                        <option value="abstract">CLEAN ABSTRACT TEXTURES</option>
-                        <option value="impact">IMPACT DAMAGE EFFECTS</option>
-                        <option value="energy">ENERGY MAGIC SCI-FI EFFECTS</option>
-                        <option value="smoke">SMOKE FOG ATMOSPHERE</option>
-                        <option value="fire">FIRE HEAT EFFECTS</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="download-description">Description</label>
-                    <textarea id="download-description" required></textarea>
-                </div>
-                <input type="hidden" id="download-file-url" name="download-file-url">
-                
-                <input type="hidden" id="download-edit-id">
-                <button type="submit" id="download-submit-btn">Add Download Item</button>
-                <button type="button" id="download-cancel-btn" style="display: none;">Cancel Edit</button>
-            </form>
-
-            <div class="scroll-box">
-                <table class="downloads-list">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Title</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="downloads-items-list"></tbody>
-                </table>
+        <h3>Manage GFX / Downloads</h3>
+        <form id="downloads-form">
+            <div class="form-group">
+                <label for="download-title">Title</label>
+                <input type="text" id="download-title" required>
             </div>
-            <hr>
-
-            <h3>Manage Portfolio Gallery</h3>
-            <form id="gallery-form">
-                <div class="form-group">
-                    <label for="gallery-url">Image Filename (e.g., image.png)</label>
-                    <input type="text" id="gallery-url" placeholder="filename.png (must be in /images/)" required>
-                </div>
-                <div class="form-group">
-                    <label for="gallery-type">Filter Type</label>
-                    <select id="gallery-type">
-                        <option value="logo">Logo</option>
-                        <option value="posters">Poster</option>
-                        <option value="cover">Cover</option>
-                        <option value="flyer">Flyer</option>
-                        <option value="brandcard">Brand Card</option>
-                        <option value="banner">Banner</option>
-                        <option value="profile">Profile</option>
-                    </select>
-                </div>
-                <input type="hidden" id="gallery-edit-id">
-                <button type="submit" id="gallery-submit-btn">Add Gallery Item</button>
-                <button type="button" id="gallery-cancel-btn" style="display: none;">Cancel Edit</button>
-            </form>
-
-            <div class="scroll-box">
-                <table class="gallery-list">
-                    <thead>
-                        <tr>
-                            <th>Image</th>
-                            <th>Type</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="gallery-items-list"></tbody>
-                </table>
+            <div class="form-group">
+                <label for="download-image-url">Image Filename (e.g., image.png)</label>
+                <input type="text" id="download-image-url" placeholder="filename.png (must be in /gfx/)" required>
             </div>
-
-            <hr>
-
-            <div class="scroll-box">
-                <h3>View Requests (Pending)</h3>
-                <table class="request-list">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Email</th>
-                            <th>Product</th>
-                            <th>Budget</th>
-                            <th>Status</th>
-                            <th>Showcase</th>
-                            <th>Emails</th>
-                            <th>Details</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="request-items-list"></tbody>
-                </table>
+            <div class="form-group">
+                <label for="download-file-url-visible">Download Link / Source (Optional)</label>
+                <input type="text" id="download-file-url-visible" placeholder="https://..." >
             </div>
-
-            <hr>
-
-            <div class="scroll-box">
-                <h3>Completed Requests Log (Approved)</h3>
-                <table class="request-list">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Email</th>
-                            <th>Product</th>
-                            <th>Budget</th>
-                            <th>Status</th>
-                            <th>Showcase</th>
-                            <th>Emails</th>
-                            <th>Details</th>
-                        </tr>
-                    </thead>
-                    <tbody id="completed-request-items-list"></tbody>
-                </table>
+            <div class="form-group">
+                <label for="download-type">Filter Type</label>
+                <select id="download-type" required>
+                    <option value="environment">ENVIRONMENT</option>
+                    <option value="natural">NATURAL EFFECTS</option>
+                    <option value="particle">PARTICLE STYLES</option>
+                    <option value="tech">TECH GLITCH DIGITAL EFFECTS</option>
+                    <option value="space">SPACE COSMIC EFFECTS</option>
+                    <option value="abstract">CLEAN ABSTRACT TEXTURES</option>
+                    <option value="impact">IMPACT DAMAGE EFFECTS</option>
+                    <option value="energy">ENERGY MAGIC SCI-FI EFFECTS</option>
+                    <option value="smoke">SMOKE FOG ATMOSPHERE</option>
+                    <option value="fire">FIRE HEAT EFFECTS</option>
+                </select>
             </div>
+            <div class="form-group">
+                <label for="download-description">Description</label>
+                <textarea id="download-description" required></textarea>
+            </div>
+            
+            <input type="hidden" id="download-edit-id">
+            <button type="submit" id="download-submit-btn">Add Download Item</button>
+            <button type="button" id="download-cancel-btn" style="display: none;">Cancel Edit</button>
+        </form>
 
-            <hr>
-            <hr>
-            <h3>Login Security History</h3>
-            <div class="scroll-box">
+        <div class="scroll-box">
+            <table class="downloads-list">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Title</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="downloads-items-list"></tbody>
+            </table>
+        </div>
+        <hr>
+
+        <h3>Manage Portfolio Gallery</h3>
+        <form id="gallery-form">
+            <div class="form-group">
+                <label for="gallery-url">Image Filename (e.g., image.png)</label>
+                <input type="text" id="gallery-url" placeholder="filename.png (must be in /images/)" required>
+            </div>
+            <div class="form-group">
+                <label for="gallery-type">Filter Type</label>
+                <select id="gallery-type">
+                    <option value="logo">Logo</option>
+                    <option value="posters">Poster</option>
+                    <option value="cover">Cover</option>
+                    <option value="flyer">Flyer</option>
+                    <option value="brandcard">Brand Card</option>
+                    <option value="banner">Banner</option>
+                    <option value="profile">Profile</option>
+                </select>
+            </div>
+            <input type="hidden" id="gallery-edit-id">
+            <button type="submit" id="gallery-submit-btn">Add Gallery Item</button>
+            <button type="button" id="gallery-cancel-btn" style="display: none;">Cancel Edit</button>
+        </form>
+
+        <div class="scroll-box">
+            <table class="gallery-list">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="gallery-items-list"></tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="scroll-box">
+            <h3>View Requests (Pending)</h3>
+            <table class="request-list">
+                <colgroup>
+                <col style="width: 100px;"> <col style="width: 15%;">   <col style="width: 10%;">   <col style="width: 80px;">  <col style="width: 100px;"> <col style="width: 50px;">  <col style="width: 50px;">  <col style="width: auto;">  <col style="width: 90px;">  </colgroup>
+                <thead>
+                    
+                    <tr>
+                        <th>Date</th>
+                        <th>Email</th>
+                        <th>Product</th>
+                        <th>Budget</th>
+                        <th>Status</th>
+                        <th>Showcase</th>
+                        <th>Mktg</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="request-items-list"></tbody>
+            </table>
+        </div>
+
+        <hr>
+
+        <div class="scroll-box">
+            <h3>Completed Requests Log (Approved)</h3>
+            <table class="request-list">
+                <colgroup>
+                    <col style="width: 100px;"> <col style="width: 15%;">   <col style="width: 10%;">   <col style="width: 80px;">  <col style="width: 100px;"> <col style="width: 50px;">  <col style="width: 50px;">  <col style="width: auto;">  <col style="width: 90px;">  </colgroup>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Email</th>
+                        <th>Product</th>
+                        <th>Budget</th>
+                        <th>Status</th>
+                        <th>Show</th>
+                        <th>Mktg</th>
+                        <th>Details</th>
+                        <th>Actions</th> </tr>
+                </thead>
+                <tbody id="completed-request-items-list"></tbody>
+            </table>
+        </div>
+
+        <hr>
+        <hr>
+
+        <h3>Login Security History</h3>
+        <div class="scroll-box">
             <table class="request-list">
             <thead>
             <tr>
@@ -178,16 +187,18 @@
                 <th>Location</th>
                 <th>ISP</th>
                 <th>Device</th>
+            </tr>
             </thead>
-            <tbody id="login-history-list"></tbody> </table>
-            </div>
-        
+            <tbody id="login-history-list"></tbody> 
+            </table>
+        </div>
+    </div>
+</div>
+
 <script src="wadmin.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-
-
 
 </body>
 </html>

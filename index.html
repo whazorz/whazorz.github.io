@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <link rel="icon" href="w.png" type="image/png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WDESIGN</title>
+  <title>W-Design</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,6 +16,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
 </head>
 <body>
 
@@ -250,59 +251,7 @@
               <input type="number" id="budget" name="budget" placeholder="0" min="0">
             </div>
 
-            <div class="form-group conditional-details" id="logo-details">
-              <label data-key="formLogoDetails">Logo Details</label>
-              <input type="text" name="logo_brand_name" placeholder="Brand Name" data-key-placeholder="formLogoPlaceholder1">
-              <textarea name="logo_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences?" data-key-placeholder="formLogoPlaceholder2"></textarea>
-            </div>
-            
-            <div class="form-group conditional-details" id="brandcard-details">
-              <label data-key="formBrand-CardDetails">Brand Card Details</label>
-              <input type="text" name="Brand-Card_name" placeholder="Brand Name" data-key-placeholder="formBrandcardPlaceholder1">
-              <input type="text" name="Brand-Card_name" placeholder="Phone Number" data-key-placeholder="formBrandcardPlaceholder2">
-              <input type="text" name="Brand-Card_name" placeholder="E-mail" data-key-placeholder="formBrandcardPlaceholder3">
-              <input type="text" name="Brand-Card_name" placeholder="Extra" data-key-placeholder="formBrandcardPlaceholder4">
-              <textarea name="Brand-Card_style" placeholder="Describe the style (e.g., modern, minimalist, retro) and any color preferences?" data-key-placeholder="formBrandCardPlaceholder5"></textarea>
-            </div>
-            
-            
-            <div class="form-group conditional-details" id="poster-details">
-              <label data-key="formPosterDetails">A3 Poster</label>
-              <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?" data-key-placeholder="formPosterPlaceholder"></textarea>
-              <textarea name="poster_info" placeholder="Describe any style (e.g., modern, minimalist, retro) or any color preferences?" data-key-placeholder="formPosterPlaceholder2"></textarea>
-            </div>
-
-
-            <div class="form-group conditional-details" id="poster-details2">
-              <label data-key="formPosterDetails2">A4 Poster</label>
-              <textarea name="poster_info" placeholder="What text, dates, and information must be on the poster?" data-key-placeholder="formPosterPlaceholder"></textarea>
-              <textarea name="poster_info" placeholder="Describe any style (e.g., modern, minimalist, retro) or any color preferences?" data-key-placeholder="formPosterPlaceholder2"></textarea>
-            </div>
-
-            <div class="form-group conditional-details" id="banner-details">
-              <label data-key="formBannerDetails">Banner</label>
-              <input type="text" name="banner_platform" placeholder="Platform (e.g., YouTube, Twitter, Website)" data-key-placeholder="formBannerPlaceholder1">
-              <input type="text" name="banner_platform" placeholder="What text or @usernames should be on the banner?" data-key-placeholder="formBannerPlaceholder2">
-              <textarea name="banner_text" placeholder="Describe any style (e.g., modern, minimalist, retro) or any color preferences?" data-key-placeholder="formBannerPlaceholder3"></textarea>
-            </div>
-
-            <div class="form-group conditional-details visible" id="profile-details">
-              <label data-key="formProfileDetails">Profile Details</label>
-              <input type="text" name="profile_username" placeholder="Username or Text for profile pic" data-key-placeholder="formProfilePlaceholder1">
-              <input type="file" id="file" name="file" accept="image/png, image/jpeg" />
-            </div>
-
-            <div class="form-group conditional-details visible" id="Flyer-details">
-              <label data-key="formFlyerDetails">Flyer-details</label>
-              <input type="text" name="Flyer_username" placeholder="What text, dates, and information must be on the flyer?" data-key-placeholder="formFlyerPlaceholder1">
-              <textarea name="Flyer_style" placeholder="Color scheme, style, or any specific ideas." data-key-placeholder="formFlyerPlaceholder2"></textarea>
-            </div>
-
-            <div class="form-group conditional-details visible" id="cover-details">
-              <label data-key="formCoverDetails">Cover-details</label>
-              <input type="text" name="Cover_username" placeholder="What informational text must be on cover?" data-key-placeholder="formCoverPlaceholder1">
-              <textarea name="Cover_style" placeholder="Color scheme, style, or any specific ideas?" data-key-placeholder="formCoverPlaceholder2"></textarea>
-            </div>
+            <div id="dynamic-details-container"></div>
 
 
             <div class="form-group">
@@ -328,6 +277,7 @@
               <span data-key="formAgreeEmail">I agree to recieve future emails.</span>
               </label>
               </div>  
+              
 
             <button type="submit" id="submit-btn" data-key="formSubmitButton">Submit Request</button>
             <div id="form-status"></div>
