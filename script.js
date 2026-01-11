@@ -5,7 +5,7 @@
       navHome: "Home",
       navPortfolio: "Portfolio",
       navGFX: "GFX",
-      navRequest: "Request",
+      navRequest: "Service",
       // Header
       headerTitle: "/// Whazorz Designs",
       // Home Page
@@ -21,6 +21,9 @@
       homeTermsPayment: "<strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.",
       homeTermsComm: "<strong>Communication:</strong> All project communication will be via email.",
       homeTermsContact: "Contacts: whazorz.design@gmail.com",
+      priceHeaderProduct: "Available Products",
+      priceHeaderRes: "Technical Resolution (In MM)",
+      notpredefined: "Not Predefined size",
       // UPDATED PRICES/PRODUCTS
       priceLogo: "Logo",
       priceA3: "A3 Poster",
@@ -139,15 +142,15 @@
       portfolioError: "<p>Error loading portfolio.</p>",
       latestWorkError: "<p>Error loading latest work.</p>",
       formSubmitting: "Submitting...",
-      formSuccess: "Success! You can send another request in 30 seconds.",
-      formError: "An error occurred. Please try again or contact us directly."
+      formSuccess: "Veiksmīgi! Pēc apstiprināšanas jūs saņemsiet paziņojumu uz norādīto e-pasta adresi.",
+      formError: "An error occurred. Please try again or contact us directly through contact e-mail whazorz.design@gmail.com"
     },
     lv: {
       // Nav
       navHome: "Sākums",
       navPortfolio: "Portfolio",
       navGFX: "GFX",
-      navRequest: "Pieprasījums",
+      navRequest: "Pakalpojumi",
       // Header
       headerTitle: "/// Whazorz Designs",
       // Home Page
@@ -163,6 +166,9 @@
       homeTermsPayment: "<strong>Apmaksa:</strong> Apmaksa tiek veikta *pēc* tam, kad esat apstiprinājis dizainu. Norādītās cenas ir aptuvenas un var mainīties.",
       homeTermsComm: "<strong>Komunikācija:</strong> Visa projekta komunikācija notiks pa e-pastu.",
       homeTermsContact: "Kontakti: whazorz.design@gmail.com",
+      priceHeaderProduct: "Pieejamie Produkti",
+      priceHeaderRes: "Tehniskās Rezolūcijas (Iekš MM)",
+      notpredefined: "Nav definēts izmērs.",
       // UPDATED PRICES/PRODUCTS
       priceLogo: "Logo",
       priceA3: "A3 Posteris",
@@ -274,8 +280,8 @@
       portfolioError: "<p>Kļūda, ielādējot portfolio.</p>",
       latestWorkError: "<p>Kļūda, ielādējot jaunākos darbus.</p>",
       formSubmitting: "Iesniedz...",
-      formSuccess: "Veiksmīgi! Jūs varat nosūtīt nākamo pieprasījumu pēc 30 sekundēm.",
-      formError: "Radās kļūda. Lūdzu, mēģiniet vēlreiz vai sazinieties ar mums tieši."
+      formSuccess: "Veiksmīgi! ",
+      formError: "Radās kļūda. Lūdzu, mēģiniet vēlreiz vai sazinieties ar mums tieši, rakstot uz kontaktpersonas e-pastu whazorz.design@gmail.com."
     }
   };
 
