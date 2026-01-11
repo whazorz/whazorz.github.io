@@ -148,23 +148,40 @@ button:hover {
 /* ===== Tables & Data ===== */
 table {
   width: 100%;
-  border-collapse: collapse;
+  border-collapse: separate; /* Vajadzīgs, lai border-radius strādātu */
+  border-spacing: 0; /* Noņem atstarpes starp šūnām */
+  table-layout: fixed; /* SVARĪGI: Fiksē kolonnu platumus */
+}
+
+thead {
+    /* Nelaidiet šeit display: flex! */
+    background-color: #161b22; /* Jūsu tumšais fons */
 }
 
 th {
-  background-color: rgba(255, 255, 255, 0.05);
+  padding: 15px 10px;
+  text-align: left; /* Izlīdzinām tekstu pa kreisi, lai sakrīt ar datiem */
   color: var(--text-dim);
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  padding: 15px 10px;
+  border-bottom: 1px solid var(--border-color);
 }
 
+/* Noapaļoti stūri galvenei (pirmā un pēdējā šūna) */
+th:first-child {
+  border-top-left-radius: 8px;
+}
+th:last-child {
+  border-top-right-radius: 8px;
+}
+
+/* 3. Datu šūnas */
 td {
-  border-bottom: 1px solid var(--border-color);
   padding: 15px 10px;
-  color: var(--text-bright); /* Data is bright white */
-  font-size: 0.95rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+  word-wrap: break-word; /* Lai garš teksts nesalauž tabulu */
 }
 
 tr:hover {
