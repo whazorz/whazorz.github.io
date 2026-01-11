@@ -150,6 +150,15 @@ button {
     border-radius: 5px;
     transition: all 0.3s;
     font-size: 0.85rem;
+
+    /* --- ADD THESE LINES TO FIX THE GLITCH --- */
+    display: inline-flex;     /* Ensures box model behaves correctly */
+    align-items: center;      /* Vertically centers the text */
+    justify-content: center;  /* Horizontally centers the text */
+    white-space: nowrap;      /* Prevents text from wrapping or squishing */
+    width: auto;              /* Allows button to grow with text */
+    min-width: fit-content;   /* Modern browser fix to prevent squashing */
+    box-sizing: border-box;   /* Ensures padding doesn't mess up dimensions */
 }
 
 button:hover {
