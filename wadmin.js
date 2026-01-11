@@ -244,14 +244,18 @@ loginForm.addEventListener("submit", (e) => {
       });
     });
 
-    // "Delete" button click
-    requestList.querySelectorAll('.btn-delete').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        if (!confirm("Are you sure you want to delete this request?")) return;
-        const id = e.target.getAttribute('data-id');
-        db.collection("requests").doc(id).delete();
-      });
-    });
+function deleteLoginRecord(docId) {
+  if (confirm("Are you sure you want to delete this login record?")) {
+    db.collection("login_history").doc(docId).delete()
+      .then(() => {
+        console.log("Record successfully deleted!");
+      })
+      .catch((error) => {
+        console.error("Error removing document: ", error);
+        alert("Failed to delete record. Check permissions.");
+      });
+  }
+}
   }
 
   // --- Completed Requests Log (Unchanged) ---
