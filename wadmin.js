@@ -123,42 +123,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+// Ensure db is defined at the top
+// const db = firebase.firestore(); 
+
 function loadLoginHistory() {
     const loginHistoryList = document.getElementById("login-history-list");
     if (!loginHistoryList) return;
 
-    // 1. Increase limit to 100 to ensure we find unique IPs even if one IP logs in many times
+    // Line 1 of the logic: Firestore call
     db.collection("login_history")
       .orderBy("timestamp", "desc")
       .limit(100) 
       .onSnapshot(snapshot => {
-        
-        // 2. Use a Map to store the NEWEST entry for each IP
         const uniqueIps = new Map();
 
         snapshot.forEach(doc => {
             const data = doc.data();
             const ip = data.ip || '0.0.0.0';
 
-            // Because the query is "desc" (newest first), 
-            // the first time we see an IP, it's the most recent one.
             if (!uniqueIps.has(ip)) {
-                uniqueIps.set(ip, { 
-                    id: doc.id, 
-                    ...data 
-                });
+                uniqueIps.set(ip, { id: doc.id, ...data });
             }
         });
 
-        // 3. Clear the table once we have the final filtered list
         loginHistoryList.innerHTML = "";
-
-        // 4. Convert Map to array and take the top 15 unique IPs
         const finalDisplayList = Array.from(uniqueIps.values()).slice(0, 15);
 
         finalDisplayList.forEach(item => {
             const tr = document.createElement("tr");
-            
             const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
             const userAgent = item.userAgent || "Unknown Device";
 
@@ -169,17 +161,13 @@ function loadLoginHistory() {
                 <td>${item.city || 'Unknown'}, ${item.country || 'Unknown'}</td>
                 <td>${item.isp || 'Unknown'}</td>
                 <td><small title="${userAgent}">${userAgent.slice(0, 15)}...</small></td>
-                <td>
-                    <button onclick="deleteLoginEntry('${item.id}')" style="color:red; border:none; background:none; cursor:pointer;">
-                        Delete
-                    </button>
-                </td>
             `;
             loginHistoryList.appendChild(tr);
         });
 
     }, err => {
-        console.error("Snapshot Error:", err.message);
+        // This is where the "Permissions" error usually triggers
+        console.error("Firebase Error at Line 1:", err.message);
     });
 }
 
