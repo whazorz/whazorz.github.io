@@ -121,13 +121,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-// 1. Define the delete function GLOBALLY
+// 1. Define the delete function GLOBALLY (No confirmation)
 window.deleteLoginEntry = function(docId) {
-    if (confirm("Permanently delete this log entry?")) {
-        db.collection("login_history").doc(docId).delete()
-            .then(() => console.log("Deleted!"))
-            .catch(err => alert("Delete failed: " + err.message));
-    }
+    db.collection("login_history").doc(docId).delete()
+        .then(() => {
+            console.log("Document successfully deleted: " + docId);
+        })
+        .catch((error) => {
+            console.error("Error removing document: ", error);
+            alert("Delete failed: " + error.message);
+        });
 };
 
 function loadLoginHistory() {
