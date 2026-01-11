@@ -121,30 +121,39 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
+// 1. Define the delete function GLOBALLY
+window.deleteLoginEntry = function(docId) {
+    if (confirm("Permanently delete this log entry?")) {
+        db.collection("login_history").doc(docId).delete()
+            .then(() => console.log("Deleted!"))
+            .catch(err => alert("Delete failed: " + err.message));
+    }
+};
+
 function loadLoginHistory() {
     const loginHistoryList = document.getElementById("login-history-list");
-    if (!loginHistoryList) {
-        console.warn("Table element 'login-history-list' not found.");
-        return;
-    }
+    if (!loginHistoryList) return;
 
     db.collection("login_history").orderBy("timestamp", "desc").limit(15).onSnapshot(snapshot => {
         loginHistoryList.innerHTML = "";
         snapshot.forEach(doc => {
             const item = doc.data();
             const tr = document.createElement("tr");
-            const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
             
-            // We use doc.id to know which specific document to delete
+            // Safety check for variables
+            const date = item.timestamp ? item.timestamp.toDate().toLocaleString() : 'Just now';
+            const userAgent = item.userAgent || "Unknown Device";
+            const email = item.email || "No Email";
+
             tr.innerHTML = `
                 <td>${date}</td>
-                <td>${item.email}</td>
-                <td><strong>${item.ip}</strong></td>
-                <td>${item.city}, ${item.country}</td>
-                <td>${item.isp}</td>
-                <td><small title="${item.userAgent}">${item.userAgent.slice(0, 15)}...</small></td>
+                <td>${email}</td>
+                <td><strong>${item.ip || '0.0.0.0'}</strong></td>
+                <td>${item.city || 'Unknown'}, ${item.country || 'Unknown'}</td>
+                <td>${item.isp || 'Unknown'}</td>
+                <td><small title="${userAgent}">${userAgent.slice(0, 15)}...</small></td>
                 <td>
-                    <button onclick="deleteLoginEntry('${doc.id}')" style="color: red; cursor: pointer;">
+                    <button onclick="deleteLoginEntry('${doc.id}')" style="color:red; border:none; background:none; cursor:pointer;">
                         Delete
                     </button>
                 </td>
@@ -152,22 +161,9 @@ function loadLoginHistory() {
             loginHistoryList.appendChild(tr);
         });
     }, err => {
-        console.error("Permission Error on login_history:", err.message);
+        console.error("Permission Error:", err.message);
+        loginHistoryList.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">Permission Denied. Check Firebase Rules.</td></tr>`;
     });
-}
-
-// 3. The Delete Function
-function deleteLoginEntry(docId) {
-    if (confirm("Are you sure you want to delete this security log?")) {
-        db.collection("login_history").doc(docId).delete()
-        .then(() => {
-            console.log("Document successfully deleted!");
-        })
-        .catch((error) => {
-            console.error("Error removing document: ", error);
-            alert("Error: You might not have permission to delete logs.");
-        });
-    }
 }
 
 loginForm.addEventListener("submit", (e) => {
