@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="w.png" type="image/png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WDESIGN</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <nav>
+    <div id="logo">W</div>
+    <div id="slogan">WDESIGN</div>
+    
+    <div id="lang-switcher">
+      <button data-lang="en" class="lang-btn active">EN</button>
+      <button data-lang="lv" class="lang-btn">LV</button>
+    </div>
+
+    <a href="#" data-target="home" class="active" data-key="navHome">Home</a>
+    <a href="#" data-target="Request" data-key="navRequest">Service</a>
+    <a href="#" data-target="Portfolio" data-key="navPortfolio">Portfolio</a>
+    <a href="#" data-target="GFX" data-key="navGFX">GFX</a>
+  </nav>
+
+  <div id="head">
+    <span data-key="headerTitle">/// Whazorz Designs</span>
+    <div class="header-social-links">
+      <a href="mailto:whazorz.design@gmail.com" title="Email" target="_blank"><i class="fas fa-envelope"></i></a>
+      <a href="https://twitch.tv/whazorz" title="Twitch" target="_blank"><i class="fab fa-twitch"></i></a>
+      <a href="https://www.youtube.com/@whazorz" title="YouTube" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://www.facebook.com/Whazorz/" title="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+      <a href="https://www.paypal.com/donate?business=whazorz.design@gmail.com&item_name=Donation+to+Whazorz+Designs&currency_code=EUR" title="Donate" target="_blank"><i class="fab fa-paypal"></i></a>
+    </div>
+  </div>
+
+  <div class="content-container">
+    
+    <section id="home" class="content active">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2 data-key="homeAboutTitle">About</h2>
+          <p data-key="homeAboutText">Hi, I’m Whazorz — an artist deeply inspired by creativity in all its forms. My journey began in 2012, when I started my career in technical fields and gradually moved toward graphic design. Over the years, I’ve shared my creative process and ideas through live streams, inviting others to explore the world of graphics and design with me.</p>
+        </div>
+        <hr>
+
+        <div class="content-padding">
+          <h3 data-key="homeLatestWorkTitle">Latest Work</h3>
+          <div class="gallery-container" id="latest-work-gallery"></div>
+          <a href="#" data-target="Portfolio" class="view-all-portfolio" data-key="homeViewAll">View Full Portfolio &rarr;</a>
+        </div>
+
+        <hr>
+
+        <div class="content-padding">
+          <h3 data-key="homeRequestInfoTitle">REQUESTING INFO.</h3>
+          <div class="info-boxes">
+            <div class="box">
+              <h3 data-key="homeTermsTitle">Key Terms</h3>
+              <p data-key="homeTermsApproval"><strong>Approval:</strong> All requests are subject to review. Projects begin only after designer approval.</p>
+              <p data-key="homeTermsTimeframe"><strong>Timeframe:</strong> Standard delivery is 2-3 business days, but complex projects may take longer.</p>
+              <p data-key="homeTermsRevisions"><strong>Revisions:</strong> Up to two revisions are included. Additional revisions may incur extra charges.</p>
+              <p data-key="homeTermsPayment"><strong>Payment:</strong> Payment is processed *after* you approve the design. Prices shown are estimates and can vary.</p>
+              <p data-key="homeTermsComm"><strong>Communication:</strong> All project communication will be via email.</p>
+              <hr>
+              <p data-key="homeTermsContact">Contacts: whazorz.design@gmail.com</p>
+
+
+            </div>
+            
+            <div class="box">
+              <table class="price-table">
+                <thead>
+                  <tr>
+                    <th data-key="priceHeaderProduct">Available Products</th>
+                    <th data-key="priceHeaderRes">Technical Resolution (In MM)</th>
+                    <th data-key="priceHeaderCost">Cost</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td data-key="priceBanner">World of Warcraft Banner</td><td>(216.75 x 121.92 mm)</td><td>5.00 EUR</td></tr>
+                  <tr><td data-key="priceWallpaper">World of Warcraft Wallpaper / Character Background</td><td data-key="notpredefined">No predefined size</td><td>13.50 EUR</td></tr>
+                </tbody>
+              </table>
+
+          </div>
+          
+        </div>
+
+        <div class="content-padding">
+          <div class="donation-box">
+            <h3 data-key="homeDonateTitle">Support My Work</h3>
+            <p data-key="homeDonateText">“Buy me a coffee ☕🎨”</p>
+            <form action="https://www.paypal.com/donate" method="post" target="_blank">
+              <input type="hidden" name="business" value="whazorz.design@gmail.com">
+              <input type="hidden" name="item_name" value="Donation to Whazorz Designs">
+              <input type="hidden" name="currency_code" value="EUR">
+              <button type="submit" class="donate-btn" data-key="homeDonateButton">Donate with PayPal</button>
+            </form>
+          </div>
+        </div>
+
+        <hr>
+      </div>
+    </section>
+
+    <section id="Portfolio" class="content">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2 data-key="portfolioTitle">Portfolio</h2>
+
+          <div class="filter-controls">
+            <button class="filter-btn active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-btn" data-filter="banner" data-key="filterBanners">Banners</button>
+            <button class="filter-btn" data-filter="wallpaper" data-key="filterWallpapers">Wallpapers</button>
+          </div>
+
+          <div class="gallery-container" id="portfolio-gallery"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="GFX" class="content">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2 data-key="gfxTitle">GFX</h2>
+          <div class="filter-controls" id="gfx-filter-controls">
+            <button class="filter-btn active" data-filter="all" data-key="filterAll">All</button>
+            <button class="filter-btn" data-filter="environment" data-key="filterEnvironment">ENVIRONMENT</button>
+            <button class="filter-btn" data-filter="natural" data-key="filterNatural">NATURAL EFFECTS</button>
+            <button class="filter-btn" data-filter="particle" data-key="filterParticle">PARTICLE STYLES</button>
+            <button class="filter-btn" data-filter="tech" data-key="filterTech">TECH GLITCH DIGITAL EFFECTS</button>
+            <button class="filter-btn" data-filter="space" data-key="filterSpace">SPACE COSMIC EFFECTS</button>
+            <button class="filter-btn" data-filter="abstract" data-key="filterAbstract">CLEAN ABSTRACT TEXTURES</button>
+            <button class="filter-btn" data-filter="impact" data-key="filterImpact">IMPACT DAMAGE EFFECTS</button>
+            <button class="filter-btn" data-filter="energy" data-key="filterEnergy">ENERGY MAGIC SCI-FI EFFECTS</button>
+            <button class="filter-btn" data-filter="smoke" data-key="filterSmoke">SMOKE FOG ATMOSPHERE</button>
+            <button class="filter-btn" data-filter="fire" data-key="filterFire">FIRE HEAT EFFECTS</button>
+          </div>
+          <div id="gfx-container" data-key="gfxIntro"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="Request" class="content">
+      <div class="home-content-wrapper">
+        <div class="content-padding">
+          <h2 data-key="requestTitle">Request a Design</h2>
+
+          <details class="terms-and-conditions">
+            <summary data-key="requestTermsSummary">Please read the full Commission Terms & Conditions before proceeding.</summary>
+            
+            <div class="terms-content">
+              <h3 data-key="requestTermsTitle">Commission Terms & Conditions</h3>
+              
+              <h4 data-key="requestTermsApprovalTitle">Approval</h4>
+              <ul>
+                <li data-key="requestTermsApproval1">All design requests are subject to review and approval by the designer.</li>
+                <li data-key="requestTermsApproval2">Projects will only proceed if they meet the designer’s creative and technical requirements.</li>
+                <li data-key="requestTermsApproval3">The designer reserves the right to decline any request that does not align with the project criteria or ethical guidelines.</li>
+              </ul>
+
+              <h4 data-key="requestTermsPaymentTitle">Payment</h4>
+              <ul>
+                <li data-key="requestTermsPayment1">Payment will be processed only after the client has reviewed and approved the proposed design.</li>
+                <li data-key="requestTermsPayment2">Please note that final pricing may vary depending on the project’s complexity and may exceed the initial estimate.</li>
+                <li data-key="requestTermsPayment3">Clients will be notified and must approve any cost adjustments before further work continues.</li>
+              </ul>
+
+              <h4 data-key="requestTermsTimeframeTitle">Timeframe</h4>
+              <ul>
+                <li data-key="requestTermsTimeframe1">The standard delivery timeframe is 2–3 business days.</li>
+                <li data-key="requestTermsTimeframe2">However, more complex or customized projects may require additional time.</li>
+                <li data-key="requestTermsTimeframe3">Clients will be informed of any expected delays in advance.</li>
+              </ul>
+
+              <h4 data-key="requestTermsRevisionsTitle">Revisions</h4>
+              <ul>
+                <li data-key="requestTermsRevisions1">Each project includes up to two (2) revisions, depending on the scope and complexity.</li>
+                <li data-key="requestTermsRevisions2">Additional revisions may incur extra charges, which will be discussed prior to implementation.</li>
+              </ul>
+
+              <h4 data-key="requestTermsCommTitle">Communication</h4>
+              <ul>
+                <li data-key="requestTermsComm1">All communication and project updates will be conducted via email to ensure clear and traceable correspondence.</li>
+                <li data-key="requestTermsComm2">Clients are encouraged to respond promptly to maintain project timelines.</li>
+              </ul>
+
+              <h4 data-key="requestTermsEuTitle">European Consumer Compliance</h4>
+              <ul>
+                <li data-key="requestTermsEu1">All transactions comply with EU consumer protection laws, including transparency in pricing, digital service delivery, and refund eligibility.</li>
+                <li data-key="requestTermsEu2">Once a design is approved and production has begun, refunds may not be available due to the custom nature of the service.</li>
+              </ul>
+            </div>
+          </details>
+          <p data-key="requestFormIntro">Please fill out the form below to start your request. <strong>All future communication will be conducted via email.</strong></p>
+          
+          <form id="request-form">
+            <div class="form-group">
+              <label for="email" data-key="formEmail"><img src="images/WoW Icon Pack/Miscellaneous/01_1.png" alt="Email Icon" class="inline-wow-icon"> Your Email Address</label>
+              <input type="email" id="email" name="email" required placeholder="your.email@example.com">
+            </div>
+
+            <div class="form-group">
+              <div id="product-selection-grid" class="product-grid"></div>
+              <div class="tech-res-display" class="tech-info" data-key="FormalSelectProductAbove">Choose Product Above.</div>
+              <input type="hidden" id="final-selection-data" name="final_selection">
+              <small class="smart-guide" data-key="FormalSmartGuide">* Smart Guide: Sizes are Width x Height & mm</small>
+            </div>
+            
+            <div id="tech-res-display" class="tech-box">
+              <span class="label" data-key="FormalResolution">Formal Resolution:</span>
+              <span data-key="FormalSelectProduct" id="res-output">Select a product</span>
+            </div>
+
+            <div class="form-group conditional-details" id="custom-size-details">
+              <label>Custom Dimensions (Width x Height)</label>
+              <div class="side-by-side">
+                <input type="number" name="custom_w" placeholder="Width (px)">
+                <input type="number" name="custom_h" placeholder="Height (px)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="budget" data-key="formBudget"><img src="images/WoW Icon Pack/Miscellaneous/Coin_01.png" alt="Budget Icon" class="inline-wow-icon"> Total Estimated Cost (EUR)</label>
+              <input type="number" id="budget" name="budget" placeholder="0" min="0" readonly>
+            </div>
+
+            <!-- WoW Character Builder Details -->
+            <div id="wow-details-container" class="form-group conditional-details">
+              <h3 class="wow-form-section-title"><img src="images/WoW Icon Pack/Miscellaneous/Book_01.png" alt="Icon" class="inline-wow-icon"> <span data-key="wowCustomizerTitle">Character Customizer</span></h3>
+              
+              <!-- WoW Class Selector -->
+              <div class="form-group">
+                <label><img src="images/WoW Icon Pack/Spells/ClassIcon.png" alt="Class" class="inline-wow-icon"> <span data-key="wowChooseClass">Choose Class</span></label>
+                <div class="wow-class-grid">
+                  <div class="wow-class-card" data-class="Death Knight" style="--class-color: #C41F3B;">
+                    <img src="images/WoW Icon Pack/Spells/UnholyPresence.png" alt="Death Knight">
+                    <span>Death Knight</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Druid" style="--class-color: #FF7D0A;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/druid.png" alt="Druid">
+                    <span>Druid</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Hunter" style="--class-color: #ABD473;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/hunter.png" alt="Hunter">
+                    <span>Hunter</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Mage" style="--class-color: #40C7EB;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/mage.png" alt="Mage">
+                    <span>Mage</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Paladin" style="--class-color: #F58CBA;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/paladin.png" alt="Paladin">
+                    <span>Paladin</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Priest" style="--class-color: #FFFFFF;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/priest.png" alt="Priest">
+                    <span>Priest</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Rogue" style="--class-color: #FFF569;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/rogue.png" alt="Rogue">
+                    <span>Rogue</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Shaman" style="--class-color: #0070DE;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/shaman.png" alt="Shaman">
+                    <span>Shaman</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Warlock" style="--class-color: #9482C9;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/warlock.png" alt="Warlock">
+                    <span>Warlock</span>
+                  </div>
+                  <div class="wow-class-card" data-class="Warrior" style="--class-color: #C79C6E;">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/warrior.png" alt="Warrior">
+                    <span>Warrior</span>
+                  </div>
+                </div>
+                <input type="hidden" id="selected-class" name="wow_class">
+              </div>
+
+              <!-- WoW Race Selector -->
+              <div class="form-group">
+                <label><img src="images/WoW Icon Pack/Characters and Creatures/human.png" alt="Race" class="inline-wow-icon"> <span data-key="wowChooseRace">Choose Race</span></label>
+                
+                <h4 class="faction-title alliance-text" data-key="wowAlliance">Alliance</h4>
+                <div class="wow-race-grid alliance-grid">
+                  <div class="wow-race-card" data-race="Human">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/human.png" alt="Human">
+                    <span>Human</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Dwarf">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/dwarf.png" alt="Dwarf">
+                    <span>Dwarf</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Night Elf">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/nelf.png" alt="Night Elf">
+                    <span>Night Elf</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Gnome">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/gnome.png" alt="Gnome">
+                    <span>Gnome</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Draenei">
+                    <img src="images/WoW Icon Pack/Weapons/Draenei_01.png" alt="Draenei">
+                    <span>Draenei</span>
+                  </div>
+                </div>
+
+                <h4 class="faction-title horde-text" data-key="wowHorde">Horde</h4>
+                <div class="wow-race-grid horde-grid">
+                  <div class="wow-race-card" data-race="Orc">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/orc.png" alt="Orc">
+                    <span>Orc</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Undead">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/undead.png" alt="Undead">
+                    <span>Undead</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Tauren">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/tauren.png" alt="Tauren">
+                    <span>Tauren</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Troll">
+                    <img src="images/WoW Icon Pack/Characters and Creatures/troll.png" alt="Troll">
+                    <span>Troll</span>
+                  </div>
+                  <div class="wow-race-card" data-race="Blood Elf">
+                    <img src="images/WoW Icon Pack/Weapons/BloodElf_03.png" alt="Blood Elf">
+                    <span>Blood Elf</span>
+                  </div>
+                </div>
+                <input type="hidden" id="selected-race" name="wow_race">
+              </div>
+
+              <!-- Gender Selection -->
+              <div class="form-group">
+                <label><img src="images/WoW Icon Pack/Characters and Creatures/femalehuman.png" alt="Gender" class="inline-wow-icon"> <span data-key="wowGender">Character Gender</span></label>
+                <div class="wow-gender-selector">
+                  <button type="button" class="gender-btn active" data-gender="Male" data-key="wowMale">Male</button>
+                  <button type="button" class="gender-btn" data-gender="Female" data-key="wowFemale">Female</button>
+                </div>
+                <input type="hidden" id="selected-gender" name="wow_gender" value="Male">
+              </div>
+
+              <!-- Gear Set Options (S1-S8, T7-T10) -->
+              <div class="form-group">
+                <label for="wow-gear-set"><img src="images/WoW Icon Pack/Armour/83.png" alt="Gear" class="inline-wow-icon"> <span data-key="wowGearSet">PvE Tier / PvP Season Gear</span></label>
+                <select id="wow-gear-set" name="wow_gear_set">
+                  <optgroup label="PvP Arena Seasons" data-key="wowPvPSeasons">
+                    <option value="Season 8 (Wrathful Gladiator)">Season 8 (Wrathful Gladiator)</option>
+                    <option value="Season 7 (Relentless Gladiator)">Season 7 (Relentless Gladiator)</option>
+                    <option value="Season 6 (Furious Gladiator)">Season 6 (Furious Gladiator)</option>
+                    <option value="Season 5 (Deadly Gladiator)">Season 5 (Deadly Gladiator)</option>
+                    <option value="Season 4 (Brutal Gladiator)">Season 4 (Brutal Gladiator)</option>
+                    <option value="Season 3 (Vengeful Gladiator)">Season 3 (Vengeful Gladiator)</option>
+                    <option value="Season 2 (Merciless Gladiator)">Season 2 (Merciless Gladiator)</option>
+                    <option value="Season 1 (Gladiator)">Season 1 (Gladiator)</option>
+                  </optgroup>
+                  <optgroup label="PvE Tiers" data-key="wowPvETiers">
+                    <option value="Tier 10 (Icecrown Citadel)">Tier 10 (Icecrown Citadel)</option>
+                    <option value="Tier 9 (Trial of the Crusader)">Tier 9 (Trial of the Crusader)</option>
+                    <option value="Tier 8 (Ulduar)">Tier 8 (Ulduar)</option>
+                    <option value="Tier 7 (Naxxramas)">Tier 7 (Naxxramas)</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <!-- Gear Mode Selection -->
+              <div class="form-group">
+                <label><img src="images/WoW Icon Pack/Armour/84.png" alt="Mode" class="inline-wow-icon"> <span data-key="wowGearCustomization">Gear Customization</span></label>
+                <div class="wow-gear-mode-selector">
+                  <button type="button" class="gear-mode-btn active" data-mode="full" data-key="wowFullSet">Full Matching Set</button>
+                  <button type="button" class="gear-mode-btn" data-mode="custom" data-key="wowCustomGear">Custom Gear List</button>
+                </div>
+                <input type="hidden" id="selected-gear-mode" name="wow_gear_mode" value="full">
+              </div>
+
+              <!-- Custom Gear Inputs -->
+              <div id="wow-custom-gear-fields" class="form-group custom-gear-fields-container" style="display: none;">
+                <div class="gear-input-row">
+                  <div class="gear-input-field">
+                    <label><img src="images/WoW Icon Pack/Armour/100.png" alt="Head" class="inline-wow-icon"> <span data-key="wowHeadSlot">Head Slot</span></label>
+                    <input type="text" name="gear_head" placeholder="e.g. Sanctified Ymirjar Lord's Helmet">
+                  </div>
+                  <div class="gear-input-field">
+                    <label><img src="images/WoW Icon Pack/Armour/101.png" alt="Shoulders" class="inline-wow-icon"> <span data-key="wowShoulderSlot">Shoulder Slot</span></label>
+                    <input type="text" name="gear_shoulders" placeholder="e.g. Sanctified Ymirjar Lord's Pauldrons">
+                  </div>
+                </div>
+                
+                <div class="gear-input-row">
+                  <div class="gear-input-field">
+                    <label><img src="images/WoW Icon Pack/Armour/102.png" alt="Chest" class="inline-wow-icon"> <span data-key="wowChestSlot">Chest Slot</span></label>
+                    <input type="text" name="gear_chest" placeholder="e.g. Sanctified Ymirjar Lord's Cuirass">
+                  </div>
+                  <div class="gear-input-field">
+                    <label><img src="images/WoW Icon Pack/Armour/103.png" alt="Hands" class="inline-wow-icon"> <span data-key="wowHandsSlot">Gloves Slot</span></label>
+                    <input type="text" name="gear_hands" placeholder="e.g. Sanctified Ymirjar Lord's Handguards">
+                  </div>
+                </div>
+
+                <div class="gear-input-row">
+                  <div class="gear-input-field">
+                    <label><img src="images/WoW Icon Pack/Armour/104.png" alt="Legs" class="inline-wow-icon"> <span data-key="wowLegsSlot">Legs Slot</span></label>
+                    <input type="text" name="gear_legs" placeholder="e.g. Sanctified Ymirjar Lord's Legplates">
+                  </div>
+                  <div class="gear-input-field">
+                    <label><img src="images/WoW Icon Pack/Weapons/Unique_Sulfuras.png" alt="Weapon" class="inline-wow-icon"> <span data-key="wowWeaponSlot">Main Hand Weapon</span></label>
+                    <input type="text" name="gear_weapon" placeholder="e.g. Shadowmourne">
+                  </div>
+                </div>
+
+                <div class="gear-input-row">
+                  <div class="gear-input-field full-width">
+                    <label><img src="images/WoW Icon Pack/Armour/106.png" alt="Offhand" class="inline-wow-icon"> <span data-key="wowOffhandSlot">Off Hand / Shield</span></label>
+                    <input type="text" name="gear_offhand" placeholder="e.g. Icecrown Glacial Wall">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="instructions" data-key="formInstructions"><img src="images/WoW Icon Pack/Miscellaneous/Book_02.png" alt="Instructions Icon" class="inline-wow-icon"> General Instructions / Project Brief</label>
+              <textarea id="instructions" name="instructions" rows="5" placeholder="Please provide a clear and detailed brief of your requirements. Include links to any inspiration or references." data-key-placeholder="formInstructionsPlaceholder"></textarea>
+            </div>
+
+             <div class="form-group-inline">
+            <label>
+              <input type="checkbox" id="terms-agree">
+              <span data-key="formAgreeTerms">I agree to the Terms and Conditions</span>
+              </label>
+              </div>  
+            
+            <div class="form-group-inline">
+              <input type="checkbox" id="showcase" name="showcase" value="true">
+              <label for="showcase" data-key="formAgreeShowcase">I agree to allow WhazorzDesigns to showcase the final work in their portfolio.</label>
+            </div>
+
+                  <div class="form-group-inline">
+            <label>
+              <input type="checkbox" id="email-agree" name="email_agree" value="true">
+              <span data-key="formAgreeEmail">I agree to recieve future emails.</span>
+              </label>
+              </div>  
+
+            <button type="submit" id="submit-btn" data-key="formSubmitButton">Submit Request</button>
+            <div id="paypal-button-container" style="display: none; margin-top: 20px; min-height: 100px;">
+              <div style="color: #c69b3d; text-align: center; padding: 20px; font-weight: 600;">
+                <i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Loading Secure PayPal checkout...
+              </div>
+            </div>
+            <div id="form-status"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <footer data-key="footerCopyright">Copyright © WHAZORZ 2025-2026</footer>
+
+  <div id="lightbox-overlay" class="lightbox-overlay">
+    <span id="lightbox-close" class="lightbox-close">&times;</span>
+    <img id="lightbox-image" class="lightbox-image" src="" alt="Enlarged portfolio item">
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

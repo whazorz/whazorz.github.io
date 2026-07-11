@@ -1,0 +1,1131 @@
+/* ---------- CSS Variables ---------- */
+:root {
+  --sidebar-width: 250px;
+  --sidebar-padding: 2rem;
+  --sidebar-bg: #222;
+  --main-bg: rgb(168, 168, 168);
+  --content-bg: white;
+  --text-light: white;
+  --text-dark: black;
+  --text-muted: #888;
+}
+
+/* ---------- Base styles ---------- */
+body {
+  background: rgb(221, 221, 221);
+  font-family: "Montserrat", sans-serif;
+  font-weight: 250;
+  font-style: normal;
+  scroll-behavior: smooth;
+}
+
+/* ---------- Sidebar navigation ---------- */
+nav {
+  width: var(--sidebar-width);
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  height: 100vh;
+  position: fixed;
+  padding: var(--sidebar-padding);
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  overflow-y: auto;
+}
+
+#logo {
+  font-size: 72px;
+  font-weight: lighter;
+  color: var(--text-light);
+  text-align: center;
+  animation: flicker 2s infinite;
+}
+
+@keyframes flicker {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    opacity: 1;
+    text-shadow:
+      0 0 5px var(--text-light),
+      0 0 10px var(--text-light),
+      0 0 20px var(--text-light);
+  }
+  20%, 24%, 55% {
+    opacity: 0.4;
+    text-shadow: none;
+  }
+}
+
+#slogan {
+  font-size: 14px;
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* --- Language Switcher Styles --- */
+#lang-switcher {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--text-muted);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.lang-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: color 0.3s, background-color 0.3s;
+}
+
+.lang-btn:hover {
+  color: var(--text-light);
+}
+
+.lang-btn.active {
+  background: var(--text-light);
+  color: var(--sidebar-bg);
+}
+
+
+nav a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s;
+  font-size: 1rem;
+}
+
+nav a.active,
+nav a:hover {
+  color: var(--text-light);
+}
+
+/* ---------- Main Content Area (Header, Content, Footer) ---------- */
+#head,
+.content-container,
+footer {
+  margin-left: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  box-sizing: border-box;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  bottom: 0;
+  margin-bottom: 10px;
+}
+
+.terms-and-conditions {
+  background: #1e1e1e;
+  color: #ffffff;
+  padding: 40px;
+  border-radius: 6px;
+}
+
+
+
+#head {
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+  min-height: 150px;
+  font-size: 48px;
+  text-align: center;
+  font-weight: lighter;
+  padding: 10vh 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* NEW: Flex properties for multiple items */
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+}
+
+/* NEW: Header Social Links */
+.header-social-links {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.5rem; /* Adjust icon size */
+}
+
+.header-social-links a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.header-social-links a:hover {
+  color: var(--text-light);
+  transform: scale(1.1);
+}
+/* END: Header Social Links */
+
+
+.content-container {
+  position: relative;
+  min-height: 70vh;
+  padding-bottom: 100px;
+}
+
+footer {
+  background: #2e2e2e;
+  color: white;
+  height: 50px;
+  font-size: 12px;
+  padding: 50px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+/* ---------- Content Switching ---------- */
+.content {
+  opacity: 0;
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: opacity 0.5s ease;
+  margin-top: 0;
+}
+
+.content.active {
+  opacity: 1;
+  pointer-events: all;
+  position: relative;
+}
+
+/* ---------- Home Page Content Styling ---------- */
+.home-content-wrapper {
+  background: var(--content-bg);
+  color: var(--text-dark);
+  font-size: 18px;
+  box-sizing: border-box;
+  overflow: hidden;
+  padding: 40px;
+  font-weight: 250;
+}
+
+.content-padding {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-bottom: 20px;
+}
+
+.info-boxes {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.box {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+  background: #2e2e2e;
+  color: var(--text-light);
+  padding: 60px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  
+}
+
+.box h3 {
+  margin-top: 0;
+  border-bottom: 1px solid var(--text-muted);
+  padding-bottom: 10px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* This rule only applies to tables inside the .box (homepage price list) */
+.box table, .box th, .box td {
+  border: 1px solid #555;
+  padding: 15px;
+  overflow: hidden;
+  font-size: 14px;
+  text-align: left;
+}
+
+/* This rule only applies to tables inside the .box (homepage price list) */
+.box table tr:nth-child(even) {
+  background-color: #333;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+/* NEW: Donation Box Styles */
+.donation-box {
+  border: 1px solid #eee;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+.donation-box h3 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+.donation-box p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.donate-btn {
+  background-color: #ffffff; /* PayPal blue */
+  color: rgb(0, 0, 0);
+  border: solid 1px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: "Montserrat", sans-serif;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.donate-btn:hover {
+  background-color: #000000;
+  color: white;
+  border-color: #000;
+}
+/* END: Donation Box Styles */
+
+
+/* --- View All Portfolio Link Style --- */
+.view-all-portfolio {
+  display: inline-block;
+  margin-top: 20px;
+  font-weight: 600;
+  color: var(--text-dark);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: color 0.3s, border-bottom-color 0.3s;
+}
+
+.view-all-portfolio:hover {
+  color: #555;
+  border-bottom-color: #555;
+}
+
+/* ---------- Gallery & Filter Styles ---------- */
+.gallery-container {
+  column-count: 3;
+  column-gap: 20px;
+}
+
+.gallery-item {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #333;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  margin-bottom: 20px;
+  break-inside: avoid;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-item.hidden {
+  transform: scale(0.8);
+  opacity: 0;
+  display: none;
+}
+
+.filter-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-btn {
+  padding: 8px 16px;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  background: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+.filter-btn:hover {
+  background: #ddd;
+}
+
+.filter-btn.active {
+  background: var(--sidebar-bg);
+  color: var(--text-light);
+}
+
+/* ---------- GFX Page Styles (Replacing Downloads) ---------- */
+#gfx-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.download-item {
+  background: #f9f9f9;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  overflow: hidden;
+  /* Use flex display for easy hide/show based on filter */
+  display: flex; 
+  /* Change to column layout to just hold the image */
+  flex-direction: column; 
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  /* Minimum padding/margin for better visual grouping */
+  margin-bottom: 15px; 
+}
+
+.download-item-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  background-color: #e0e0e0;
+  /* Ensure cursor is default for simple right-click/copy behavior */
+  cursor: default; 
+  transition: opacity 0.3s;
+}
+
+.download-item-image:hover {
+  opacity: 0.95;
+}
+
+/* Remove content container styles since title/description are gone */
+/* The download-item itself will hold only the image */
+.download-item-content {
+  display: none; /* Hide any remaining content padding/elements */
+}
+
+
+/* ---------- Request Form Styles ---------- */
+#request-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 800px;
+  /* UPDATED: Removed auto-centering */
+  margin: 20px 0;
+}
+
+.form-group, .form-group-inline {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group-inline {
+  flex-direction: row;
+  align-items: center;
+  gap: 5px;
+}
+
+#request-form label {
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.form-group-inline label span {
+  font-weight: normal; 
+}
+
+#request-form input[type="text"],
+#request-form input[type="number"],
+#request-form input[type="email"],
+#request-form select,
+#request-form textarea {
+  width: 100%;
+  padding: 12px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+#request-form input[type="checkbox"] {
+  width: auto;
+}
+
+#request-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+#request-form input[readonly] {
+  background: #eee;
+  font-weight: bold;
+}
+
+.conditional-details {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 5px;
+  border: 1px solid #eee;
+}
+
+.conditional-details.visible {
+  display: flex;
+}
+
+#request-form button[type="submit"] {
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-light);
+  background: var(--sidebar-bg);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+#request-form button[type="submit"]:hover {
+  opacity: 0.8;
+}
+
+#request-form button[type="submit"]:disabled {
+  background: #999;
+  cursor: not-allowed;
+}
+
+#form-status {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  font-weight: 500;
+  text-align: center;
+}
+
+#form-status.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+#form-status.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.disclaimer-box {
+  padding: 20px;
+  font-size: 16px;
+}
+
+/* ---------- Lightbox Popup Styles ---------- */
+.lightbox-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  cursor: pointer;
+}
+
+.lightbox-overlay.visible {
+  display: flex;
+  opacity: 1;
+}
+
+.lightbox-image {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 5px;
+  cursor: default;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.lightbox-close:hover {
+  color: #ccc;
+}
+
+/* ---------- RESPONSIVENESS (TABLET & MOBILE) ---------- */
+@media (max-width: 1024px) {
+  .gallery-container {
+    column-count: 2;
+  }
+}
+
+@media (max-width: 768px) {
+  nav {
+    position: relative;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 1rem;
+    flex-direction: row; /* Make nav horizontal */
+    flex-wrap: wrap; /* Allow items to wrap */
+    justify-content: center; /* Center items */
+    gap: 0.5rem 1rem; /* Adjust gaps */
+  }
+  
+  #logo {
+    font-size: 48px;
+    width: 100%; /* Make logo take full width */
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  
+  #slogan {
+     width: 100%; /* Make slogan take full width */
+     text-align: center;
+     margin-bottom: 0.5rem;
+     margin-top: -1rem; /* Pull it closer to logo */
+  }
+  
+  #lang-switcher {
+    order: 3; /* Change order */
+    margin-bottom: 0;
+  }
+  
+  nav a {
+    order: 4; /* Change order */
+    padding: 0.5rem;
+  }
+
+  #head,
+  .content-container,
+  footer {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .home-content-wrapper {
+    margin-top: 10px;
+    padding: 20px;
+  }
+
+  #head {
+    padding: 5vh 20px;
+    font-size: 32px;
+    /* NEW: Stack title and links vertically */
+    flex-direction: column;
+  }
+
+  .header-social-links {
+    font-size: 1.25rem; /* Smaller icons on mobile */
+  }
+
+  .info-boxes {
+    flex-direction: column;
+  }
+
+  .gallery-container {
+    column-count: 1;
+  }
+  
+  #gfx-container {
+    grid-template-columns: 1fr; /* Stack download items on mobile */
+  }
+
+}
+
+.tech-box {
+    background: rgba(255, 255, 255, 0.05);
+    border-left: 3px solid #ffcc00;
+    padding: 15px;
+    margin: 10px 0;
+    font-family: 'Courier New', monospace; /* Technical feel */
+    font-size: 0.9rem;
+}
+
+.smart-guide {
+    color: #000;
+    font-style: italic;
+    display: block;
+    margin-top: 5px;
+}
+
+.multi-select {
+    height: 120px; /* Give room for multiple selections */
+    padding: 10px;
+}
+
+.side-by-side {
+    display: flex;
+    gap: 10px;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.qty-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  gap: 5px;
+}
+
+.qty-input {
+  width: 40px;
+  text-align: center;
+  background: transparent;
+  color: white;
+  border: 1px solid #444;
+}
+
+.qty-btn {
+  background: #333;
+  color: white;
+  border: none;
+  padding: 2px 8px;
+  cursor: pointer;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 15px 0;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  color: #fff;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 5px;
+  text-align: center;
+  transition: 0.5s;
+  padding: 20pt;
+  /* Crucial: ensures cards in a grid row stretch to the same height */
+  height: 100%; 
+  box-sizing: border-box;
+}
+
+.product-card.active {
+  border-color: #fff;
+  background: #1a1a1a;
+}
+
+.card-main {
+  display: flex;
+  flex-direction: column;
+  /* This pushes the button area to the bottom */
+  flex-grow: 1; 
+  margin-bottom: 10px;
+}
+
+/* Ensure the button container stays at the bottom */
+.card-qty, .add-btn {
+  margin-top: auto;
+}
+
+.card-qty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  /* Matches the margin of your .add-space for consistency */
+  margin-top: 40px; 
+}
+
+.qty-btn {
+  background: #333;
+  color: white;
+  border: none;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+.qty-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.add-space {
+  /* Using margin-top: auto ensures it sticks to bottom, 
+     then 40px provides the minimum gap you requested */
+  margin-top: 40px !important;
+}
+
+.add-btn {
+  background: transparent;
+  color: #888;
+  border: 1px solid #444;
+  padding: 4px 12px;
+  cursor: pointer;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.add-btn:hover {
+  border-color: #fff;
+  color: #fff;
+}
+
+
+.tech-res-display {
+  margin-top: 40px;
+  display: block;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  unicode-bidi: isolate;
+}
+
+/* ---------- WoW Custom Form Styles ---------- */
+.inline-wow-icon {
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+  margin-right: 5px;
+  border: 1px solid #c69b3d;
+  border-radius: 3px;
+  box-shadow: 0 0 3px rgba(198, 155, 61, 0.5);
+}
+
+.wow-form-section-title {
+  font-size: 1.3rem;
+  color: #c69b3d;
+  border-bottom: 2px solid #c69b3d;
+  padding-bottom: 8px;
+  margin-top: 25px;
+  margin-bottom: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px rgba(198, 155, 61, 0.3);
+  display: flex;
+  align-items: center;
+}
+
+.wow-class-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.wow-class-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #121215;
+  border: 1px solid #2d2d38;
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.wow-class-card img {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #444;
+  border-radius: 3px;
+}
+
+.wow-class-card span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #ccc;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.wow-class-card:hover {
+  border-color: var(--class-color, #c69b3d);
+  background: #1a1a22;
+  transform: translateY(-2px);
+}
+
+.wow-class-card.active {
+  border-color: var(--class-color, #c69b3d);
+  background: #1e1e26;
+  box-shadow: 0 0 10px var(--class-color, rgba(198, 155, 61, 0.4));
+}
+
+.wow-class-card.active span {
+  color: #fff;
+  font-weight: 600;
+}
+
+.faction-title {
+  font-size: 0.95rem;
+  margin: 15px 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+}
+
+.alliance-text {
+  color: #0070de;
+  text-shadow: 0 0 3px rgba(0, 112, 222, 0.3);
+}
+
+.horde-text {
+  color: #c41f3b;
+  text-shadow: 0 0 3px rgba(196, 31, 59, 0.3);
+}
+
+.wow-race-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
+  gap: 8px;
+  margin-bottom: 15px;
+}
+
+.wow-race-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #121215;
+  border: 1px solid #2d2d38;
+  border-radius: 4px;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.wow-race-card img {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #444;
+  border-radius: 3px;
+}
+
+.wow-race-card span {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #ccc;
+}
+
+.wow-race-card:hover {
+  border-color: #c69b3d;
+  background: #1a1a22;
+}
+
+.alliance-grid .wow-race-card.active {
+  border-color: #0070de;
+  background: #0f1c2d;
+  box-shadow: 0 0 8px rgba(0, 112, 222, 0.4);
+}
+
+.horde-grid .wow-race-card.active {
+  border-color: #c41f3b;
+  background: #250f14;
+  box-shadow: 0 0 8px rgba(196, 31, 59, 0.4);
+}
+
+.wow-race-card.active span {
+  color: #fff;
+  font-weight: 600;
+}
+
+.wow-gender-selector, .wow-gear-mode-selector {
+  display: flex;
+  gap: 10px;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.gender-btn, .gear-mode-btn {
+  flex: 1;
+  background: #121215;
+  border: 1px solid #2d2d38;
+  color: #aaa;
+  padding: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.gender-btn:hover, .gear-mode-btn:hover {
+  background: #1a1a22;
+  color: #fff;
+  border-color: #c69b3d;
+}
+
+.gender-btn.active, .gear-mode-btn.active {
+  background: #c69b3d;
+  color: #000;
+  font-weight: 600;
+  border-color: #fff;
+  box-shadow: 0 0 8px rgba(198, 155, 61, 0.4);
+}
+
+.custom-gear-fields-container {
+  background: #0d0d10 !important;
+  border: 1px solid #c69b3d !important;
+  border-radius: 5px;
+  padding: 15px !important;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: inset 0 0 10px rgba(198, 155, 61, 0.1);
+}
+
+.gear-input-row {
+  display: flex;
+  gap: 15px;
+}
+
+.gear-input-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.gear-input-field.full-width {
+  flex: 1;
+}
+
+.gear-input-field label {
+  font-size: 0.8rem !important;
+  color: #c69b3d !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+}
+
+.gear-input-field input {
+  background: #15151c !important;
+  border: 1px solid #2d2d38 !important;
+  color: #fff !important;
+  font-size: 0.9rem !important;
+}
+
+.gear-input-field input:focus {
+  border-color: #c69b3d !important;
+  outline: none;
+  box-shadow: 0 0 5px rgba(198, 155, 61, 0.3);
+}
+
+#wow-gear-set {
+  background: #121215;
+  color: #fff;
+  border: 1px solid #2d2d38;
+  border-radius: 4px;
+  padding: 10px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.95rem;
+  cursor: pointer;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+#wow-gear-set:focus {
+  border-color: #c69b3d;
+  outline: none;
+}
+
+#wow-gear-set optgroup {
+  background: #121215;
+  color: #c69b3d;
+  font-weight: 600;
+}
+
+#wow-gear-set option {
+  background: #1c1c24;
+  color: #fff;
+  font-weight: normal;
+}
+
+@media (max-width: 600px) {
+  .gear-input-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+#paypal-button-container {
+  max-width: 100%;
+  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border: 1px dashed #c69b3d;
+  border-radius: 4px;
+}
+
+.form-disabled {
+  opacity: 0.8;
+}
+
+.form-disabled input,
+.form-disabled textarea,
+.form-disabled select,
+.form-disabled button:not(.paypal-button),
+.form-disabled .product-card,
+.form-disabled .wow-class-card,
+.form-disabled .wow-race-card,
+.form-disabled .gender-btn,
+.form-disabled .gear-mode-btn {
+  pointer-events: none;
+  user-select: none;
+}
+
