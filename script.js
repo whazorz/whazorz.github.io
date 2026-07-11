@@ -94,7 +94,7 @@ const CONFIG = {
       formEmailPlaceholder: "your.email@example.com",
       formProduct: "Select Product Type",
       // UPDATED OPTIONS
-      formOptionBanner: "WoW Banner (5.00 Eur)",
+      formOptionBanner: "WoW Banner (5.00 Eur, 2x: 7.50 Eur)",
       formOptionWallpaper: "WoW Wallpaper (13.50 Eur)",
       formBudget: "Total Cost (EUR)",
       formLogoDetails: "Logo Details",
@@ -242,7 +242,7 @@ const CONFIG = {
       formEmailPlaceholder: "jusu.epasts@piemers.com",
       formProduct: "Izvēlieties produkta veidu",
       // UPDATED OPTIONS
-      formOptionBanner: "WoW Banneris (5.00 Eur)",
+      formOptionBanner: "WoW Banneris (5.00 Eur, 2x: 7.50 Eur)",
       formOptionWallpaper: "WoW Fona Attēls (13.50 Eur)",
       formBudget: "Kopējā Cena (EUR)",
       formLogoDetails: "Logo detaļas",
@@ -664,9 +664,17 @@ function setupRequestForm(db, translations, getCurrentLang) {
   let paypalButtonsRendered = false;
 
   const designLibrary = {
-    banner: { name: "WoW Banner", res: "2560 x 1440 px", dimensions: "216.75 x 121.92 mm", customizable: true, maxQty: 1, price: 5.00 },
-    wallpaper: { name: "WoW Wallpaper", res: "3840 x 2160 px", dimensions: "Not predefined", customizable: true, maxQty: 2, price: 13.50 }
+    banner: { name: "WoW Banner", res: "2560 x 1440 px", dimensions: "216.75 x 121.92 mm", customizable: true, maxQty: 2, price: 5.00 },
+    wallpaper: { name: "WoW Wallpaper", res: "3840 x 2160 px", dimensions: "Not predefined", customizable: true, maxQty: 1, price: 13.50 }
   };
+
+  function getItemPrice(key, qty) {
+    if (!qty) return 0;
+    if (key === 'banner') {
+      return qty === 2 ? 7.50 : qty * designLibrary['banner'].price;
+    }
+    return qty * (designLibrary[key] ? designLibrary[key].price : 0);
+  }
 
 function renderGrid() {
     gridContainer.innerHTML = "";
@@ -739,8 +747,9 @@ function renderGrid() {
 
   function updateBudget() {
     let total = 0;
-    if (selectedItems['banner']) total += selectedItems['banner'] * designLibrary['banner'].price;
-    if (selectedItems['wallpaper']) total += selectedItems['wallpaper'] * designLibrary['wallpaper'].price;
+    Object.keys(selectedItems).forEach(key => {
+      total += getItemPrice(key, selectedItems[key]);
+    });
     
     if (budgetInput) {
       budgetInput.value = total > 0 ? total.toFixed(2) : "";
@@ -922,8 +931,9 @@ function renderGrid() {
       window.paypal.Buttons({
         createOrder: function(data, actions) {
           let total = 0;
-          if (selectedItems['banner']) total += selectedItems['banner'] * designLibrary['banner'].price;
-          if (selectedItems['wallpaper']) total += selectedItems['wallpaper'] * designLibrary['wallpaper'].price;
+          Object.keys(selectedItems).forEach(key => {
+            total += getItemPrice(key, selectedItems[key]);
+          });
           
           if (total <= 0) {
             console.error("Order total must be greater than zero.");
@@ -949,13 +959,17 @@ function renderGrid() {
             const formData = new FormData(form);
             const baseData = Object.fromEntries(formData.entries());
 
-            const orderSummary = Object.keys(selectedItems).map(key => ({
-              productKey: key,
-              name: designLibrary[key].name,
-              quantity: selectedItems[key],
-              specs: designLibrary[key].res,
-              price: designLibrary[key].price
-            }));
+            const orderSummary = Object.keys(selectedItems).map(key => {
+              const qty = selectedItems[key];
+              const itemTotal = getItemPrice(key, qty);
+              return {
+                productKey: key,
+                name: designLibrary[key].name,
+                quantity: qty,
+                specs: designLibrary[key].res,
+                price: qty > 0 ? Number((itemTotal / qty).toFixed(2)) : designLibrary[key].price
+              };
+            });
 
             const hasWowItem = selectedItems['banner'] || selectedItems['wallpaper'];
             const characterDetails = hasWowItem ? {
