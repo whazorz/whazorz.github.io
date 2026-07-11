@@ -162,6 +162,7 @@ const CONFIG = {
       wowOffhandSlot: "Off Hand / Shield",
       wowPvPSeasons: "PvP Arena Seasons",
       wowPvETiers: "PvE Tiers",
+      wowLegendaryItems: "Legendary Weapons & Items",
       formPayNotice: "Form validated! Please complete the payment using the PayPal buttons below."
     },
     lv: {
@@ -314,6 +315,7 @@ const CONFIG = {
       wowOffhandSlot: "Otrās rokas / Vairoga slots",
       wowPvPSeasons: "PvP Sezonas",
       wowPvETiers: "PvE Tiers",
+      wowLegendaryItems: "Leģendārie ieroči un lietas",
       formPayNotice: "Forma apstiprināta! Lūdzu, veiciet maksājumu, izmantojot PayPal pogas zemāk."
     }
   };
